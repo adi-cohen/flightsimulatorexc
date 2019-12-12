@@ -30,7 +30,7 @@ public:
 
 
 int main(int argc, char *argv[]) {
-
+    //string x ;
     vector<string> stringVectorFromFile;
     string fileName = argv[1];
     //insert the data from the file to the char vector
