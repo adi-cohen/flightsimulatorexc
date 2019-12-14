@@ -3,8 +3,13 @@
 #include <fstream>
 #include <vector>
 #include <map>
-#include<iterator>
+#include <iterator>
 #include "Command.h"
+#include <sys/socket.h>
+#include <string>
+#include <iostream>
+#include <unistd.h>
+#include <netinet/in.h>
 
 using namespace std;
 
@@ -12,7 +17,7 @@ vector<string> lexer(string fileName);
 
 void parser(vector<string> vector);
 
-class Var {
+/*class Var {
     string varName;
     double value;
     string updateBy;
@@ -26,9 +31,9 @@ public:
         this->updateBy = update;
         this->scope = scope;
     }
-};
+};*/
 
-
+#define PORT 5400
 int main(int argc, char *argv[]) {
     //string x ;
     vector<string> stringVectorFromFile;
@@ -40,21 +45,20 @@ int main(int argc, char *argv[]) {
         cout << e << endl;
     }
     // from lexer to parser
-    parser(stringVectorFromFile);
-
+    //parser(stringVectorFromFile);
     return 0;
 }
 
-void parser(vector<string> StringVector) {
+/*void parser(vector<string> StringVector) {
     map <string, Var> mapVar;
     map <string, Command> commandMap;
-    vector<string> =
-    vector<string>::iterator ptr = .begin();
-    for(ptr = ve)
-    //int x =1;
-    for ()
+    //vector<string> =
+    //vector<string>::iterator ptr =.begin();
+    //for(ptr = ve)
 
-}
+    //for ()
+
+}*/
 
 vector<string> lexer(string fileName) {
     vector<string> charArray;
