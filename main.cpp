@@ -49,10 +49,10 @@ void parser(vector<string> StringVector) {
     map <string, Var> mapVar;
     map <string, Command> commandMap;
     vector<string> =
-    vector<string>::iterator ptr = .begin();
-    for(ptr = ve)
+//    vector<string>::iterator ptr = .begin();
+   // for(ptr = ve)
     //int x =1;
-    for ()
+    //for ()
 
 }
 
