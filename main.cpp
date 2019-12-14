@@ -17,7 +17,7 @@ vector<string> lexer(string fileName);
 
 void parser(vector<string> vector);
 
-class Var {
+/*class Var {
     string varName;
     double value;
     string updateBy;
@@ -31,7 +31,7 @@ public:
         this->updateBy = update;
         this->scope = scope;
     }
-};
+};*/
 
 #define PORT 5400
 int main(int argc, char *argv[]) {
