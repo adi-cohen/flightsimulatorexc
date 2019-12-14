@@ -20,7 +20,7 @@ int OpenDataServer :: execute(vector<string> strings) {
         // no good arguments error
         return -1;
     }
-//
+
     // the generic code to open a sever.
     int socketfd, newsockfd, portno, clilen;
     struct sockaddr_in serv_addr, cli_addr;
