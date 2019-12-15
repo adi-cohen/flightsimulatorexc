@@ -15,12 +15,13 @@
 #define PORT 5400
 // open a data server and then call a thread to run it.
 int OpenDataServer :: execute(vector<string> strings) {
+    int index;
     // make sure we have 2 arguments only
     if(strings.size() != 2) {
         // no good arguments error
         return -1;
     }
-//
+    //
     // the generic code to open a sever.
     int socketfd, newsockfd, portno, clilen;
     struct sockaddr_in serv_addr, cli_addr;
