@@ -5,12 +5,7 @@
 #include "Var.h"
 #include "string"
 #include "map"
-#include "OpenDataServer.h"
 #include <sys/socket.h>
-#include <string>
-#include <iostream>
-#include <unistd.h>
-#include <netinet/in.h>
 #include <cstring>
 
 using namespace std;
@@ -18,6 +13,7 @@ using namespace std;
 
 void Var::updateVal(string newVal, map<string, Var*> varMap, map<string, Var*> simMap) {
     double doubleVal = stod(newVal);
+    int socketfd;
     this->value = doubleVal;
     if (varUpdateSim) {
         //we need to update the var in the simulator to the new value

@@ -10,10 +10,9 @@
 #include "Command.h"
 
 using namespace std;
-int socketfd;
 class OpenDataServer: public Command {
 public:
-    int execute(vector<string> strings);
+    int execute(vector<string> strings,map<string, Var*> varMap, map<string, Var*> simMap, int index);
 };
 
 #endif //FLIGHTSIMULATOR_OPENDATASERVER_H

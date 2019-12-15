@@ -5,15 +5,9 @@
 #include <string>
 #include <vector>
 #include "SleepCommand.h"
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <netdb.h>
-#include <string.h>
 #include <thread>
 
-int SleepCommand::execute(vector<string> strings) {
+int SleepCommand::execute(vector<string> strings,map<string, Var*> varMap, map<string, Var*> simMap, int index) {
     if(strings.size() != 1) {
         //error in number of parameters
         return -1;
