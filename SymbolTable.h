@@ -9,7 +9,7 @@
 #include <map>
 class variable;
 using namespace std;
-class symbolTable {
+class SymbolTable {
 private:
     map<string, variable> variables;
     map<string, variable> binded;

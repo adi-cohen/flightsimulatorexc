@@ -5,7 +5,7 @@
 #ifndef FLIGHTSIMULATOR_COMMAND_H
 #define FLIGHTSIMULATOR_COMMAND_H
 
-
+#include "Var.h"
 using namespace std;
 /**
  * command Interface
@@ -13,7 +13,7 @@ using namespace std;
 class Command {
 
 public:
-    virtual int execute(vector<string> strings) = 0;
+    virtual int execute(vector<string> stringVector, map<string, Var*> varMap, map<string, Var*> simMap, int index)= 0;
 };
 
 

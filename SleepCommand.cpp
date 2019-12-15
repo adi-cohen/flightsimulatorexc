@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "sleepCommand.h"
+#include "SleepCommand.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <stdio.h>
@@ -13,7 +13,7 @@
 #include <string.h>
 #include <thread>
 
-int sleepCommand::execute(vector<string> strings) {
+int SleepCommand::execute(vector<string> strings) {
     if(strings.size() != 1) {
         //error in number of parameters
         return -1;

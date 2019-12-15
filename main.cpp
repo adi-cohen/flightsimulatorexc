@@ -3,13 +3,12 @@
 #include <fstream>
 #include <vector>
 #include <map>
-#include <iterator>
+#include<iterator>
 #include "Command.h"
-#include <sys/socket.h>
-#include <string>
-#include <iostream>
-#include <unistd.h>
-#include <netinet/in.h>
+#include "OpenDataServer.h"
+#include "Parser.h"
+#include "SleepCommand.h";openDataServer(5400)
+#include "Var.h";
 
 using namespace std;
 
@@ -17,23 +16,7 @@ vector<string> lexer(string fileName);
 
 void parser(vector<string> vector);
 
-/*class Var {
-    string varName;
-    double value;
-    string updateBy;
-    string sim;
-    string scope;
-public:
-    Var(string name, double val, string update, string sim1, string scope) {
-        this->value = val;
-        this->sim = sim;
-        this->varName = name;
-        this->updateBy = update;
-        this->scope = scope;
-    }
-};*/
 
-#define PORT 5400
 int main(int argc, char *argv[]) {
     //string x ;
     vector<string> stringVectorFromFile;
@@ -45,20 +28,37 @@ int main(int argc, char *argv[]) {
         cout << e << endl;
     }
     // from lexer to parser
-    //parser(stringVectorFromFile);
+    parser(stringVectorFromFile);
+
     return 0;
 }
 
-/*void parser(vector<string> StringVector) {
-    map <string, Var> mapVar;
-    map <string, Command> commandMap;
-    //vector<string> =
-    //vector<string>::iterator ptr =.begin();
-    //for(ptr = ve)
+void parser(vector<string> stringVector) {
+    map<string, Var*> varMap; //from name to var
+    map<string, Var*> simMap; //from sim to var
 
-    //for ()
+    map<string, Command> commandMap;
 
-}*/
+    int index = 0;
+    //commandOfSimulatorMap.put()
+    while (index != stringVector.size()) {
+        string currentString = stringVector.at(index);
+        //dealing with command
+        //Check if its a command that exists in commandMap
+        if (commandMap.find(currentString) != commandMap.end()) {
+            //todo ask about the vector that we pass to execute
+            index = commandMap[currentString].execute(stringVector, varMap, simMap, index);
+        }
+            //dealing with update var val;
+        else if (varMap.find(currentString) != varMap.end()) {
+            index = index + 2;
+            string newVal = stringVector.at(index);
+            double doubleVal = stod(newVal);
+            varMap[currentString].updateVal(doubleVal, varMap,simMap);
+        }
+    }
+}
+
 
 vector<string> lexer(string fileName) {
     vector<string> charArray;
