@@ -10,6 +10,10 @@
 #include <iostream>
 #include <unistd.h>
 #include <netinet/in.h>
+#include "OpenDataServer.h"
+#include "Parser.h"
+#include "SleepCommand.h"
+#include "Var.h";
 
 using namespace std;
 

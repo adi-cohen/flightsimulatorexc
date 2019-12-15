@@ -10,12 +10,13 @@
 #include <stdio.h>
 #include <string.h>
 #include "OpenDataServer.h"
+#include "map"
 
 
 #define PORT 5400
-// open a data server and then call a thread to run it.
-int OpenDataServer :: execute(vector<string> strings) {
-    int index;
+// open a data server and then call a thread to run it.<
+int OpenDataServer :: execute(vector<string> strings, map<string,Var*> varMap, map<string,Var*> simMap, int index) {
+    index = index + 1;
     // make sure we have 2 arguments only
     if(strings.size() != 2) {
         // no good arguments error
@@ -38,7 +39,7 @@ int OpenDataServer :: execute(vector<string> strings) {
     // set all the socket structures with null values by using bzero function
     bzero((char *) &serv_addr, sizeof(serv_addr));
     // by using stoi we convert a string to integer type
-    portno = stoi(strings[0]); // the first parameter is the port num
+    portno = stoi(strings[index]); // the first parameter is the port num
 
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;
@@ -95,7 +96,8 @@ int OpenDataServer :: execute(vector<string> strings) {
     //thread t1(newsockfd, wait);
     // let it run seperatly from the main code.
     //t1.detach();
-    return 2;
+    index = index + 1;
+    return index;
 
     //close(socketfd); //closing the listening socket
 
