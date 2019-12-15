@@ -13,8 +13,14 @@
 
 
 #define PORT 5400
+
+
+
+
 // open a data server and then call a thread to run it.
-int OpenDataServer :: execute(vector<string> strings) {
+int OpenDataServer :: execute(vector<string> strings,map<string, Var*> varMap, map<string, Var*> simMap, int index) {
+    return index +3;
+    //todo only when it works!
     // make sure we have 2 arguments only
     if(strings.size() != 2) {
         // no good arguments error
@@ -22,11 +28,11 @@ int OpenDataServer :: execute(vector<string> strings) {
     }
 
     // the generic code to open a sever.
-    int socketfd, newsockfd, portno, clilen;
+    int newsockfd, portno, clilen;
     struct sockaddr_in serv_addr, cli_addr;
 
     //create socket
-    socketfd = socket(AF_INET, SOCK_STREAM, 0);
+    int socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd == -1) {
         //error
         std::cerr << "Could not create a socket"<<std::endl;

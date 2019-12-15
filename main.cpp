@@ -1,21 +1,28 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cppcoreguidelines-slicing"
+#pragma ide diagnostic ignored "hicpp-use-auto"
+
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <vector>
 #include <map>
-#include<iterator>
+#include <sstream>
 #include "Command.h"
 #include "OpenDataServer.h"
-#include "Parser.h"
-#include "SleepCommand.h";openDataServer(5400)
-#include "Var.h";
+#include "SleepCommand.h"
+#include "Var.h"
+#include "SetCommand.h"
+#include "Interpreter.h"
+#include "Expression.h"
+#include "ConnectClientCommand.h"
+#include "CreateVarCommand.h"
 
 using namespace std;
 
 vector<string> lexer(string fileName);
 
 void parser(vector<string> vector);
-
 
 int main(int argc, char *argv[]) {
     //string x ;
@@ -34,10 +41,16 @@ int main(int argc, char *argv[]) {
 }
 
 void parser(vector<string> stringVector) {
-    map<string, Var*> varMap; //from name to var
-    map<string, Var*> simMap; //from sim to var
+    map<string, Var *> varMap; //from name to var.
+    map<string, Var *> simMap; //from sim to var.
+    map<string, Command *> commandMap;
+    // insert command to map
+    commandMap.insert(std::pair<string, Command *>("openDataServer", (new OpenDataServer())));
+    commandMap["connectControlClient"] = (new ConnectClientCommand());
+    commandMap["var"] = (new CreateVarCommand());
+    //commandMap["Print"] = *(new PrintCommand());
+    commandMap["Sleep"] = (new SleepCommand());
 
-    map<string, Command> commandMap;
 
     int index = 0;
     //commandOfSimulatorMap.put()
@@ -46,15 +59,11 @@ void parser(vector<string> stringVector) {
         //dealing with command
         //Check if its a command that exists in commandMap
         if (commandMap.find(currentString) != commandMap.end()) {
-            //todo ask about the vector that we pass to execute
-            index = commandMap[currentString].execute(stringVector, varMap, simMap, index);
+            //todo pass a pointer of the map to update them
+            index = commandMap[currentString]->execute(stringVector, varMap, simMap, index);
         }
-            //dealing with update var val;
-        else if (varMap.find(currentString) != varMap.end()) {
-            index = index + 2;
-            string newVal = stringVector.at(index);
-            double doubleVal = stod(newVal);
-            varMap[currentString].updateVal(doubleVal, varMap,simMap);
+        else { //   dealing with update var val;
+            (new SetCommend())->execute(stringVector, varMap, simMap, index);
         }
     }
 }
@@ -68,29 +77,34 @@ vector<string> lexer(string fileName) {
         throw "can not find file";
     }
     string word;
-    while (file >> word) {
-        //if the word contains ( or ) we need to split it
-        if ((word.find("(") < word.size())
-            | (word.find(")") < word.size())) {
-            string splitWord = "";
-            for (auto x :word) {
-                if ((x == '(') || x == ')') {
-                    charArray.push_back(splitWord);
-                    splitWord = "";
-                } else {
-                    splitWord = splitWord + x;
+
+    std::string line;
+    while (std::getline(file, line)) {
+        istringstream iss(line);
+        while (iss >> word) {
+            //if the word contains ( or ) we need to split it
+            if ((word.find("(") < word.size())
+                | (word.find(")") < word.size())) {
+                string splitWord = "";
+                for (auto x :word) {
+                    if ((x == '(') || x == ')') {
+                        charArray.push_back(splitWord);
+                        splitWord = "";
+                    } else {
+                        splitWord = splitWord + x;
+                    }
                 }
+                //charArray.push_back(splitWord);
+                splitWord = "";
+            } else {
+                charArray.push_back(word);
             }
-            //charArray.push_back(splitWord);
-            splitWord = "";
-        } else {
-            charArray.push_back(word);
         }
+        charArray.push_back("endLine");
     }
     file.close();
     return charArray;
 }
 
 
-
-
+#pragma clang diagnostic pop

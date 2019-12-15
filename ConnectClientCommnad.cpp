@@ -14,7 +14,10 @@
 #include <string.h>
 
 
-int ConnectClientCommand :: execute(vector<string> strings) {
+int ConnectClientCommand :: execute(vector<string> strings, map<string, Var*> varMap, map<string, Var*> simMap, int index) {
+    return index + 3;
+    //todo only when it works!
+
     // the general client code
     int sockfd, portno, n;
     struct sockaddr_in serv_addr;
