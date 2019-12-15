@@ -10,6 +10,7 @@
 #include "Command.h"
 
 using namespace std;
+int socketfd;
 class OpenDataServer: public Command {
 public:
     int execute(vector<string> strings);

@@ -13,6 +13,8 @@
 
 
 #define PORT 5400
+
+
 // open a data server and then call a thread to run it.
 int OpenDataServer :: execute(vector<string> strings) {
     // make sure we have 2 arguments only
@@ -22,7 +24,7 @@ int OpenDataServer :: execute(vector<string> strings) {
     }
 
     // the generic code to open a sever.
-    int socketfd, newsockfd, portno, clilen;
+    int newsockfd, portno, clilen;
     struct sockaddr_in serv_addr, cli_addr;
 
     //create socket

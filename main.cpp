@@ -9,13 +9,12 @@
 #include "Parser.h"
 #include "SleepCommand.h";openDataServer(5400)
 #include "Var.h";
+#include "EqualCommand.h"
 
 using namespace std;
-
 vector<string> lexer(string fileName);
 
 void parser(vector<string> vector);
-
 
 int main(int argc, char *argv[]) {
     //string x ;
@@ -34,9 +33,8 @@ int main(int argc, char *argv[]) {
 }
 
 void parser(vector<string> stringVector) {
-    map<string, Var*> varMap; //from name to var
-    map<string, Var*> simMap; //from sim to var
-
+    map<string, Var*> varMap; //from name to var.
+    map<string, Var*> simMap; //from sim to var.
     map<string, Command> commandMap;
 
     int index = 0;
@@ -46,15 +44,18 @@ void parser(vector<string> stringVector) {
         //dealing with command
         //Check if its a command that exists in commandMap
         if (commandMap.find(currentString) != commandMap.end()) {
-            //todo ask about the vector that we pass to execute
             index = commandMap[currentString].execute(stringVector, varMap, simMap, index);
         }
             //dealing with update var val;
         else if (varMap.find(currentString) != varMap.end()) {
+            //todo insert to equal command;
+            Command* comm = new ;
             index = index + 2;
             string newVal = stringVector.at(index);
-            double doubleVal = stod(newVal);
-            varMap[currentString].updateVal(doubleVal, varMap,simMap);
+            varMap[currentString]->updateVal(newVal, varMap,simMap);
+        }
+        else {
+            throw "not valid command";
         }
     }
 }
