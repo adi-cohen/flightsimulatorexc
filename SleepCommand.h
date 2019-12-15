@@ -8,7 +8,7 @@
 #include <string>
 #include "Command.h"
 using namespace std;
-class sleepCommand: public Command {
+class SleepCommand: public Command {
 public:
     int execute(vector<string> strings);
 };

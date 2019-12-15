@@ -4,7 +4,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "connectClientCommnad.h"
+#include "CreateVarCommand.h"
+#include "ConnectClientCommand.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <stdio.h>
@@ -13,7 +14,7 @@
 #include <string.h>
 
 
-int connectClientCommand :: execute(vector<string> strings) {
+int ConnectClientCommand :: execute(vector<string> strings) {
     // the general client code
     int sockfd, portno, n;
     struct sockaddr_in serv_addr;

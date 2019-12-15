@@ -34,8 +34,8 @@ int main(int argc, char *argv[]) {
 }
 
 void parser(vector<string> stringVector) {
-    map<string, Var> varMap; //from name to var
-    map<string, Var> simMap; //from sim to var
+    map<string, Var*> varMap; //from name to var
+    map<string, Var*> simMap; //from sim to var
 
     map<string, Command> commandMap;
 
