@@ -10,21 +10,21 @@
 #include <stdio.h>
 #include <string.h>
 #include "OpenDataServer.h"
-#include "map"
+
 
 
 #define PORT 5400
-// open a data server and then call a thread to run it.<
-int OpenDataServer :: execute(vector<string> strings, map<string,Var*> varMap, map<string,Var*> simMap, int index) {
+// open a data server and then call a thread to run it.
+int OpenDataServer :: execute(vector<string> strings, map<string, Var*> varMap, map<string, Var*> simMap, int index) {
     index = index + 1;
     // make sure we have 2 arguments only
     if(strings.size() != 2) {
         // no good arguments error
         return -1;
     }
-    //
+
     // the generic code to open a sever.
-    int socketfd, newsockfd, portno, clilen;
+    int newsockfd, portno, clilen;
     struct sockaddr_in serv_addr, cli_addr;
 
     //create socket
@@ -91,11 +91,11 @@ int OpenDataServer :: execute(vector<string> strings, map<string,Var*> varMap, m
             break;
         }
     }
+    // run over the buffer
+    for(int j = 0; j < 400; j++) {
 
-    // create a new thread that will update the values from the simulator
-    //thread t1(newsockfd, wait);
-    // let it run seperatly from the main code.
-    //t1.detach();
+    }
+
     index = index + 1;
     return index;
 

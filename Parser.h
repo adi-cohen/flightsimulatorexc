@@ -7,7 +7,7 @@
 
 #include "Command.h"
 
-class openDataServer : public Command {
+class Parser {
 
 };
 

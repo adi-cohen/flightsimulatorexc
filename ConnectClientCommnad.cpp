@@ -4,7 +4,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "connectClientCommnad.h"
+#include "CreateVarCommand.h"
+#include "ConnectClientCommand.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <stdio.h>
@@ -13,7 +14,8 @@
 #include <string.h>
 
 
-int connectClientCommand :: execute(vector<string> strings) {
+int ConnectClientCommand :: execute(vector<string> strings, map<string, Var*> varMap, map<string, Var*> simMap, int index) {
+    index = index + 1;
     // the general client code
     int sockfd, portno, n;
     struct sockaddr_in serv_addr;
@@ -25,7 +27,7 @@ int connectClientCommand :: execute(vector<string> strings) {
         return -1;
     }
     // convert a string to integer - the port number
-    portno = stoi(strings[1]);
+    portno = stoi(strings[index]);
 
     // Create a socket point
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -54,5 +56,6 @@ int connectClientCommand :: execute(vector<string> strings) {
         return -4;
     }
     // set the socket to be the correct socket number/
-
+    index = index + 1;
+    return index;
 }
