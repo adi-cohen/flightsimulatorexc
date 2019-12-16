@@ -17,6 +17,8 @@
 #include "Expression.h"
 #include "ConnectClientCommand.h"
 #include "CreateVarCommand.h"
+#include "Parser.h"
+#include "printCommand.h"
 
 using namespace std;
 
@@ -35,38 +37,41 @@ int main(int argc, char *argv[]) {
         cout << e << endl;
     }
     // from lexer to parser
-    parser(stringVectorFromFile);
-
-    return 0;
-}
-
-void parser(vector<string> stringVector) {
-    map<string, Var *> varMap; //from name to var.
-    map<string, Var *> simMap; //from sim to var.
+    map<string, Var *>* varMap; //from name to var.
+    map<string, Var *>* simMap; //from sim to var.
     map<string, Command *> commandMap;
     // insert command to map
     commandMap.insert(std::pair<string, Command *>("openDataServer", (new OpenDataServer())));
     commandMap["connectControlClient"] = (new ConnectClientCommand());
     commandMap["var"] = (new CreateVarCommand());
-    //commandMap["Print"] = *(new PrintCommand());
+    commandMap["Print"] = (new printCommand());
     commandMap["Sleep"] = (new SleepCommand());
-
-
-    int index = 0;
-    //commandOfSimulatorMap.put()
-    while (index != stringVector.size()) {
-        string currentString = stringVector.at(index);
-        //dealing with command
-        //Check if its a command that exists in commandMap
-        if (commandMap.find(currentString) != commandMap.end()) {
-            //todo pass a pointer of the map to update them
-            index = commandMap[currentString]->execute(stringVector, varMap, simMap, index);
-        }
-        else { //   dealing with update var val;
-            (new SetCommend())->execute(stringVector, varMap, simMap, index);
-        }
-    }
+    int mainScope =0;
+    SymbolTable* mainSymbolTable = new SymbolTable(varMap,simMap,mainScope,0);
+    Parser* mainParser = new Parser(stringVectorFromFile,mainSymbolTable);
+    mainParser->RunParser();
+    return 0;
 }
+
+//void parser(vector<string> stringVector) {
+//
+//
+//
+//    int index = 0;
+//    //commandOfSimulatorMap.put()
+//    while (index != stringVector.size()) {
+//        string currentString = stringVector.at(index);
+//        //dealing with command
+//        //Check if its a command that exists in commandMap
+//        if (commandMap.find(currentString) != commandMap.end()) {
+//            //todo pass a pointer of the map to update them
+//            index = commandMap[currentString]->execute(stringVector, varMap, simMap, index);
+//        }
+//        else { //   dealing with update var val;
+//            (new SetCommend())->execute(stringVector, varMap, simMap, index);
+//        }
+//    }
+//}
 
 
 vector<string> lexer(string fileName) {
