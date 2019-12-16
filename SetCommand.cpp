@@ -32,7 +32,6 @@ int SetCommend::execute(vector<string> stringVector, map<string, Var*> varMap, m
         double calc = arithmeticInt->interpret(result)->calculate();
         // make a string from the double calculation
         string stringOfDoubleCalculation = doubleToString(calc);
-
         v1->updateVal(stringOfDoubleCalculation,varMap,simMap);
         return endLineIndex + 1;
     }

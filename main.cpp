@@ -17,6 +17,8 @@
 #include "Expression.h"
 #include "ConnectClientCommand.h"
 #include "CreateVarCommand.h"
+#include "whileCommand.h"
+#include "printCommand.h"
 
 using namespace std;
 
@@ -48,8 +50,10 @@ void parser(vector<string> stringVector) {
     commandMap.insert(std::pair<string, Command *>("openDataServer", (new OpenDataServer())));
     commandMap["connectControlClient"] = (new ConnectClientCommand());
     commandMap["var"] = (new CreateVarCommand());
-    //commandMap["Print"] = *(new PrintCommand());
+    //commandMap["Print"] = (new printCommand());
     commandMap["Sleep"] = (new SleepCommand());
+    commandMap["set"] = (new SetCommend());
+    commandMap["while"] = (new whileCommand());
 
 
     int index = 0;

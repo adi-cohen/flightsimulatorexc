@@ -10,7 +10,8 @@
 class whileCommand : public Command {
 public:
     int execute(vector<string> strings, map<string, Var*> varMap, map<string, Var*> simMap, int index);
-
+    bool isOperator(string s);
+    string doubleToString(double calc);
 };
 
 
