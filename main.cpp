@@ -53,26 +53,6 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
-//void parser(vector<string> stringVector) {
-//
-//
-//
-//    int index = 0;
-//    //commandOfSimulatorMap.put()
-//    while (index != stringVector.size()) {
-//        string currentString = stringVector.at(index);
-//        //dealing with command
-//        //Check if its a command that exists in commandMap
-//        if (commandMap.find(currentString) != commandMap.end()) {
-//            //todo pass a pointer of the map to update them
-//            index = commandMap[currentString]->execute(stringVector, varMap, simMap, index);
-//        }
-//        else { //   dealing with update var val;
-//            (new SetCommend())->execute(stringVector, varMap, simMap, index);
-//        }
-//    }
-//}
-
 
 vector<string> lexer(string fileName) {
     vector<string> charArray;
