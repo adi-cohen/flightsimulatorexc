@@ -7,6 +7,7 @@
 
 #include "Var.h"
 using namespace std;
+extern int socketfd;
 /**
  * command Interface
  */

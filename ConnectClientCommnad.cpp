@@ -15,7 +15,9 @@
 
 
 int ConnectClientCommand :: execute(vector<string> strings, map<string, Var*> varMap, map<string, Var*> simMap, int index) {
-    index = index + 1;
+    return index + 3;
+    //todo only when it works!
+
     // the general client code
     int sockfd, portno, n;
     struct sockaddr_in serv_addr;
@@ -27,7 +29,7 @@ int ConnectClientCommand :: execute(vector<string> strings, map<string, Var*> va
         return -1;
     }
     // convert a string to integer - the port number
-    portno = stoi(strings[index]);
+    portno = stoi(strings[1]);
 
     // Create a socket point
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -56,6 +58,5 @@ int ConnectClientCommand :: execute(vector<string> strings, map<string, Var*> va
         return -4;
     }
     // set the socket to be the correct socket number/
-    index = index + 1;
-    return index;
+
 }

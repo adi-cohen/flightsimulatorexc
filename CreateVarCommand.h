@@ -16,6 +16,8 @@ using namespace std;
 class CreateVarCommand: public Command {
 public:
     int execute(vector<string> stringVector, map<string, Var*> varMap, map<string, Var*>, int index);
+
+    string doubleToString(double calc);
 };
 
 #endif //FLIGHTSIMULATOR_CREATEVARCOMMAND_H

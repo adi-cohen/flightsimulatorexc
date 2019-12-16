@@ -12,11 +12,15 @@
 #include "OpenDataServer.h"
 
 
-
 #define PORT 5400
+
+
+
+
 // open a data server and then call a thread to run it.
-int OpenDataServer :: execute(vector<string> strings, map<string, Var*> varMap, map<string, Var*> simMap, int index) {
-    index = index + 1;
+int OpenDataServer :: execute(vector<string> strings,map<string, Var*> varMap, map<string, Var*> simMap, int index) {
+    return index +3;
+    //todo only when it works!
     // make sure we have 2 arguments only
     if(strings.size() != 2) {
         // no good arguments error
@@ -28,7 +32,7 @@ int OpenDataServer :: execute(vector<string> strings, map<string, Var*> varMap, 
     struct sockaddr_in serv_addr, cli_addr;
 
     //create socket
-    socketfd = socket(AF_INET, SOCK_STREAM, 0);
+    int socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd == -1) {
         //error
         std::cerr << "Could not create a socket"<<std::endl;
@@ -39,7 +43,7 @@ int OpenDataServer :: execute(vector<string> strings, map<string, Var*> varMap, 
     // set all the socket structures with null values by using bzero function
     bzero((char *) &serv_addr, sizeof(serv_addr));
     // by using stoi we convert a string to integer type
-    portno = stoi(strings[index]); // the first parameter is the port num
+    portno = stoi(strings[0]); // the first parameter is the port num
 
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;
@@ -91,13 +95,12 @@ int OpenDataServer :: execute(vector<string> strings, map<string, Var*> varMap, 
             break;
         }
     }
-    // run over the buffer
-    for(int j = 0; j < 400; j++) {
 
-    }
-
-    index = index + 1;
-    return index;
+    // create a new thread that will update the values from the simulator
+    //thread t1(newsockfd, wait);
+    // let it run seperatly from the main code.
+    //t1.detach();
+    return 2;
 
     //close(socketfd); //closing the listening socket
 
