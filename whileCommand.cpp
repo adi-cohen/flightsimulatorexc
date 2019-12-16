@@ -13,8 +13,8 @@ int whileCommand::execute(vector<string> strings, map<string, Var *> varMap, map
     int whileIndex = index;
 
     // run over the first line of the while until the {
-    while(strings[index] != "{") {
-        if(isOperator(strings[index])) {
+    while(strings.at(index) != "{") {
+        if(isOperator(strings.at(index))) {
                 indexFindOperator = index;
         }
         index++;
@@ -60,6 +60,7 @@ bool whileCommand::isOperator(string s) {
     else if (s.compare("=>") == 0) { return true; }
     else if (s.compare("=<") == 0) { return true; }
     else if (s.compare("=") == 0) { return true; }
+    else if(s.compare("!=") == 0 ){ return true;  }
 }
 
 string whileCommand::doubleToString(double calc)  {

@@ -12,9 +12,39 @@
 #include <stdlib.h>
 #include <netdb.h>
 #include <string.h>
+#include <arpa/inet.h>
 
 
 int ConnectClientCommand :: execute(vector<string> strings, map<string, Var*> varMap, map<string, Var*> simMap, int index) {
+
+    // should work
+    string ip = strings.at(index+1);
+    string port = strings.at(index+2);
+    //create socket
+    client_socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (client_socket == -1) {
+        //error
+        std::cerr << "Could not create a socket" << std::endl;
+        exit(1);
+    }
+
+    //We need to create a sockaddr obj to hold address of server
+
+    address.sin_family = AF_INET;//IP4
+    address.sin_addr.s_addr = inet_addr(ip.c_str());  //the localhost address
+    address.sin_port = htons(stoi(port));
+    //we need to convert our number (both port & localhost)
+    // to a number that the network understands.
+
+    // Requesting a connection with the server on local host with port
+    int is_connect = connect(client_socket, (struct sockaddr *) &address, sizeof(address));
+    if (is_connect == -1) {
+        std::cerr << "Could not connect to host server" << std::endl;
+        exit(2);
+    } else {
+        std::cout << "Client is now connected to server" << std::endl;
+    }
+
     return index + 3;
     //todo only when it works!
 
@@ -57,6 +87,6 @@ int ConnectClientCommand :: execute(vector<string> strings, map<string, Var*> va
         perror("ERROR connecting");
         return -4;
     }
-    // set the socket to be the correct socket number/
+    // set the socket to be the correct socket number*/
 
 }
