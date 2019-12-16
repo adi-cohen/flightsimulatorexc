@@ -14,7 +14,7 @@ extern int socketfd;
 class Command {
 
 public:
-    virtual int execute(vector<string> stringVector, map<string, Var*> varMap, map<string, Var*> simMap, int index)= 0;
+    virtual int execute(vector<string> strings, map<string, Var*> varMap, map<string, Var*> simMap, int index)= 0;
 };
 
 
