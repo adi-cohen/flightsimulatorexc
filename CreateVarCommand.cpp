@@ -29,7 +29,7 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable* symTable,
         }
         Interpreter* arithmeticInt = new Interpreter();
         //arithmeticInt -> setVariables();
-        for (auto const& x : *symTable->ptrVarMap)
+        for (auto const& x : symTable->varMap)
         {
             string var = x.first;
             string val = doubleToString(x.second->value);
@@ -39,7 +39,7 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable* symTable,
         double calc = arithmeticInt->interpret(result)->calculate();
         // make a string from the double calculation
         Var *newVar = new Var(varName, calc, false, "", thisScope);
-        symTable->ptrVarMap->insert({varName,newVar});
+        symTable->varMap.insert({varName, newVar});
         return endLineIndex + 1;
     }
     index = index + 2;
@@ -47,14 +47,17 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable* symTable,
     if (op == "->") {
         Var *newVar = new Var(varName, 0, true, simVal, thisScope);
         //the app need to update the simulator
-        symTable->ptrVarMap->insert({varName,newVar});
+        //*(symTable->simMap).insert({varName,newVar});
+        symTable->varMap.insert({varName, newVar});
+
+
         index = index + 2;
         return index;
     } else if (op == "<-") {
         Var *newVar = new Var(varName, 0, false, simVal, thisScope);
         //the simulator need to update the app
-        symTable->ptrSimMap->insert({simVal, newVar});
-        symTable->ptrVarMap->insert({varName, newVar});
+        symTable->simMap.insert({simVal, newVar});
+        symTable->varMap.insert({varName, newVar});
         index = index + 2;
         return index;
     }
