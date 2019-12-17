@@ -12,9 +12,9 @@
 
 
 
-int CreateVarCommand::execute(vector<string> stringVector, map<string, Var *> varMap, map<string, Var *> simMap,
-                              int index) {
+int CreateVarCommand::execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
     index = index + 1;
+    int thisScope = scope;
     string varName = stringVector.at(index);
     index = index + 1;
     string op = stringVector.at(index);
@@ -29,7 +29,7 @@ int CreateVarCommand::execute(vector<string> stringVector, map<string, Var *> va
         }
         Interpreter* arithmeticInt = new Interpreter();
         //arithmeticInt -> setVariables();
-        for (auto const& x : varMap)
+        for (auto const& x : symTable->varMap)
         {
             string var = x.first;
             string val = doubleToString(x.second->value);
@@ -38,23 +38,26 @@ int CreateVarCommand::execute(vector<string> stringVector, map<string, Var *> va
         //calculate the expression
         double calc = arithmeticInt->interpret(result)->calculate();
         // make a string from the double calculation
-        Var *newVar = new Var(varName, calc, false, "", "");
-        varMap.insert({varName,newVar});
+        Var *newVar = new Var(varName, calc, false, "", thisScope);
+        symTable->varMap.insert({varName, newVar});
         return endLineIndex + 1;
     }
     index = index + 2;
     string simVal = stringVector.at(index);
     if (op == "->") {
-        Var *newVar = new Var(varName, 0, true, simVal, "");
+        Var *newVar = new Var(varName, 0, true, simVal, thisScope);
         //the app need to update the simulator
-        varMap.insert({varName, newVar});
+        //*(symTable->simMap).insert({varName,newVar});
+        symTable->varMap.insert({varName, newVar});
+
+
         index = index + 2;
         return index;
     } else if (op == "<-") {
-        Var *newVar = new Var(varName, 0, false, simVal, "");
+        Var *newVar = new Var(varName, 0, false, simVal, thisScope);
         //the simulator need to update the app
-        simMap.insert({simVal, newVar});
-        varMap.insert({varName, newVar});
+        symTable->simMap.insert({simVal, newVar});
+        symTable->varMap.insert({varName, newVar});
         index = index + 2;
         return index;
     }

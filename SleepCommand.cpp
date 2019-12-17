@@ -13,16 +13,17 @@
 #include <string.h>
 #include <thread>
 
-int SleepCommand::execute(vector<string> strings, map<string, Var*> varMap, map<string, Var*> simMap, int index) {
+int SleepCommand::execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
     index = index + 1;
-    if(strings.size() != 1) {
-        //error in number of parameters
-        return -1;
-    }
+    //if(stringVector.size() != 1) {
+   //     //error in number of parameters
+    //    return -1;
+    //}
     // save the number that was inputed
-    int milis = stoi(strings[index]);
+    int milis = stoi(stringVector[index]);
     // sleep command
-    std::this_thread::sleep_for(std::chrono::milliseconds(milis));
-    index = index + 1;
+    //todo fix the nect line - its return error
+//    std::this_thread::sleep_for(std::chrono::milliseconds(milis));
+    index = index + 2;
     return index;
 }

@@ -14,7 +14,7 @@
 #include <string.h>
 
 
-int ConnectClientCommand :: execute(vector<string> strings, map<string, Var*> varMap, map<string, Var*> simMap, int index) {
+int ConnectClientCommand :: execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
     return index + 3;
     //todo only when it works!
 
@@ -23,13 +23,13 @@ int ConnectClientCommand :: execute(vector<string> strings, map<string, Var*> va
     struct sockaddr_in serv_addr;
     struct hostent *server;
     char buffer[] = "i am the king";
-    // we should recieve IP and Port as as strings
-    if (strings.size() != 2) {
+    // we should recieve IP and Port as as stringVector
+    if (stringVector.size() != 2) {
         // bad arguments error
         return -1;
     }
     // convert a string to integer - the port number
-    portno = stoi(strings[1]);
+    portno = stoi(stringVector[1]);
 
     // Create a socket point
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -39,7 +39,7 @@ int ConnectClientCommand :: execute(vector<string> strings, map<string, Var*> va
     }
 
     // get the host
-    server = gethostbyname(strings[0].c_str());
+    server = gethostbyname(stringVector[0].c_str());
     if (server == NULL) {
         fprintf(stderr, "ERROR, no such host\n");
         return -3;
