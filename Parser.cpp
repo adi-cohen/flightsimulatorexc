@@ -11,18 +11,10 @@
 #include "SetCommand.h"
 #include "printCommand.h"
 #include "SymbolTable.h"
+#include "whileCommand.h"
 
-//void parser(vector<string> stringVector) {
-
-
-//Parser::Parser(SymbolTable symTable, vector<string> stringVector1) {
-//    this->symbolTable = symTable;
-//    this->stringVector = stringVector1;
-//
-//}
 
 void Parser::RunParser() {
-
     map<string, Var *>* varMap = symbolTable->ptrVarMap; //from name to var.
     map<string, Var *>* simMap = symbolTable->ptrSimMap; //from sim to var.
     map<string, Command *> commandMap;
@@ -32,6 +24,8 @@ void Parser::RunParser() {
     commandMap["var"] = (new CreateVarCommand());
     commandMap["Print"] = (new printCommand());
     commandMap["Sleep"] = (new SleepCommand());
+    commandMap["Set"] = (new SetCommend());
+    commandMap["While"] = (new whileCommand());
 
 
     int index = 0;
@@ -49,12 +43,14 @@ void Parser::RunParser() {
     }
 }
 
-
-Parser::Parser(vector<string> stringVector1, SymbolTable *symbolTable1) {
-    this->symbolTable = symbolTable1;
+Parser::Parser(vector<string> stringVector1, SymbolTable *symbolTable, int index, int scope) {
+    this->symbolTable = symbolTable;
     this->stringVector = stringVector1;
-
+    this->symbolTable->index = index;
+    this->symbolTable->scope = scope;
 }
+
+
 
 
 

@@ -17,7 +17,11 @@ public:
     int scope;
     int index;
     SymbolTable(map<string, Var *>* ptrVarMap,map<string, Var *>* ptrSimMap,int scope,int index);
-
+public:
+    void addVariable(Var v);
+    Var* getVariable(string s);
+    bool isVariable(string s);
+    void updateVariable(string s, double);
 };
 
 

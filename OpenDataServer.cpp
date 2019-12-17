@@ -11,12 +11,7 @@
 #include <string.h>
 #include "OpenDataServer.h"
 
-
 #define PORT 5400
-
-
-
-
 // open a data server and then call a thread to run it.
 int OpenDataServer :: execute(vector<string> strings,map<string, Var*> varMap, map<string, Var*> simMap, int index) {
     return index +3;

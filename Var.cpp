@@ -29,6 +29,10 @@ void Var::updateVal(string newVal, map<string, Var*> varMap, map<string, Var*> s
         send(socketfd , val , strlen(val) , 0 );
     }
 }
+// getter
+string Var::getName() {
+    return varName;
+}
 
 Var::Var(string name, double val, bool update, string sim1, string scope) {
     this->value = val;

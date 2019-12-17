@@ -14,9 +14,10 @@
 #include <string.h>
 #include <arpa/inet.h>
 
-
+#define PORT 5402
 int ConnectClientCommand :: execute(vector<string> strings, map<string, Var*> varMap, map<string, Var*> simMap, int index) {
 
+    //return index + 3;
     // should work
     string ip = strings.at(index+1);
     string port = strings.at(index+2);
@@ -32,7 +33,7 @@ int ConnectClientCommand :: execute(vector<string> strings, map<string, Var*> va
 
     address.sin_family = AF_INET;//IP4
     address.sin_addr.s_addr = inet_addr(ip.c_str());  //the localhost address
-    address.sin_port = htons(stoi(port));
+    address.sin_port = htons(PORT);
     //we need to convert our number (both port & localhost)
     // to a number that the network understands.
 
@@ -43,7 +44,10 @@ int ConnectClientCommand :: execute(vector<string> strings, map<string, Var*> va
         exit(2);
     } else {
         std::cout << "Client is now connected to server" << std::endl;
+
     }
+
+
 
     return index + 3;
     //todo only when it works!

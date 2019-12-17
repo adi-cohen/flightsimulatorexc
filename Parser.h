@@ -17,7 +17,7 @@ class Parser {
     SymbolTable* symbolTable;
     vector<string> stringVector;
 public:
-    Parser( vector<string> stringVector1, SymbolTable* symbolTable);
+    Parser(vector<string> stringVector1, SymbolTable* symbolTable, int index, int scope);
     void RunParser();
 
 };

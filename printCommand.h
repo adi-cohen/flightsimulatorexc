@@ -10,5 +10,6 @@
 class printCommand : public Command  {
 public:
     int execute(vector<string> strings, map<string, Var*> varMap, map<string, Var*> simMap, int index);
+    string doubleToString(double calc);
 };
 #endif //FLIGHTSIMULATOR_PRINTCOMMAND_H

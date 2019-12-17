@@ -10,7 +10,6 @@ int SetCommend::execute(vector<string> stringVector, map<string, Var*> varMap, m
     string varName = stringVector[index];
     if (varMap.find(varName) != varMap.end()) {
         Var* v1 = varMap[varName];
-        //todo insert to equal command;
         index = index + 2;
         int endLineIndex = index + 1;
         while(stringVector[endLineIndex]!="endLine"){

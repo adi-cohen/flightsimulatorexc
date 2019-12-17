@@ -17,6 +17,7 @@
 #include "Expression.h"
 #include "ConnectClientCommand.h"
 #include "CreateVarCommand.h"
+#include "Parser.h"
 
 using namespace std;
 
@@ -25,15 +26,17 @@ vector<string> lexer(string fileName);
 void parser(vector<string> vector);
 
 int main(int argc, char *argv[]) {
-    //string x ;
     vector<string> stringVectorFromFile;
     string fileName = argv[1];
+    //Parser* myParser;
     //insert the data from the file to the char vector
     try {
         stringVectorFromFile = lexer(fileName);
     } catch (const char *e) {
         cout << e << endl;
     }
+    //todo - use the parser like this and not from the main
+    //myParser->RunParser();
     // from lexer to parser
     parser(stringVectorFromFile);
 
