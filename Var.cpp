@@ -11,7 +11,7 @@
 using namespace std;
 
 
-void Var::updateVal(string newVal, map<string, Var*> varMap, map<string, Var*> simMap) {
+void Var::updateVal(string newVal,  SymbolTable symTable) {
     double doubleVal = stod(newVal);
     int socketfd;
     this->value = doubleVal;
@@ -30,7 +30,7 @@ void Var::updateVal(string newVal, map<string, Var*> varMap, map<string, Var*> s
     }
 }
 
-Var::Var(string name, double val, bool update, string sim1, string scope) {
+Var::Var(string name, double val, bool update, string sim1, int scope) {
     this->value = val;
     this->sim = sim;
     this->varName = std::move(name);

@@ -6,10 +6,10 @@
 #include "SetCommand.h"
 #include "Interpreter.h"
 
-int SetCommend::execute(vector<string> stringVector, map<string, Var*> varMap, map<string, Var*> simMap, int index) {
+int SetCommend::execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
     string varName = stringVector[index];
-    if (varMap.find(varName) != varMap.end()) {
-        Var* v1 = varMap[varName];
+    if (symTable->ptrVarMap->find(varName) != symTable->ptrVarMap->end()) {
+        Var* v1 = (*symTable->ptrVarMap)[varName];
         //todo insert to equal command;
         index = index + 2;
         int endLineIndex = index + 1;
@@ -22,7 +22,7 @@ int SetCommend::execute(vector<string> stringVector, map<string, Var*> varMap, m
         }
         Interpreter* arithmeticInt = new Interpreter();
         //arithmeticInt -> setVariables();
-        for (auto const& x : varMap)
+        for (auto const& x : *symTable->ptrVarMap)
         {
             string var = x.first;
             string val = doubleToString(x.second->value);
@@ -33,7 +33,7 @@ int SetCommend::execute(vector<string> stringVector, map<string, Var*> varMap, m
         // make a string from the double calculation
         string stringOfDoubleCalculation = doubleToString(calc);
 
-        v1->updateVal(stringOfDoubleCalculation,varMap,simMap);
+        v1->updateVal(stringOfDoubleCalculation,symTable->ptrVarMap,symTable->ptrSimMap);
         return endLineIndex + 1;
     }
     else {

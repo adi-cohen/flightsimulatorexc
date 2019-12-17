@@ -18,11 +18,11 @@
 
 
 // open a data server and then call a thread to run it.
-int OpenDataServer :: execute(vector<string> strings,map<string, Var*> varMap, map<string, Var*> simMap, int index) {
+int OpenDataServer :: execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
     return index +3;
     //todo only when it works!
     // make sure we have 2 arguments only
-    if(strings.size() != 2) {
+    if(stringVector.size() != 2) {
         // no good arguments error
         return -1;
     }
@@ -43,7 +43,7 @@ int OpenDataServer :: execute(vector<string> strings,map<string, Var*> varMap, m
     // set all the socket structures with null values by using bzero function
     bzero((char *) &serv_addr, sizeof(serv_addr));
     // by using stoi we convert a string to integer type
-    portno = stoi(strings[0]); // the first parameter is the port num
+    portno = stoi(stringVector[0]); // the first parameter is the port num
 
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = INADDR_ANY;
@@ -67,7 +67,7 @@ int OpenDataServer :: execute(vector<string> strings,map<string, Var*> varMap, m
     /* Now start listening for the clients, here process will
     * go in sleep mode and will wait for the incoming connection
     */
-    int wait = stoi(strings[1]);
+    int wait = stoi(stringVector[1]);
     if (listen(socketfd, 5) == -1) { //can also set to SOMAXCON (max connections)
         std::cerr<<"Error during listening command"<<std::endl;
         return -4;

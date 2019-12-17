@@ -16,8 +16,11 @@ using namespace std;
 class Parser {
     SymbolTable* symbolTable;
     vector<string> stringVector;
+    int index;
+    int scope;
+
 public:
-    Parser( vector<string> stringVector1, SymbolTable* symbolTable);
+    Parser( vector<string> stringVector1, SymbolTable* symbolTable,int index,int scope);
     void RunParser();
 
 };
