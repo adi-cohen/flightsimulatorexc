@@ -11,6 +11,7 @@
 #include "SetCommand.h"
 #include "printCommand.h"
 #include "SymbolTable.h"
+#include "whileCommand.h"
 
 //void parser(vector<string> stringVector) {
 
@@ -32,6 +33,7 @@ void Parser::RunParser() {
     commandMap["var"] = (new CreateVarCommand());
     commandMap["Print"] = (new printCommand());
     commandMap["Sleep"] = (new SleepCommand());
+    commandMap["while"] = (new whileCommand());
 
     int index = this->index;
     //commandOfSimulatorMap.put()
