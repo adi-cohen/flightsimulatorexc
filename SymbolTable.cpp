@@ -3,17 +3,19 @@
 //
 
 #include "SymbolTable.h"
+#include "Var.h"
+
 using namespace std;
 
 
 /* add a variable to the table by copy
-void SymbolTable::addVariable(Var v) {
-    //ptrVarMap[v.getName()] = v;
+void SymbolTable::addVariable(Var *v) {
+    varMap[v->getName()] = v;
 }
 // get a pointer to a variable that is in the table
 Var* SymbolTable::getVariable(string s) {
     if(isVariable(s)) {
-        //return &(ptrVarMap[s]);
+        return reinterpret_cast<Var *>(&(varMap[s]));
     } else {
         return nullptr;
     }
@@ -21,7 +23,7 @@ Var* SymbolTable::getVariable(string s) {
 // update the value of a variable that is in the table
 void SymbolTable::updateVariable(string s, double d) {
     if(isVariable(s)) {
-        //ptrVarMap[s].setValue(d);
+        ptrVarMap[s].setValue(d);
     } else {
         // no such variable error
         return;

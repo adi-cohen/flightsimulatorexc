@@ -6,7 +6,7 @@
 #include "SetCommand.h"
 #include "Interpreter.h"
 
-int SetCommend::execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
+int SetCommand::execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
     string varName = stringVector[index];
     if (symTable->varMap.find(varName) != symTable->varMap.end()) {
         Var* v1 = (symTable->varMap)[varName];
@@ -39,7 +39,7 @@ int SetCommend::execute(vector<string> stringVector,SymbolTable* symTable, int i
     }
 }
 
-string SetCommend::doubleToString(double calc)  {
+string SetCommand::doubleToString(double calc)  {
     ostringstream stringStream;
     stringStream << calc;
     string stringOfDoubleCalculation = stringStream.str();

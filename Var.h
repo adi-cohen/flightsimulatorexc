@@ -31,6 +31,10 @@ public:
     map<string, Var*> varMap;
     map<string, Var*> simMap;
     SymbolTable(map<string, Var*> ptrVarMap, map<string, Var*> ptrSimMap);
+    void addVariable(Var *v);
+    bool isVariable(string s);
+    Var *getVariable(string s);
+    void updateVariable(string s, double d);
 };
 
 #endif //FLIGHTSIMULATOR_VAR_H

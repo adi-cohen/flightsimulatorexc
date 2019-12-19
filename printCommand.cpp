@@ -10,6 +10,7 @@
 int printCommand::execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
     // put in varName the string "Print" without the "..."
     string varName = stringVector[index];
+    int indexFirst = index;
     int startIndex = index + 1;
     int endLineIndex = index + 1;
     // verify that it's a correct variable in the varMap
@@ -38,10 +39,16 @@ int printCommand::execute(vector<string> stringVector,SymbolTable* symTable, int
 
     // means it's not a variable - should print the input without the ""
     } else {
-        cout << stringVector[startIndex].substr(1, stringVector[startIndex].length() - 2) << endl;
+        // iterate over the string vector until the string endLine
+        while(stringVector[endLineIndex] != "endLine") {
+            endLineIndex++;
+        }
+       for(int i = indexFirst ; i < endLineIndex; i++) {
+           cout << stringVector[i]<< endl;
+       }
     }
 
-    return index + 2;
+    return endLineIndex;
 }
 
 string printCommand::doubleToString(double calc)  {

@@ -14,14 +14,8 @@
 #define PORT 5400
 // open a data server and then call a thread to run it.
 int OpenDataServer :: execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
-    return index +3;
-    //todo only when it works!
-    // make sure we have 2 arguments only
-    if(stringVector.size() != 2) {
-        // no good arguments error
-        return -1;
-    }
 
+    return index + 3;
     // the generic code to open a sever.
     int newsockfd, portno, clilen;
     struct sockaddr_in serv_addr, cli_addr;
@@ -44,14 +38,6 @@ int OpenDataServer :: execute(vector<string> stringVector,SymbolTable* symTable,
     serv_addr.sin_addr.s_addr = INADDR_ANY;
     serv_addr.sin_port = htons(portno);
 
-    /* bind socket to IP address
-    // we first need to create the sockaddr obj.
-    sockaddr_in address; //in means IP4
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY; //give me any IP allocated for my machine
-    address.sin_port = htons(PORT);
-    //we need to convert our number
-    // to a number that the network understands.*/
 
     /* Now bind the host address using bind() call.*/
     if (bind(socketfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
@@ -95,7 +81,7 @@ int OpenDataServer :: execute(vector<string> stringVector,SymbolTable* symTable,
     //thread t1(newsockfd, wait);
     // let it run seperatly from the main code.
     //t1.detach();
-    return 2;
+    return index + 2;
 
     //close(socketfd); //closing the listening socket
 

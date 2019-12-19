@@ -11,6 +11,9 @@
 #include "SetCommand.h"
 #include "printCommand.h"
 #include "SymbolTable.h"
+#include "MutexClass.h"
+#include "ifCommand.h"
+#include "whileCommand.h"
 
 //void parser(vector<string> stringVector) {
 
@@ -28,13 +31,16 @@ void Parser::RunParser() {
     map<string, Command *> commandMap;
     // insert command to map
     commandMap.insert(std::pair<string, Command *>("openDataServer", (new OpenDataServer())));
+    commandMap["openDataServer"] = (new OpenDataServer());
     commandMap["connectControlClient"] = (new ConnectClientCommand());
     commandMap["var"] = (new CreateVarCommand());
     commandMap["Print"] = (new printCommand());
     commandMap["Sleep"] = (new SleepCommand());
+    commandMap["while"] = (new whileCommand());
+    commandMap["if"] = (new ifCommand());
+    //commandMap["SetVar"] = (new SetCommand);
 
     int index = this->index;
-    //commandOfSimulatorMap.put()
     while (index != stringVector.size()) {
         string currentString = stringVector.at(index);
         //dealing with command
@@ -43,11 +49,25 @@ void Parser::RunParser() {
             //todo pass a pointer of the map to update them
             index = commandMap[currentString]->execute(stringVector, symbolTable, index, scope);
         } else { //   dealing with update var val;
-            index = (new SetCommend())->execute(stringVector, symbolTable, index, this->scope);
+            index = (new SetCommand())->execute(stringVector, symbolTable, index, this->scope);
         }
     }
 }
 
+bool Parser :: signalFlightGearRunning(bool mode) {
+
+    pthread_mutex_t* mutex = MutexClass::getInstance()->getMutex();
+    pthread_mutex_lock(mutex);
+
+    if(mode == true) {
+        flightGearRunning = true;
+    }
+
+    pthread_mutex_unlock(mutex);
+
+    return flightGearRunning;
+
+}
 
 Parser::Parser(vector<string> stringVector1, SymbolTable *symbolTable1, int index, int scope) {
     this->symbolTable = symbolTable1;
@@ -57,5 +77,24 @@ Parser::Parser(vector<string> stringVector1, SymbolTable *symbolTable1, int inde
 
 }
 
+bool Parser::checkServerClose() {
+    bool temp;
+    pthread_mutex_t* mutex = MutexClass::getInstance()->getMutex();
+    pthread_mutex_lock(mutex);
+
+    if(closeServer) {
+        temp = true;
+    } else {
+        temp = false;
+    }
+
+    pthread_mutex_unlock(mutex);
+    return temp;
+}
+
+map<string, int>* Parser :: getDataXml()
+{
+    return dataXml.getOrderXml();
+}
 
 

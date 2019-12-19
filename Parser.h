@@ -19,14 +19,16 @@ class Parser {
     vector<string> stringVector;
     int index;
     int scope;
-    //bool flightGearRunning;
-    //bool closeServer;
-    //DataXml dataXml;
+    bool flightGearRunning;
+    bool closeServer;
+    DataXml dataXml;
 
 public:
     Parser(vector<string> stringVector1, SymbolTable* symbolTable,int index,int scope);
     void RunParser();
-
+    bool signalFlightGearRunning(bool mode);
+    bool checkServerClose();
+    map<string, int> *getDataXml();
 };
 
 #endif //FLIGHTSIMULATOR_PARSER_H

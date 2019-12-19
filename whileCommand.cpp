@@ -28,7 +28,7 @@ int whileCommand::execute(vector<string> stringVector,SymbolTable* symTable, int
     string expLeft = "";
     string expRight = "";
     // for the left expression
-    for(int i = whileIndex + 1 ; i < indexFindOperator - 1 ; i++){
+    for(int i = whileIndex + 1 ; i < indexFindOperator - 1 ; i++) {
         expLeft.append(stringVector[i]);
     }
     // for the right expression

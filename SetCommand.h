@@ -8,7 +8,7 @@
 #include <string>
 #include "Command.h"
 using namespace std;
-class SetCommend: public Command {
+class SetCommand: public Command {
 public:
     int execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope);
 

@@ -27,7 +27,6 @@ vector<string> lexer(string fileName);
 void parser(vector<string> vector);
 
 int main(int argc, char *argv[]) {
-    //string x ;
     vector<string> stringVectorFromFile;
     string fileName = argv[1];
     //insert the data from the file to the char vector
@@ -40,13 +39,13 @@ int main(int argc, char *argv[]) {
     map<string, Var *> varMap; //from name to var.
     map<string, Var *> simMap; //from sim to var.
     map<string, Command *> commandMap;
-    // insert command to map
+    /* insert command to map
     commandMap.insert(std::pair<string, Command *>("openDataServer", (new OpenDataServer())));
     commandMap["connectControlClient"] = (new ConnectClientCommand());
     commandMap["var"] = (new CreateVarCommand());
     commandMap["Print"] = (new printCommand());
-    commandMap["Sleep"] = (new SleepCommand());
-    int mainScope =0;
+    commandMap["Sleep"] = (new SleepCommand());*/
+    int mainScope = 0;
     SymbolTable* mainSymbolTable = new SymbolTable(varMap,simMap);
     Parser* mainParser = new Parser(stringVectorFromFile,mainSymbolTable,0,mainScope);
     mainParser->RunParser();
