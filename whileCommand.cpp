@@ -46,9 +46,6 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
         arithmeticRight->setVariables(var + "=" + val);
     }
 
-
-
-
     // first we calculate each expression
     double calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
     double calcRight = arithmeticRight->interpret(expRight)->calculate();
@@ -77,7 +74,6 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
                 // call parser
                 Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
                 whileParser->RunParser();
-
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
             }
             break;
