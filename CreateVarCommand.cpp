@@ -18,7 +18,7 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable* symTable,
     string varName = stringVector.at(index);
     index = index + 1;
     string op = stringVector.at(index);
-    if (op == "="){
+    if (op == "=") {
         int endLineIndex = index + 1;
         while(stringVector[endLineIndex]!="endLine"){
             endLineIndex++;

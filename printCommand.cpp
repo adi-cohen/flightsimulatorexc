@@ -44,7 +44,7 @@ int printCommand::execute(vector<string> stringVector,SymbolTable* symTable, int
             endLineIndex++;
         }
        for(int i = indexFirst ; i < endLineIndex; i++) {
-           cout << stringVector[i]<< endl;
+           cout << stringVector[i]<< " ";
        }
     }
 
