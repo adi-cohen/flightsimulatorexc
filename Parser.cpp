@@ -50,7 +50,6 @@ void Parser::RunParser() {
     }
 }
 
-
 Parser::Parser(vector<string> stringVector1, SymbolTable *symbolTable1, int index, int scope) {
     this->symbolTable = symbolTable1;
     this->stringVector = stringVector1;
