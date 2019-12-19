@@ -8,7 +8,7 @@
 //
 // Created by yaron on 15/12/2019.
 //
-int whileCommand::execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
+int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
     int indexFindOperator;
     int indexSulSul;
     int indexCloseSulSul;
@@ -16,8 +16,8 @@ int whileCommand::execute(vector<string> stringVector,SymbolTable* symTable, int
     string isOper = "";
 
     // run over the first line of the while until the {
-    while(stringVector.at(index) != "{") {
-        if(isOperator(stringVector.at(index))) {
+    while (stringVector.at(index) != "{") {
+        if (isOperator(stringVector.at(index))) {
             indexFindOperator = index;
             isOper = stringVector.at(indexFindOperator);
         }
@@ -28,23 +28,25 @@ int whileCommand::execute(vector<string> stringVector,SymbolTable* symTable, int
     string expLeft = "";
     string expRight = "";
     // for the left expression
-    for(int i = whileIndex + 1 ; i < indexFindOperator  ; i++){
+    for (int i = whileIndex + 1; i < indexFindOperator; i++) {
         expLeft.append(stringVector[i]);
     }
     // for the right expression
-    for(int j = indexFindOperator + 1 ; j < indexSulSul ; j++) {
+    for (int j = indexFindOperator + 1; j < indexSulSul; j++) {
         expRight.append(stringVector[j]);
     }
 
-    Interpreter* arithmeticLeft = new Interpreter();
-    Interpreter* arithmeticRight = new Interpreter();
+    Interpreter *arithmeticLeft = new Interpreter();
+    Interpreter *arithmeticRight = new Interpreter();
 
-    for (auto const& x : symTable->varMap) {
+    for (auto const &x : symTable->varMap) {
         string var = x.first;
         string val = doubleToString(x.second->value);
-        arithmeticLeft->setVariables(var+"="+val);
-        arithmeticRight->setVariables(var+"="+val);
+        arithmeticLeft->setVariables(var + "=" + val);
+        arithmeticRight->setVariables(var + "=" + val);
     }
+
+
 
 
     // first we calculate each expression
@@ -53,8 +55,8 @@ int whileCommand::execute(vector<string> stringVector,SymbolTable* symTable, int
     int sign = isOperatorFlag(isOper);
 
     vector<string> whileVector;
-    int j = indexSulSul + 1;
-    while(stringVector.at(j) != "}") {
+    int j = indexSulSul + 2;
+    while (stringVector.at(j) != "}") {
         whileVector.push_back(stringVector.at(j));
         j++;
     }
@@ -65,48 +67,55 @@ int whileCommand::execute(vector<string> stringVector,SymbolTable* symTable, int
         case 1:
             while (calcLeft < calcRight) {
                 // call parser
-                Parser *whileParser = new Parser(whileVector, symTable, index, scope + 1);
+                Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
+                whileParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
             }
             break;
         case 2:
             while (calcLeft > calcRight) {
                 // call parser
-                Parser* whileParser = new Parser(whileVector, symTable, index, scope + 1);
+                Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
+                whileParser->RunParser();
+
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
             }
             break;
         case 3:
             while (calcLeft <= calcRight) {
                 // call parser
-                Parser *whileParser = new Parser(whileVector, symTable, index, scope + 1);
+                Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
+                whileParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
             }
             break;
         case 4:
             while (calcLeft >= calcRight) {
                 // call parser
-                Parser* whileParser = new Parser(whileVector, symTable, index, scope + 1);
+                Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
+                whileParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
             }
             break;
         case 5:
             while (calcLeft == calcRight) {
                 // call parser
-                Parser* whileParser = new Parser(whileVector, symTable, index, scope + 1);
+                Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
+                whileParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
             }
             break;
         case 6:
             while (calcLeft != calcRight) {
                 // call parser
-                Parser* whileParser = new Parser(whileVector, symTable, index, scope + 1);
+                Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
+                whileParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
             }
             break;
     }
 
-    return indexCloseSulSul+2;
+    return indexCloseSulSul + 2;
 }
 
 void whileCommand::updateVarMap(const SymbolTable *symTable, const string &expLeft, const string &expRight,
@@ -128,7 +137,7 @@ int whileCommand::isOperatorFlag(string s) {
     else if (s.compare("<=") == 0) { return 3; }
     else if (s.compare(">=") == 0) { return 4; }
     else if (s.compare("==") == 0) { return 5; }
-    else if(s.compare("!=") == 0 ){ return 6; }
+    else if (s.compare("!=") == 0) { return 6; }
 }
 
 bool whileCommand::isOperator(string s) {
@@ -139,10 +148,10 @@ bool whileCommand::isOperator(string s) {
         //else if (s.compare("=>") == 0) { return true; }
         //else if (s.compare("=<") == 0) { return true; }
     else if (s.compare("=") == 0) { return true; }
-    else if(s.compare("!=") == 0 ){ return true;  }
+    else if (s.compare("!=") == 0) { return true; }
 }
 
-string whileCommand::doubleToString(double calc)  {
+string whileCommand::doubleToString(double calc) {
     ostringstream stringStream;
     stringStream << calc;
     string stringOfDoubleCalculation = stringStream.str();
