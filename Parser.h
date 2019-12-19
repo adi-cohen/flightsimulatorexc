@@ -21,7 +21,6 @@ class Parser {
     int scope;
     bool flightGearRunning;
     bool closeServer;
-    DataXml dataXml;
 
 public:
     Parser(vector<string> stringVector1, SymbolTable* symbolTable,int index,int scope);

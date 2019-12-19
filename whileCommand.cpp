@@ -18,8 +18,8 @@ int whileCommand::execute(vector<string> stringVector,SymbolTable* symTable, int
     // run over the first line of the while until the {
     while(stringVector.at(index) != "{") {
         if(isOperator(stringVector.at(index))) {
-                indexFindOperator = index;
-                isOper = stringVector.at(indexFindOperator);
+            indexFindOperator = index;
+            isOper = stringVector.at(indexFindOperator);
         }
         index++;
     }
@@ -28,11 +28,11 @@ int whileCommand::execute(vector<string> stringVector,SymbolTable* symTable, int
     string expLeft = "";
     string expRight = "";
     // for the left expression
-    for(int i = whileIndex + 1 ; i < indexFindOperator - 1 ; i++) {
+    for(int i = whileIndex + 1 ; i < indexFindOperator  ; i++){
         expLeft.append(stringVector[i]);
     }
     // for the right expression
-    for(int j = indexFindOperator + 1 ; j < indexSulSul - 1; j++) {
+    for(int j = indexFindOperator + 1 ; j < indexSulSul ; j++) {
         expRight.append(stringVector[j]);
     }
 
@@ -136,8 +136,8 @@ bool whileCommand::isOperator(string s) {
     else if (s.compare(">") == 0) { return true; }
     else if (s.compare("<=") == 0) { return true; }
     else if (s.compare(">=") == 0) { return true; }
-    //else if (s.compare("=>") == 0) { return true; }
-    //else if (s.compare("=<") == 0) { return true; }
+        //else if (s.compare("=>") == 0) { return true; }
+        //else if (s.compare("=<") == 0) { return true; }
     else if (s.compare("=") == 0) { return true; }
     else if(s.compare("!=") == 0 ){ return true;  }
 }

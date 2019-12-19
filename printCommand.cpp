@@ -10,7 +10,7 @@
 int printCommand::execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
     // put in varName the string "Print" without the "..."
     string varName = stringVector[index];
-    int indexFirst = index;
+    //int indexFirst = index;
     int startIndex = index + 1;
     int endLineIndex = index + 1;
     // verify that it's a correct variable in the varMap
@@ -43,12 +43,12 @@ int printCommand::execute(vector<string> stringVector,SymbolTable* symTable, int
         while(stringVector[endLineIndex] != "endLine") {
             endLineIndex++;
         }
-       for(int i = indexFirst ; i < endLineIndex; i++) {
-           cout << stringVector[i]<< " ";
+       for(int i = startIndex ; i < endLineIndex; i++) {
+           cout << stringVector[i] << endl;
        }
     }
 
-    return endLineIndex;
+    return endLineIndex + 1;
 }
 
 string printCommand::doubleToString(double calc)  {
