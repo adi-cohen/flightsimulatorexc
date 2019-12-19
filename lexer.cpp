@@ -32,6 +32,9 @@ vector<string> lexer::runLexer() {
                         splitWord = splitWord + x;
                     }
                 }
+                if (splitWord != "") {
+                    stringVector.push_back(splitWord);
+                }
                 splitWord = "";
                 //if the word contains operators without spaces between them
             } else if (isContainOp(word)) {
