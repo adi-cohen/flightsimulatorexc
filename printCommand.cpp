@@ -7,27 +7,39 @@
 //
 // Created by yaron on 15/12/2019.
 //
-int printCommand::execute(vector<string> strings,SymbolTable* symTable, int index, int scope) {
-    /*index = index + 1;
-    cout << strings[index] << endl;
-    index = index + 1;
-    return index;*/
-
-        // make sure it is a variable/
-        if (symTable->isVariable(strings[index + 1])) {
-            string exp = strings[index + 1];
-            Interpreter* arithmetic = new Interpreter();
-            for (auto const& x : *symTable->ptrVarMap) {
-                string var = x.first;
-                string val = doubleToString(x.second->value);
-                arithmetic->setVariables(var+"="+val);
-            }
-            double calc = arithmetic->interpret(exp)->calculate();
-            //Var *v = symTable->getVariable(strings[0]);
-            cout << calc << endl; // print his value
-        } else { // print the input without the ""
-            cout << strings[0].substr(1, strings[0].length() - 2) << endl;
+int printCommand::execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
+    // put in varName the string "Print" without the "..."
+    string varName = stringVector[index];
+    int startIndex = index + 1;
+    int endLineIndex = index + 1;
+    // verify that it's a correct variable in the varMap
+    if (symTable->varMap.find(varName) != symTable->varMap.end()) {
+        // get the variable
+        Var* v1 = (symTable->varMap)[varName];
+        // iterate over the string vector until the string endLine
+        while(stringVector[endLineIndex] != "endLine") {
+            endLineIndex++;
         }
+        // the string result will holds the expression we would like to print
+        string result = "";
+        for(int i = startIndex ; i < endLineIndex ; i++) {
+            result.append(stringVector[i]);
+        }
+        Interpreter* arithmeticInt = new Interpreter();
+        for (auto const& x : symTable->varMap) {
+            string var = x.first;
+            string val = doubleToString(x.second->value);
+            arithmeticInt->setVariables(var+"="+result);
+        }
+        double calc = arithmeticInt->interpret(result)->calculate();
+        string stringOfDoubleCalculation = doubleToString(calc);
+        v1->updateVal(stringOfDoubleCalculation,symTable);
+        cout << calc << endl; // print value of the variable v1
+
+    // means it's not a variable - should print the input without the ""
+    } else {
+        cout << stringVector[startIndex].substr(1, stringVector[startIndex].length() - 2) << endl;
+    }
 
     return index + 2;
 }

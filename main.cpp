@@ -18,6 +18,7 @@
 #include "ConnectClientCommand.h"
 #include "CreateVarCommand.h"
 #include "Parser.h"
+#include "printCommand.h"
 
 using namespace std;
 
@@ -26,24 +27,16 @@ vector<string> lexer(string fileName);
 void parser(vector<string> vector);
 
 int main(int argc, char *argv[]) {
+    //string x ;
     vector<string> stringVectorFromFile;
     string fileName = argv[1];
-    //Parser* myParser;
     //insert the data from the file to the char vector
     try {
         stringVectorFromFile = lexer(fileName);
     } catch (const char *e) {
         cout << e << endl;
     }
-    //todo - use the parser like this and not from the main
-    //myParser->RunParser();
     // from lexer to parser
-    parser(stringVectorFromFile);
-
-    return 0;
-}
-
-void parser(vector<string> stringVector) {
     map<string, Var *> varMap; //from name to var.
     map<string, Var *> simMap; //from sim to var.
     map<string, Command *> commandMap;
@@ -51,24 +44,13 @@ void parser(vector<string> stringVector) {
     commandMap.insert(std::pair<string, Command *>("openDataServer", (new OpenDataServer())));
     commandMap["connectControlClient"] = (new ConnectClientCommand());
     commandMap["var"] = (new CreateVarCommand());
-    //commandMap["Print"] = *(new PrintCommand());
+    commandMap["Print"] = (new printCommand());
     commandMap["Sleep"] = (new SleepCommand());
-
-
-    int index = 0;
-    //commandOfSimulatorMap.put()
-    while (index != stringVector.size()) {
-        string currentString = stringVector.at(index);
-        //dealing with command
-        //Check if its a command that exists in commandMap
-        if (commandMap.find(currentString) != commandMap.end()) {
-            //todo pass a pointer of the map to update them
-            index = commandMap[currentString]->execute(stringVector, varMap, simMap, index);
-        }
-        else { //   dealing with update var val;
-            (new SetCommend())->execute(stringVector, varMap, simMap, index);
-        }
-    }
+    int mainScope =0;
+    SymbolTable* mainSymbolTable = new SymbolTable(varMap,simMap);
+    Parser* mainParser = new Parser(stringVectorFromFile,mainSymbolTable,0,mainScope);
+    mainParser->RunParser();
+    return 0;
 }
 
 

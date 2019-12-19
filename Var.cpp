@@ -11,21 +11,21 @@
 using namespace std;
 
 
-void Var::updateVal(string newVal, map<string, Var*> varMap, map<string, Var*> simMap) {
+void Var::updateVal(string newVal, SymbolTable *symTable) {
     double doubleVal = stod(newVal);
     int socketfd;
     this->value = doubleVal;
     if (varUpdateSim) {
         //we need to update the var in the simulator to the new value
-        string sim = this->sim;
-        sim = sim.replace(sim.begin(), sim.end(),"sim(","");
-        sim = sim.replace(sim.begin(), sim.end(),"\"","");
-        sim = "set" + sim + newVal;
-        int length = sim.length();
-        char val [length+1];
-        strcpy(val,sim.c_str());
+        string sim1 = "set ";
+        sim1.append(this->sim);
+        sim1.append(" ");
+        sim1.append(newVal);
+
+        const char* val = sim1.c_str();
 
         //writing back to client
+        //todo add the next line when the server working
         send(socketfd , val , strlen(val) , 0 );
     }
 }
@@ -34,10 +34,15 @@ string Var::getName() {
     return varName;
 }
 
-Var::Var(string name, double val, bool update, string sim1, string scope) {
+Var::Var(string name1, double val, bool update, string sim1, int scope) {
     this->value = val;
-    this->sim = sim;
-    this->varName = std::move(name);
+    this->sim = sim1;
+    this->varName = name1;
     this->varUpdateSim = update;
     this->scope = scope;
+}
+
+SymbolTable::SymbolTable(map<string, Var *> ptrVarMap1, map<string, Var *> ptrSimMap1) {
+    this->simMap = ptrSimMap1;
+    this->varMap = ptrVarMap1;
 }

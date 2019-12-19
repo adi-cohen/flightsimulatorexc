@@ -11,12 +11,20 @@
 #include "SetCommand.h"
 #include "printCommand.h"
 #include "SymbolTable.h"
-#include "whileCommand.h"
 
+//void parser(vector<string> stringVector) {
+
+
+//Parser::Parser(SymbolTable symTable, vector<string> stringVector1) {
+//    this->symbolTable = symTable;
+//    this->stringVector = stringVector1;
+//
+//}
 
 void Parser::RunParser() {
-    map<string, Var *>* varMap = symbolTable->ptrVarMap; //from name to var.
-    map<string, Var *>* simMap = symbolTable->ptrSimMap; //from sim to var.
+
+    //map<string, Var *> varMap =  this->symbolTable->varMap; //from name to var.
+   // map<string, Var *> simMap = this->symbolTable->simMap; //from sim to var.
     map<string, Command *> commandMap;
     // insert command to map
     commandMap.insert(std::pair<string, Command *>("openDataServer", (new OpenDataServer())));
@@ -24,11 +32,8 @@ void Parser::RunParser() {
     commandMap["var"] = (new CreateVarCommand());
     commandMap["Print"] = (new printCommand());
     commandMap["Sleep"] = (new SleepCommand());
-    commandMap["Set"] = (new SetCommend());
-    commandMap["While"] = (new whileCommand());
 
-
-    int index = 0;
+    int index = this->index;
     //commandOfSimulatorMap.put()
     while (index != stringVector.size()) {
         string currentString = stringVector.at(index);
@@ -36,21 +41,21 @@ void Parser::RunParser() {
         //Check if its a command that exists in commandMap
         if (commandMap.find(currentString) != commandMap.end()) {
             //todo pass a pointer of the map to update them
-            index = commandMap[currentString]->execute(stringVector, *varMap, *simMap, index);
+            index = commandMap[currentString]->execute(stringVector, symbolTable, index, scope);
         } else { //   dealing with update var val;
-            (new SetCommend())->execute(stringVector, *varMap, *simMap, index);
+            index = (new SetCommend())->execute(stringVector, symbolTable, index, this->scope);
         }
     }
 }
 
-Parser::Parser(vector<string> stringVector1, SymbolTable *symbolTable, int index, int scope) {
-    this->symbolTable = symbolTable;
+
+Parser::Parser(vector<string> stringVector1, SymbolTable *symbolTable1, int index, int scope) {
+    this->symbolTable = symbolTable1;
     this->stringVector = stringVector1;
-    this->symbolTable->index = index;
-    this->symbolTable->scope = scope;
+    this->index = index;
+    this->scope = scope;
+
 }
-
-
 
 
 

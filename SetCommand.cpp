@@ -6,32 +6,32 @@
 #include "SetCommand.h"
 #include "Interpreter.h"
 
-int SetCommend::execute(vector<string> stringVector, map<string, Var*> varMap, map<string, Var*> simMap, int index) {
+int SetCommend::execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
     string varName = stringVector[index];
-    if (varMap.find(varName) != varMap.end()) {
-        Var* v1 = varMap[varName];
+    if (symTable->varMap.find(varName) != symTable->varMap.end()) {
+        Var* v1 = (symTable->varMap)[varName];
         index = index + 2;
         int endLineIndex = index + 1;
         while(stringVector[endLineIndex]!="endLine"){
             endLineIndex++;
         }
         string result = "";
-        for(int i=index ; i<endLineIndex-index ; i++){
+        for(int i=index ; i<endLineIndex ; i++){
             result.append(stringVector[i]);
         }
         Interpreter* arithmeticInt = new Interpreter();
         //arithmeticInt -> setVariables();
-        for (auto const& x : varMap)
+        for (auto const& x : symTable->varMap)
         {
             string var = x.first;
             string val = doubleToString(x.second->value);
-            arithmeticInt->setVariables(var+"="+val);
+            arithmeticInt->setVariables(var+"="+result);
         }
         //calculate the expression
         double calc = arithmeticInt->interpret(result)->calculate();
         // make a string from the double calculation
         string stringOfDoubleCalculation = doubleToString(calc);
-        v1->updateVal(stringOfDoubleCalculation,varMap,simMap);
+        v1->updateVal(stringOfDoubleCalculation,symTable);
         return endLineIndex + 1;
     }
     else {

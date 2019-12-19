@@ -6,6 +6,7 @@
 #define FLIGHTSIMULATOR_COMMAND_H
 
 #include "Var.h"
+#include "SymbolTable.h"
 using namespace std;
 extern int socketfd;
 /**
@@ -14,7 +15,7 @@ extern int socketfd;
 class Command {
 
 public:
-    virtual int execute(vector<string> strings, map<string, Var*> varMap, map<string, Var*> simMap, int index)= 0;
+    virtual int execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope)= 0;
 };
 
 

@@ -5,14 +5,8 @@
 #include "SymbolTable.h"
 using namespace std;
 
-SymbolTable::SymbolTable(map<string, Var *> *ptrVarMap1, map<string, Var *> *ptrSimMap1, int scope1, int index1) {
-    this->scope=scope1;
-    this->index=index1;
-    this->ptrSimMap =ptrSimMap1;
-    this->ptrVarMap = ptrVarMap1;
-}
 
-// add a variable to the table by copy
+/* add a variable to the table by copy
 void SymbolTable::addVariable(Var v) {
     //ptrVarMap[v.getName()] = v;
 }
@@ -40,4 +34,4 @@ bool SymbolTable::isVariable(string s){
     } else {
         return false;
     }
-}
+}*/

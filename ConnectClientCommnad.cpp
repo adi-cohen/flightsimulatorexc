@@ -15,12 +15,12 @@
 #include <arpa/inet.h>
 
 #define PORT 5402
-int ConnectClientCommand :: execute(vector<string> strings, map<string, Var*> varMap, map<string, Var*> simMap, int index) {
+int ConnectClientCommand :: execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
 
     //return index + 3;
     // should work
-    string ip = strings.at(index+1);
-    string port = strings.at(index+2);
+    string ip = stringVector.at(index+1);
+    string port = stringVector.at(index+2);
     //create socket
     client_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (client_socket == -1) {
@@ -58,12 +58,12 @@ int ConnectClientCommand :: execute(vector<string> strings, map<string, Var*> va
     struct hostent *server;
     char buffer[] = "i am the king";
     // we should recieve IP and Port as as strings
-    if (strings.size() != 2) {
+    if (stringVector.size() != 2) {
         // bad arguments error
         return -1;
     }
     // convert a string to integer - the port number
-    portno = stoi(strings[1]);
+    portno = stoi(stringVector[1]);
 
     // Create a socket point
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -73,7 +73,7 @@ int ConnectClientCommand :: execute(vector<string> strings, map<string, Var*> va
     }
 
     // get the host
-    server = gethostbyname(strings[0].c_str());
+    server = gethostbyname(stringVector[0].c_str());
     if (server == NULL) {
         fprintf(stderr, "ERROR, no such host\n");
         return -3;
