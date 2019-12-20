@@ -26,11 +26,11 @@ int ifCommand::execute(vector <string> stringVector, SymbolTable *symTable, int 
     string expLeft = "";
     string expRight = "";
     // for the left expression of the if
-    for(int i = ifIndex + 1 ; i < indexFindOperator - 1 ; i++){
+    for(int i = ifIndex + 1 ; i < indexFindOperator; i++){
         expLeft.append(stringVector[i]);
     }
     // for the right expression of the if
-    for(int j = indexFindOperator + 1 ; j < indexOpenSulSul - 1; j++) {
+    for(int j = indexFindOperator + 1 ; j < indexOpenSulSul; j++) {
         expRight.append(stringVector[j]);
     }
 
@@ -40,8 +40,8 @@ int ifCommand::execute(vector <string> stringVector, SymbolTable *symTable, int 
     for (auto const& x : symTable->varMap) {
         string var = x.first;
         string val = doubleToString(x.second->value);
-        arithmeticLeft->setVariables(var+"="+val);
-        arithmeticRight->setVariables(var+"="+val);
+        arithmeticLeft->setVariables(var + "=" + val);
+        arithmeticRight->setVariables(var + "=" + val);
     }
 
     // first we calculate each expression
@@ -51,7 +51,7 @@ int ifCommand::execute(vector <string> stringVector, SymbolTable *symTable, int 
 
     // create a vector of strings for the scope of the if
     vector<string> ifVector;
-    int j = indexOpenSulSul + 1;
+    int j = indexOpenSulSul + 2;  // changed because of the endline
     // iterate over the scope of the if between { ... }
     while(stringVector.at(j) != "}") {
         ifVector.push_back(stringVector.at(j));
@@ -65,6 +65,7 @@ int ifCommand::execute(vector <string> stringVector, SymbolTable *symTable, int 
             while (calcLeft < calcRight) {
                 // call parser
                 Parser* ifParser = new Parser(ifVector, symTable, index, scope + 1);
+                ifParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
             }
             break;
@@ -72,6 +73,7 @@ int ifCommand::execute(vector <string> stringVector, SymbolTable *symTable, int 
             while (calcLeft > calcRight) {
                 // call parser
                 Parser* ifParser = new Parser(ifVector, symTable, index, scope + 1);
+                ifParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
             }
             break;
@@ -79,6 +81,7 @@ int ifCommand::execute(vector <string> stringVector, SymbolTable *symTable, int 
             while (calcLeft <= calcRight) {
                 // call parser
                 Parser *ifParser = new Parser(ifVector, symTable, index, scope + 1);
+                ifParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
             }
             break;
@@ -86,6 +89,7 @@ int ifCommand::execute(vector <string> stringVector, SymbolTable *symTable, int 
             while (calcLeft >= calcRight) {
                 // call parser
                 Parser* ifParser = new Parser(ifVector, symTable, index, scope + 1);
+                ifParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
             }
             break;
@@ -93,6 +97,7 @@ int ifCommand::execute(vector <string> stringVector, SymbolTable *symTable, int 
             while (calcLeft == calcRight) {
                 // call parser
                 Parser* ifParser = new Parser(ifVector, symTable, index, scope + 1);
+                ifParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
             }
             break;
@@ -100,6 +105,7 @@ int ifCommand::execute(vector <string> stringVector, SymbolTable *symTable, int 
             while (calcLeft != calcRight) {
                 // call parser
                 Parser* ifParser = new Parser(ifVector, symTable, index, scope + 1);
+                ifParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
             }
             break;

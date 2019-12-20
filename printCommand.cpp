@@ -9,7 +9,7 @@
 //
 int printCommand::execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
     // put in varName the string "Print" without the "..."
-    string varName = stringVector[index];
+    string varName = stringVector[index + 1];
     //int indexFirst = index;
     int startIndex = index + 1;
     int endLineIndex = index + 1;
@@ -26,12 +26,16 @@ int printCommand::execute(vector<string> stringVector,SymbolTable* symTable, int
         for(int i = startIndex ; i < endLineIndex ; i++) {
             result.append(stringVector[i]);
         }
+
         Interpreter* arithmeticInt = new Interpreter();
+        // the following loop inserts the values from the varMap of our symTable
+        // inside the varaibles of the interpreter
         for (auto const& x : symTable->varMap) {
             string var = x.first;
             string val = doubleToString(x.second->value);
-            arithmeticInt->setVariables(var+"="+result);
+            arithmeticInt->setVariables(var + "=" + val);
         }
+
         double calc = arithmeticInt->interpret(result)->calculate();
         string stringOfDoubleCalculation = doubleToString(calc);
         v1->updateVal(stringOfDoubleCalculation,symTable);
@@ -44,8 +48,9 @@ int printCommand::execute(vector<string> stringVector,SymbolTable* symTable, int
             endLineIndex++;
         }
        for(int i = startIndex ; i < endLineIndex; i++) {
-           cout << stringVector[i] << endl;
+           cout << stringVector[i] << " ";
        }
+       cout << " " << endl;
     }
 
     return endLineIndex + 1;
