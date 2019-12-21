@@ -8,6 +8,7 @@
 #include "Command.h"
 #include "Var.h"
 #include "SymbolTable.h"
+#include "DataReaderServer.h"
 #include "map"
 #include "string"
 #include "vector"
@@ -16,13 +17,13 @@ using namespace std;
 class Parser {
     SymbolTable* symbolTable;
     vector<string> stringVector;
+    DataReaderServer *dataReaderServer;
     int index;
     int scope;
 
 public:
-    Parser( vector<string> stringVector1, SymbolTable* symbolTable,int index,int scope);
+    Parser(vector<string> stringVector1, DataReaderServer *dataXml, SymbolTable* symbolTable, int index, int scope);
     void RunParser();
-
 };
 
 #endif //FLIGHTSIMULATOR_PARSER_H

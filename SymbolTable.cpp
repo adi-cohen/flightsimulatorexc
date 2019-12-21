@@ -3,6 +3,8 @@
 //
 
 #include "SymbolTable.h"
+#include "Var.h"
+
 using namespace std;
 
 

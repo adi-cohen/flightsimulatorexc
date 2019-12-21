@@ -13,7 +13,7 @@
 #include <string.h>
 #include <thread>
 
-int SleepCommand::execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
+int SleepCommand::execute(vector<string> stringVector,DataReaderServer *server, SymbolTable *symTable, int index, int scope) {
     index = index + 1;
     //if(stringVector.size() != 1) {
    //     //error in number of parameters
@@ -22,7 +22,7 @@ int SleepCommand::execute(vector<string> stringVector,SymbolTable* symTable, int
     // save the number that was inputed
     int milis = stoi(stringVector[index]);
     // sleep command
-    //todo fix the nect line - its return error
+    //todo fix the next line - its return error
 //    std::this_thread::sleep_for(std::chrono::milliseconds(milis));
     index = index + 2;
     return index;

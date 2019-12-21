@@ -16,11 +16,8 @@ private:
     string fileName;
 public:
     lexer(string fileName);
-
     vector<string> runLexer();
-
     bool isOp(char c);
-
     bool isContainOp(string s);
 };
 #endif //FLIGHTSIMULATOR_LEXER_H

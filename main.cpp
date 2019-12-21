@@ -10,7 +10,7 @@
 #include "Var.h"
 #include "Parser.h"
 #include "lexer.h"
-
+#include "DataReaderServer.h"
 
 using namespace std;
 
@@ -18,7 +18,6 @@ using namespace std;
 void parser(vector<string> vector);
 
 int main(int argc, char *argv[]) {
-    //string x ;
     vector<string> stringVectorFromFile;
     string fileName = argv[1];
     //insert the data from the file to the char vector
@@ -33,10 +32,15 @@ int main(int argc, char *argv[]) {
     map<string, Var *> simMap; //from sim to var.
     map<string, Command *> commandMap;
 
-    int mainScope =0;
+    int mainScope = 0;
     SymbolTable* mainSymbolTable = new SymbolTable(varMap,simMap);
-    Parser* mainParser = new Parser(stringVectorFromFile,mainSymbolTable,0,mainScope);
+    DataReaderServer* mainDataReaderServer = new DataReaderServer();
+    Parser* mainParser = new Parser(stringVectorFromFile, mainDataReaderServer, mainSymbolTable, 0, mainScope);
     mainParser->RunParser();
+    double val;
+    //mainDataReaderServer->printXML();
+    bool exitFlag;
+    int outSocket;
     return 0;
 }
 
