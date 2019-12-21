@@ -13,7 +13,7 @@
 #include <string.h>
 #include <thread>
 
-int SleepCommand::execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
+int SleepCommand::execute(vector<string> stringVector,DataReaderServer *server, SymbolTable *symTable, int index, int scope) {
     index = index + 1;
     //if(stringVector.size() != 1) {
    //     //error in number of parameters

@@ -6,12 +6,14 @@
 #define FLIGHTSIMULATOR_SERVER_H
 #include "Parser.h"
 
+// FOR CLIENT CONNECTION
 struct ArgumentForServerRunning {
     double portNum;
     double frequency;
     Parser* parser;
 };
 
+// FOR THE OPEN DATA SERVER WHEN WE READ LINES OF XML DATA FROM THE SIMULATOR
 struct ArgumentForVarUpdating {
     string buffer;
     Parser* parser;

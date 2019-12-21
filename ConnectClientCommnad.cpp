@@ -13,10 +13,11 @@
 #include <netdb.h>
 #include <string.h>
 #include <arpa/inet.h>
+#include <thread>
 
 #define PORT 5402
-int ConnectClientCommand :: execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope) {
-    return index + 3;
+int ConnectClientCommand :: execute(vector<string> stringVector,DataReaderServer *server, SymbolTable *symTable, int index, int scope) {
+    //return index + 3;
     string portno = "5402";
     string ip = "127.0.0.1";
     //create socket
@@ -44,5 +45,6 @@ int ConnectClientCommand :: execute(vector<string> stringVector,SymbolTable* sym
         std::cout << "connected succeeded" << std::endl;
     }
 
+    //thread t2();
     return index + 3;
 }
