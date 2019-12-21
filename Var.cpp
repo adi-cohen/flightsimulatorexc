@@ -20,9 +20,7 @@ void Var::updateVal(string newVal, SymbolTable *symTable) {
         sim1.append(this->sim);
         sim1.append(" ");
         sim1.append(newVal);
-
         const char* val = sim1.c_str();
-
         //writing back to client
         //todo add the next line when the server working
         send(socketfd , val , strlen(val) , 0 );
