@@ -12,9 +12,9 @@
 #include "printCommand.h"
 #include "SymbolTable.h"
 #include "whileCommand.h"
-
+#include "thread"
 //void parser(vector<string> stringVector) {
-
+using namespace std;
 
 //Parser::Parser(SymbolTable symTable, vector<string> stringVector1) {
 //    this->symbolTable = symTable;
@@ -28,6 +28,7 @@ void Parser::RunParser() {
    // map<string, Var *> simMap = this->symbolTable->simMap; //from sim to var.
     map<string, Command *> commandMap;
     // insert command to map
+
     commandMap.insert(std::pair<string, Command *>("openDataServer", (new OpenDataServer())));
     commandMap["connectControlClient"] = (new ConnectClientCommand());
     commandMap["var"] = (new CreateVarCommand());
@@ -41,7 +42,13 @@ void Parser::RunParser() {
         string currentString = stringVector.at(index);
         //dealing with command
         //Check if its a command that exists in commandMap
-        if (commandMap.find(currentString) != commandMap.end()) {
+        if (currentString == "openDataServer"){
+
+        }
+        else if (currentString == "connectControlClient"){
+
+        }
+        else if (commandMap.find(currentString) != commandMap.end()) {
             //todo pass a pointer of the map to update them
             index = commandMap[currentString]->execute(stringVector, symbolTable, index, scope);
         } else { //   dealing with update var val;

@@ -8,13 +8,17 @@
 
 #include <vector>
 #include <string>
+#include <netinet/in.h>
 #include "Command.h"
 
 using namespace std;
 class ConnectClientCommand: public Command {
 public:
     int execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope);
+    sockaddr_in address;
+    int client_socket;
+
+    vector<std::string> split(const string &text, char sep);
 };
 
 #endif //FLIGHTSIMULATOR_CONNECTCLIENTCOMMNAD_H
-
