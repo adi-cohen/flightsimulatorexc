@@ -8,14 +8,12 @@
 #include <vector>
 #include <string>
 #include "Command.h"
+#include "DataReaderServer.h"
 
 using namespace std;
 class OpenDataServer: public Command {
 public:
-    int execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope);
-
-
-    static void readFromSim(int port);
+    int execute(vector<string> stringVector, DataReaderServer *server, SymbolTable *symTable, int index, int scope);
 };
 
 #endif //FLIGHTSIMULATOR_OPENDATASERVER_H

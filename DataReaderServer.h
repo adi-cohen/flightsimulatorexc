@@ -14,20 +14,24 @@
 #include <unistd.h>
 #include <vector>
 #include <thread>
-//#include "symbolTable.h"
+
+using namespace std;
+#include <map>
 using namespace std;
 class symbolTable;
 class DataReaderServer {
 private:
-    map<string, double> values;
-    map<int, string> names;
+    map<string, double> values; // the same map as names we just opposite the order
+    map<int, string> names;  // int: 1 - 23 , string: the simulator strings
 public:
     DataReaderServer();
+    void printXML();
     double getValue(string& s);
     void setValue(double d, string& s);
     string getStringFromXMlLocation(int i);
     bool isInList(string& s);
 };
-void updateVals(int newsockfd, int timesPerSecond, DataReaderServer* reader,
-                symbolTable* table);
+// The static method
+void updateVals(int newsockfd, int timesPerSecond, DataReaderServer *reader, symbolTable* table);
+
 #endif //FLIGHTSIMULATOR_DATAREADERSERVER_H
