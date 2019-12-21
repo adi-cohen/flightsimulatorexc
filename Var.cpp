@@ -11,6 +11,7 @@
 using namespace std;
 
 void Var::updateVal(string newVal, SymbolTable *symTable) {
+    
     double doubleVal = stod(newVal);
     int socketfd;
     this->value = doubleVal;
