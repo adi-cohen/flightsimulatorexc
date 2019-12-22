@@ -21,8 +21,8 @@ using namespace std;
 class SymbolTable;
 class DataReaderServer {
 private:
-    map<string, double> values; // the same map as names we just opposite the order
-    map<int, string> names;  // int: 1 - 23 , string: the simulator strings
+    map<string, double> simPathToValFromSimMap; // the same map as indexFromXmlToValMap we just opposite the order
+    map<int, string> indexFromXmlToValMap;  // int: 1 - 23 , string: the simulator strings
 public:
     DataReaderServer();
     void printXML();

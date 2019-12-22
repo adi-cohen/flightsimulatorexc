@@ -21,5 +21,6 @@ public:
 
     vector<std::string> split(const string &text, char sep);
 };
+void writeToSimulator(SymbolTable *symTable, int simulatorClient);
 
 #endif //FLIGHTSIMULATOR_CONNECTCLIENTCOMMNAD_H

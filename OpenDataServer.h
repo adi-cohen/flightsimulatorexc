@@ -12,11 +12,10 @@
 using namespace std;
 class OpenDataServer: public Command {
 public:
-    thread serverThread;
 
     int execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope);
 
 };
 //static func
-void runServer(SymbolTable *symTable);
+void readFromSimulator(SymbolTable *symTable, int simulatorClient);
 #endif //FLIGHTSIMULATOR_OPENDATASERVER_H

@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <queue>
 #include "SymbolTable.h"
 class SymbolTable;
 //class DataReaderServer;
@@ -37,6 +38,14 @@ public:
     bool isVariable(string s);
     Var *getVariable(string s);
     void updateVariable(string s, double d);
+    queue<const char *> QueueSetValToSim;
+    map<string, double> simPathToValFromSimMap; // the same map as indexFromXmlToValMap we just opposite the order
+    map<int, string> indexFromXmlToValMap;  // int: 1 - 23 , string: the simulator strings
+    void printXML();
+    double getValue(string& s);
+    void setValue(double d, string& s);
+    string getPathByIndex(int i);
+    bool isInList(string& s);
 };
 
 #endif //FLIGHTSIMULATOR_VAR_H

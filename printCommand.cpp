@@ -28,7 +28,7 @@ int printCommand::execute(vector<string> stringVector,SymbolTable *symTable, int
         }
 
         Interpreter* arithmeticInt = new Interpreter();
-        // the following loop inserts the values from the varMap of our symTable
+        // the following loop inserts the simPathToValFromSimMap from the varMap of our symTable
         // inside the varaibles of the interpreter
         for (auto const& x : symTable->varMap) {
             string var = x.first;

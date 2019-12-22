@@ -31,7 +31,7 @@ void Parser::RunParser() {
     commandMap["var"] = (new CreateVarCommand());
     commandMap["Print"] = (new printCommand());
     commandMap["Sleep"] = (new SleepCommand());
-    commandMap["while"  ] = (new whileCommand());
+    commandMap["while"] = (new whileCommand());
 
     int index = this->index;
     //commandOfSimulatorMap.put()
@@ -41,13 +41,18 @@ void Parser::RunParser() {
         //Check if its a command that exists in commandMap
         if (commandMap.find(currentString) != commandMap.end()) {
             //todo pass a pointer of the map to update them
-            cout<<currentString<<endl;
-            index = commandMap[currentString]->execute(stringVector, symbolTable, index, scope);
-            while (!symbolTable->isConnected){
-                std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+            cout << currentString << endl;
+            try {
+                index = commandMap[currentString]->execute(stringVector, symbolTable, index, scope);
             }
+            catch (const char *e) {
+                cout << e << endl;
+            }
+//            while (!symbolTable->isConnected) {
+//                std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+//            }
         } else { //   dealing with update var val;
-            index = (new SetCommand())->execute(stringVector,symbolTable, index, this->scope);
+            index = (new SetCommand())->execute(stringVector, symbolTable, index, this->scope);
         }
     }
 }
