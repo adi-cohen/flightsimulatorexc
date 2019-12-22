@@ -11,7 +11,7 @@
 using namespace std;
 
 void Var::updateVal(string newVal, SymbolTable *symTable) {
-    
+
     double doubleVal = stod(newVal);
     int socketfd;
     this->value = doubleVal;
@@ -84,36 +84,28 @@ void SymbolTable::addVariable(Var *v) {
     varMap[v->getName()] = v;
 }
 
-// todo - new for threads
-/* bind a variable to a string
-void Var::bind(string s) {
-    if (table->isVariable(s)) { // if the string is a variable name
-        isServer = false;
-        isVar = true;
-    } else { // the string should be a server path
-        isServer = true;
-        isVar = false;
+Var* SymbolTable::getVariableFromSimMap(string s) {
+    if(isVariable(s)) {
+        return *&(simMap[s]); // not sure about the syntax
+    } else {
+        return nullptr;
     }
-    // bind us to this
-    bindTo = s;
-    // update the table that we are bounded
-    table->bindVariable(this->name, s);
-}
-// calculate the value of the variable
-double Var::calculate() {
-    if(isVar) { // our variable is binded to another
-        value = (table->getVariable(bindTo))->calculate();
-    } else if(isServer) { // our variable is binded to simulator value
-        value = server->getValue(bindTo);
-    }
-    return value;
-}
-// set the value of the vriable to a new one
-void Var::setValue(double d) {
-    value = d;
 }
 
-void Var::setOnlyBind(string s) {
-    this->bindTo = s;
-    this->setBind = true;
-}*/
+bool SymbolTable::isVariableInSimMap(string s) {
+    if(simMap.find(s) != simMap.end()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// update the value of a variable that is in the table
+void SymbolTable::updateVariableInSimMap(string s, double d) {
+    if(isVariableInSimMap(s)) {
+        simMap[s]->setValue(d);
+    } else {
+        // no such variable error
+        return;
+    }
+}

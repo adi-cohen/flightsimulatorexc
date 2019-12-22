@@ -20,7 +20,7 @@ using namespace std;
 using namespace std;
 class symbolTable;
 class DataReaderServer {
-private:
+public:
     map<string, double> values; // the same map as names we just opposite the order
     map<int, string> names;  // int: 1 - 23 , string: the simulator strings
 public:

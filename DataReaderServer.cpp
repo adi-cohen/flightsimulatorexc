@@ -104,7 +104,7 @@ bool DataReaderServer::isInList(string& s) {
 // This is a static method that will run in a different thread and update the values in the server reader.
 // we use the following method in OpenDataServer, so the simulator connected to us as a client and
 // pass a data line by line splited by "4,5,..." ( we will get 36 values, each index owning to specific node).
-void updateVals(int newsockfd, int timesPerSec, DataReaderServer *reader, symbolTable* table) {
+void updateVals(int newsockfd, int timesPerSec, DataReaderServer *reader, SymbolTable* table) {
     char buffer[1024];
     bzero(buffer, 1024);
     int n;
@@ -140,7 +140,18 @@ void updateVals(int newsockfd, int timesPerSec, DataReaderServer *reader, symbol
         reader->printXML();
         double t = timesPerSec / 10;
         int wait = t*1000;
+        // we would like to verify if the simMap is compatible to the XML
+        for(int j = 0; j < 36; j++) {
+            string stringToCompare = reader->names[j];
+            // we check for each string in the simMap and the values map of the XML the value
+            // of the current string
+            if (table->simMap[stringToCompare]->value != reader->values[reader->names[j]]) {
+                 // we update the value to the value of the XML
+                 table->updateVariableInSimMap(stringToCompare, reader->values[reader->names[j]]);
+            }
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(wait));
     }
+
     close(newsockfd);
 }
