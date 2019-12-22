@@ -10,84 +10,106 @@
 #include <stdio.h>
 #include <string.h>
 #include <thread>
+#include <mutex>
 #include "OpenDataServer.h"
 #include "DataReaderServer.h"
 
-#define PORT 5400
+#define PORT 5401
+std::mutex mutex_lock;
+
 // open a data server and then call a thread to run it.
-int OpenDataServer::execute(vector<string> stringVector, DataReaderServer *server, SymbolTable *symTable, int index,
-                            int scope) {
-    //return index + 3;
-    // the generic code to open a sever.
-    int newsockfd, portno;
-    struct sockaddr_in serv_addr, cli_addr;
+int OpenDataServer::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
+
+    //int simulatorClient, portnum;
+    //struct sockaddr_in serv_addr, cli_addr;
 
     //create socket
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd == -1) {
         //error
-        std::cerr << "Could not create a socket"<<std::endl;
-        return -2;
+        throw "Could not create a socket";
     }
 
-    /* Initialize socket structure */
-    // set all the socket structures with null values by using bzero function
-    bzero((char *) &serv_addr, sizeof(serv_addr));
-    // by using stoi we convert a string to integer type
-    //portno = stoi(stringVector[0]); // the first parameter is the port num
-    portno = 5400; // for debug
-
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_addr.s_addr = INADDR_ANY;
-    serv_addr.sin_port = htons(portno);
+    //bind socket to IP address
+    // we first need to create the sockaddr obj.
+    sockaddr_in address;
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = INADDR_ANY; //give me any IP allocated for my machine
+    address.sin_port = htons(PORT);
+    //we need to convert our number
+    // to a number that the network understands.
 
 
-    /* Now bind the host address using bind() call.*/
-    if (bind(socketfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-        perror("ERROR on binding");
-        return -3;
+    //the actual bind command
+    if (bind(socketfd, (struct sockaddr *) &address, sizeof(address)) == -1) {
+        throw "Could not bind the socket to an IP";
     }
 
-    /* Now start listening for the clients, here process will
-    * go in sleep mode and will wait for the incoming connection
-    */
-    //int wait = stoi(stringVector[1]);
-    string clilen = "127.0.0.1"; // for debug
-    int wait = stoi(clilen);
+//making socket listen to the port
     if (listen(socketfd, 5) == -1) { //can also set to SOMAXCON (max connections)
-        std::cerr<<"Error during listening command"<<std::endl;
-        return -4;
-    } else{
-        std::cout<<"Server is now listening ... Waiting for simulator to connect"<<std::endl;
+        throw "Error during listening command";
+        return -3;
+    } else {
+        std::cout << "Server is now listening ..." << std::endl;
     }
-    clilen = sizeof(cli_addr);
 
     // accepting a client
-    newsockfd = accept(socketfd, (struct sockaddr *)&cli_addr, (socklen_t*)&clilen);
-    if (newsockfd < 0) {
-        perror("Error accepting client");
-        return -5;
+    int client_socket = accept(socketfd, (struct sockaddr *) &address,
+                               (socklen_t *) &address);
+
+    if (client_socket == -1) {
+        throw "Error accepting client";
     }
 
-    cout << "Simulator was connected" << endl;
+    close(socketfd); //closing the listening socket
 
-    char buffer[400];
-    bzero(buffer, 400);
-    int n;
-    // read
-    while(true) {
-        n = read(newsockfd, buffer, 400);
-        if (n > 0) {
-            //the connection has been made and we can continue
-            break;
+    thread serverThread(readFromSimulator, symTable, client_socket);
+    serverThread.detach();
+    //std::this_thread::sleep_for(std::chrono::seconds(20));
+    //todo remove
+    cout << "the programs go on open" << endl;
+//    while (true){
+//        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+//    }
+    return index + 3;
+}
+
+
+void readFromSimulator(SymbolTable *symTable, int client_socket) {
+
+    cout << "hi" << endl;
+    //reading from client
+    char buffer[1024] = {0};
+    // keep running while we have a connection.
+    // read simPathToValFromSimMap into the buffer
+    while (true) {
+        int valread = read(client_socket, buffer, 1024);
+        if (valread == -1) {
+            // error reading from socket
+            throw " read zero or less from sim socket";
         }
+        int n;
+        double doubleVal;
+        string doubleInString, pathInSim;
+        istringstream bufferStream(buffer);
+        while (getline(bufferStream, doubleInString)) {
+            istringstream doubleInStram(doubleInString);
+            int i = 1;
+            while (getline(doubleInStram, doubleInString, ',')) {
+                // save out a number
+                doubleVal = strtod(doubleInString.c_str(), nullptr);
+                // get the right strings for the positions
+                pathInSim = symTable->indexFromXmlToValMap[i];
+                // update the value in the dataReaderServer's map!
+                symTable->simPathToValFromSimMap[pathInSim] = doubleVal;
+                i++;
+            }
+            bufferStream.clear();
+        }
+
+        symTable->printXML();
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+
     }
-
-    // create a new thread that will update the values from the simulator
-    //thread t1(updateVals, newsockfd, wait, server, symTable);
-    updateVals(newsockfd, wait, server, reinterpret_cast<symbolTable *>(symTable));
-
-    // let it run seperatly from the main code.
-    //t1.detach();
-    return index + 1;
 }

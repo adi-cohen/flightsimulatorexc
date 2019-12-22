@@ -23,9 +23,9 @@
 //}
 
 void Parser::RunParser() {
+
     map<string, Command *> commandMap;
     // insert command to map
-    commandMap.insert(std::pair<string, Command *>("openDataServer", (new OpenDataServer())));
     commandMap["openDataServer"] = (new OpenDataServer());
     commandMap["connectControlClient"] = (new ConnectClientCommand());
     commandMap["var"] = (new CreateVarCommand());
@@ -41,18 +41,27 @@ void Parser::RunParser() {
         //Check if its a command that exists in commandMap
         if (commandMap.find(currentString) != commandMap.end()) {
             //todo pass a pointer of the map to update them
-            index = commandMap[currentString]->execute(stringVector,dataReaderServer, symbolTable, index, scope);
+            cout << currentString << endl;
+            try {
+                index = commandMap[currentString]->execute(stringVector, symbolTable, index, scope);
+            }
+            catch (const char *e) {
+                cout << e << endl;
+            }
+//            while (!symbolTable->isConnected) {
+//                std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+//            }
         } else { //   dealing with update var val;
-            index = (new SetCommand())->execute(stringVector,dataReaderServer, symbolTable, index, this->scope);
+            index = (new SetCommand())->execute(stringVector, symbolTable, index, this->scope);
         }
     }
 }
 
-Parser::Parser(vector<string> stringVector1, DataReaderServer *dataXML,
+Parser::Parser(vector<string> stringVector1,
                SymbolTable *symbolTable1, int index, int scope) {
     this->symbolTable = symbolTable1;
-    this->dataReaderServer = dataXML;
     this->stringVector = stringVector1;
     this->index = index;
     this->scope = scope;
 }
+

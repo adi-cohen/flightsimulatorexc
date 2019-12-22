@@ -10,7 +10,7 @@
 
 class ifCommand : public Command {
 public:
-    int execute(vector<string> stringVector,DataReaderServer *server, SymbolTable *symTable, int index, int scope);
+    int execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope);
     bool isOperator(string s);
     string doubleToString(double calc);
     int isOperatorFlag(string s);
