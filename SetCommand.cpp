@@ -6,7 +6,7 @@
 #include "SetCommand.h"
 #include "Interpreter.h"
 
-int SetCommand::execute(vector<string> stringVector,DataReaderServer *server, SymbolTable *symTable, int index, int scope) {
+int SetCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
     string varName = stringVector[index];
     if (symTable->varMap.find(varName) != symTable->varMap.end()) {
         Var* v1 = (symTable->varMap)[varName];

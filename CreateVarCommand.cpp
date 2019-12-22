@@ -12,7 +12,7 @@
 
 
 
-int CreateVarCommand::execute(vector<string> stringVector,DataReaderServer *server, SymbolTable *symTable, int index, int scope) {
+int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable, int index, int scope) {
     index = index + 1;
     int thisScope = scope;
     string varName = stringVector.at(index);

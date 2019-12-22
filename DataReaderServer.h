@@ -18,7 +18,7 @@
 using namespace std;
 #include <map>
 using namespace std;
-class symbolTable;
+class SymbolTable;
 class DataReaderServer {
 private:
     map<string, double> values; // the same map as names we just opposite the order
@@ -28,10 +28,10 @@ public:
     void printXML();
     double getValue(string& s);
     void setValue(double d, string& s);
-    string getStringFromXMlLocation(int i);
+    string getPathByIndex(int i);
     bool isInList(string& s);
 };
 // The static method
-void updateVals(int newsockfd, int timesPerSecond, DataReaderServer *reader, symbolTable* table);
+void updateVals(int simulatorClient, int timesPerSecond, DataReaderServer *reader, SymbolTable* table);
 
 #endif //FLIGHTSIMULATOR_DATAREADERSERVER_H

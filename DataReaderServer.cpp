@@ -27,6 +27,7 @@
 #include <unistd.h>
 #include <vector>
 
+
 DataReaderServer ::DataReaderServer() {
     // map all of the strings of variables to numbers
     names[1] = "/instrumentation/airspeed-indicator/indicated-speed-kt";
@@ -73,8 +74,10 @@ DataReaderServer ::DataReaderServer() {
 // a test function for printing
 void DataReaderServer::printXML() {
     for(int i = 1; i <= 36 ; i++) {
-       cout<< values[names[i]] << endl;
+       cout<< values[names[i]];
+       cout << ",";
     }
+    cout << endl;
 }
 // get a value from the map only if the strings is correct
 double DataReaderServer::getValue(string& s) {
@@ -90,7 +93,7 @@ void DataReaderServer::setValue(double d, string& s) {
     values[s] = d;
 }
 // get a strings from the number of position in the xml
-string DataReaderServer::getStringFromXMlLocation(int i) {
+string DataReaderServer::getPathByIndex(int i) {
     return names[i];
 }
 // check if a string is in out list of strings/
@@ -101,46 +104,4 @@ bool DataReaderServer::isInList(string& s) {
         return true;
     }
 }
-// This is a static method that will run in a different thread and update the values in the server reader.
-// we use the following method in OpenDataServer, so the simulator connected to us as a client and
-// pass a data line by line splited by "4,5,..." ( we will get 36 values, each index owning to specific node).
-void updateVals(int newsockfd, int timesPerSec, DataReaderServer *reader, symbolTable* table) {
-    char buffer[1024];
-    bzero(buffer, 1024);
-    int n;
-    while(true) { // keep running while we have a connection.
-        // read values into the buffer
-        n = read(newsockfd, buffer, 1024);
-        if (n <= 0) {
-            // error reading from socket
-            break;
-        }
-        // create a string stream from the buffer
-        istringstream strm(buffer);
-        double temp;
-        string str1;
-        string str2;
-        int i;
-        // get a line from the stream, the delimiter is ,
-        while(getline(strm, str1)) {
-            istringstream strm2(str1);
-            i = 1;
-            while (getline(strm2, str1, ',')) {
-                // save out a number
-                temp = strtod(str1.c_str(), nullptr);
-                // get the right strings for the positions
-                str2 = reader->getStringFromXMlLocation(i);
-                // update the value in the dataReaderServer's map!
-                reader->setValue(temp, str2);
-                i++;
-            }
-            strm.clear();
-        }
-        // for debug
-        reader->printXML();
-        double t = timesPerSec / 10;
-        int wait = t*1000;
-        std::this_thread::sleep_for(std::chrono::milliseconds(wait));
-    }
-    close(newsockfd);
-}
+

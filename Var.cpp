@@ -8,6 +8,7 @@
 #include <sys/socket.h>
 #include <cstring>
 
+
 using namespace std;
 
 void Var::updateVal(string newVal, SymbolTable *symTable) {
@@ -84,36 +85,3 @@ void SymbolTable::addVariable(Var *v) {
     varMap[v->getName()] = v;
 }
 
-// todo - new for threads
-/* bind a variable to a string
-void Var::bind(string s) {
-    if (table->isVariable(s)) { // if the string is a variable name
-        isServer = false;
-        isVar = true;
-    } else { // the string should be a server path
-        isServer = true;
-        isVar = false;
-    }
-    // bind us to this
-    bindTo = s;
-    // update the table that we are bounded
-    table->bindVariable(this->name, s);
-}
-// calculate the value of the variable
-double Var::calculate() {
-    if(isVar) { // our variable is binded to another
-        value = (table->getVariable(bindTo))->calculate();
-    } else if(isServer) { // our variable is binded to simulator value
-        value = server->getValue(bindTo);
-    }
-    return value;
-}
-// set the value of the vriable to a new one
-void Var::setValue(double d) {
-    value = d;
-}
-
-void Var::setOnlyBind(string s) {
-    this->bindTo = s;
-    this->setBind = true;
-}*/
