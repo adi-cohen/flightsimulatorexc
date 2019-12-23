@@ -5,6 +5,7 @@
 #ifndef FLIGHTSIMULATOR_COMMAND_H
 #define FLIGHTSIMULATOR_COMMAND_H
 
+#include <mutex>
 #include "Var.h"
 #include "SymbolTable.h"
 #include "DataReaderServer.h"
@@ -15,7 +16,6 @@ extern int socketfd;
  * command Interface
  */
 class Command {
-
 public:
     virtual int execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope)= 0;
 };

@@ -18,7 +18,7 @@ void Var::updateVal(string newVal, SymbolTable *symTable) {
     int socketfd;
     this->value = doubleVal;
     if (varUpdateSim) {
-        //we need to update the var in the simulator to the new value
+        // we need to update the var in the simulator to the new value
         string sim1 = "set ";
         sim1.append(this->sim);
         sim1.append(" ");
@@ -36,7 +36,7 @@ string Var::getName() {
     return varName;
 }
 
-// set the value of the vriable to a new one
+// set the value of the variable to a new one
 void Var::setValue(double d) {
     value = d;
 }
@@ -128,6 +128,25 @@ void SymbolTable::addVariable(Var *v) {
     varMap[v->getName()] = v;
 }
 
+// new - update variable in the simMap
+void SymbolTable::updateVariableInSimMap(string s, double d) {
+    if(isVariableInSimMap(s)) {
+        simMap[s]->setValue(d);
+    } else {
+        // no such variable error
+        return;
+    }
+}
+// new - check if it's a variable in the simMap
+bool SymbolTable::isVariableInSimMap(string s) {
+    if(simMap.find(s) != simMap.end()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 // a test function for printing
 void SymbolTable::printXML() {
     for(int i = 1; i <= 36 ; i++) {
@@ -139,7 +158,7 @@ void SymbolTable::printXML() {
 // get a value from the map only if the strings is correct
 double SymbolTable::getValue(string& s) {
     if(simPathToValFromSimMap.find(s) != simPathToValFromSimMap.end()) { // make sure the strings is in
-        return simPathToValFromSimMap[s];
+        return simPathToValFromSimMap[s]; // return the value of this string
     } else{
         //throw value not in simulator error
         return 0;

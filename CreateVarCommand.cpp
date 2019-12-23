@@ -49,10 +49,9 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable,
         //the app need to update the simulator
         //*(symTable->simMap).insert({varName,newVar});
         symTable->varMap.insert({varName, newVar});
-
-
         index = index + 2;
         return index;
+
     } else if (op == "<-") {
         Var *newVar = new Var(varName, 0, false, simVal, thisScope);
         //the simulator need to update the app

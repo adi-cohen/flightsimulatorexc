@@ -3,10 +3,13 @@
 //
 
 #include <sstream>
+#include <mutex>
 #include "SetCommand.h"
 #include "Interpreter.h"
-
+std::mutex mutex1;
 int SetCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
+    // lock by mutex
+    symTable->mutex.lock();
     string varName = stringVector[index];
     if (symTable->varMap.find(varName) != symTable->varMap.end()) {
         Var* v1 = (symTable->varMap)[varName];
@@ -20,7 +23,6 @@ int SetCommand::execute(vector<string> stringVector, SymbolTable *symTable, int 
             result.append(stringVector[i]);
         }
         Interpreter* arithmeticInt = new Interpreter();
-        //arithmeticInt -> setVariables();
         for (auto const& x : symTable->varMap)
         {
             string var = x.first;
@@ -32,6 +34,8 @@ int SetCommand::execute(vector<string> stringVector, SymbolTable *symTable, int 
         // make a string from the double calculation
         string stringOfDoubleCalculation = doubleToString(calc);
         v1->updateVal(stringOfDoubleCalculation,symTable);
+        // unlock the mutex after updating
+        symTable->mutex.unlock();
         return endLineIndex + 1;
     }
     else {

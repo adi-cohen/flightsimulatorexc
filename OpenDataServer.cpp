@@ -15,7 +15,7 @@
 #include "DataReaderServer.h"
 
 #define PORT 5401
-std::mutex mutex_lock;
+//std::mutex mutex_lock;
 
 // open a data server and then call a thread to run it.
 int OpenDataServer::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
@@ -76,7 +76,6 @@ int OpenDataServer::execute(vector<string> stringVector, SymbolTable *symTable, 
 
 
 void readFromSimulator(SymbolTable *symTable, int client_socket) {
-
     cout << "hi" << endl;
     //reading from client
     char buffer[1024] = {0};
@@ -106,10 +105,23 @@ void readFromSimulator(SymbolTable *symTable, int client_socket) {
             }
             bufferStream.clear();
         }
-
-        symTable->printXML();
-
+        //symTable->printXML();
+        // after we received 36 values from the simulator, we would like to update the SimMap
+        for(int j = 0; j < 36; j++) {
+            // for each index we lock & unlock
+            symTable->mutex.lock();
+            string stringToCompare = symTable->indexFromXmlToValMap[j];
+            // comparing each value(of all the 36 strings) in the simMap between the value in simPathToVal
+            if(symTable->simMap[stringToCompare]->value != symTable->getValue(stringToCompare)) {
+                      // update the value in the simMap ACCORDING the XML data
+                      symTable->updateVariableInSimMap(stringToCompare,
+                              symTable->getValue(stringToCompare));
+                      // after update the simMap we unlock
+                      symTable->mutex.unlock();
+            }
+            // if the value of the current string is equal we unlock anyway
+            symTable->mutex.unlock();
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-
     }
 }

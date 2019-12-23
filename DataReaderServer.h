@@ -20,7 +20,7 @@ using namespace std;
 using namespace std;
 class SymbolTable;
 class DataReaderServer {
-private:
+public:
     map<string, double> simPathToValFromSimMap; // the same map as indexFromXmlToValMap we just opposite the order
     map<int, string> indexFromXmlToValMap;  // int: 1 - 23 , string: the simulator strings
 public:
