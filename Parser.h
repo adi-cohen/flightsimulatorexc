@@ -22,8 +22,7 @@ class Parser {
     int scope;
 
 public:
-    Parser(vector<string> stringVector1, DataReaderServer *dataXml, SymbolTable* symbolTable, int index, int scope);
+    Parser(vector<string> stringVector1, SymbolTable* symbolTable, int index, int scope);
     void RunParser();
 };
-
 #endif //FLIGHTSIMULATOR_PARSER_H

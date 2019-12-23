@@ -9,6 +9,8 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <queue>
+#include <mutex>
 #include "SymbolTable.h"
 class SymbolTable;
 //class DataReaderServer;
@@ -31,14 +33,22 @@ class SymbolTable {
 public:
     map<string, Var*> varMap;
     map<string, Var*> simMap;
+    bool isConnected = false;
+    std::mutex mutex;
     SymbolTable(map<string, Var*> ptrVarMap, map<string, Var*> ptrSimMap);
     void addVariable(Var *v);
     bool isVariable(string s);
     Var *getVariable(string s);
     void updateVariable(string s, double d);
-    Var *getVariableFromSimMap(string s);
+    queue<const char *> QueueSetValToSim;
+    map<string, double> simPathToValFromSimMap; // the same map as indexFromXmlToValMap we just opposite the order
+    map<int, string> indexFromXmlToValMap;  // int: 1 - 36 , string: the simulator strings
+    void printXML();
+    double getValue(string& s);
+    void setValue(double d, string& s);
+    string getPathByIndex(int i);
+    bool isInList(string& s);
     bool isVariableInSimMap(string s);
-
     void updateVariableInSimMap(string s, double d);
 };
 

@@ -10,7 +10,7 @@
 using namespace std;
 class SetCommand: public Command {
 public:
-    int execute(vector<string> stringVector,DataReaderServer *server, SymbolTable *symTable, int index, int scope);
+    int execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope);
 
     string doubleToString(double calc) ;
 };

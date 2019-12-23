@@ -10,7 +10,7 @@
 using namespace std;
 class SleepCommand: public Command {
 public:
-    int execute(vector<string> stringVector,DataReaderServer *server, SymbolTable *symTable, int index, int scope);
+    int execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope);
 };
 
 #endif //FLIGHTSIMULATOR_SLEEPCOMMAND_H

@@ -34,13 +34,8 @@ int main(int argc, char *argv[]) {
 
     int mainScope = 0;
     SymbolTable* mainSymbolTable = new SymbolTable(varMap,simMap);
-    DataReaderServer* mainDataReaderServer = new DataReaderServer();
-    Parser* mainParser = new Parser(stringVectorFromFile, mainDataReaderServer, mainSymbolTable, 0, mainScope);
+    Parser* mainParser = new Parser(stringVectorFromFile,  mainSymbolTable, 0, mainScope);
     mainParser->RunParser();
-    double val;
-    //mainDataReaderServer->printXML();
-    bool exitFlag;
-    int outSocket;
     return 0;
 }
 

@@ -7,7 +7,7 @@
 //
 // Created by yaron on 15/12/2019.
 //
-int printCommand::execute(vector<string> stringVector,DataReaderServer *server, SymbolTable *symTable, int index, int scope) {
+int printCommand::execute(vector<string> stringVector,SymbolTable *symTable, int index, int scope) {
     // put in varName the string "Print" without the "..."
     string varName = stringVector[index + 1];
     //int indexFirst = index;
@@ -28,7 +28,7 @@ int printCommand::execute(vector<string> stringVector,DataReaderServer *server, 
         }
 
         Interpreter* arithmeticInt = new Interpreter();
-        // the following loop inserts the values from the varMap of our symTable
+        // the following loop inserts the simPathToValFromSimMap from the varMap of our symTable
         // inside the varaibles of the interpreter
         for (auto const& x : symTable->varMap) {
             string var = x.first;
