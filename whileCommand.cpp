@@ -69,6 +69,7 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
                 //todo delete
                 this_thread::sleep_for(std::chrono::seconds(2));
+
             }
             break;
         case 2:
@@ -88,7 +89,10 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
                 whileParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
                 //todo delete
+                calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
+                calcRight = arithmeticRight->interpret(expRight)->calculate();
                 this_thread::sleep_for(std::chrono::seconds(2));
+
             }
             break;
         case 4:
@@ -98,7 +102,10 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
                 whileParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
                 //todo delete
+                calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
+                calcRight = arithmeticRight->interpret(expRight)->calculate();
                 this_thread::sleep_for(std::chrono::seconds(2));
+
             }
             break;
         case 5:
@@ -107,6 +114,8 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
                 Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
                 whileParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
+                calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
+                calcRight = arithmeticRight->interpret(expRight)->calculate();
                 //todo delete
                 this_thread::sleep_for(std::chrono::seconds(2));
             }
@@ -117,6 +126,8 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
                 Parser *whileParser = new Parser(whileVector,   symTable, 0, scope + 1);
                 whileParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
+                calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
+                calcRight = arithmeticRight->interpret(expRight)->calculate();
                 //todo delete
                 this_thread::sleep_for(std::chrono::seconds(2));
             }
@@ -134,9 +145,7 @@ void whileCommand::updateVarMap(const SymbolTable *symTable, const string &expLe
         arithmeticLeft->setVariables(var + "=" + val);
         arithmeticRight->setVariables(var + "=" + val);
     }
-    // inside the while loop
-    double calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
-    double calcRight = arithmeticRight->interpret(expRight)->calculate();
+
 }
 
 int whileCommand::isOperatorFlag(string s) {

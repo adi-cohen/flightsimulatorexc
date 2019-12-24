@@ -24,7 +24,7 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable,
             endLineIndex++;
         }
         string result = "";
-        for(int i=index ; i<endLineIndex-index ; i++){
+        for(int i=index+1 ; i<endLineIndex ; i++){
             result.append(stringVector[i]);
         }
         Interpreter* arithmeticInt = new Interpreter();
@@ -36,6 +36,7 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable,
             arithmeticInt->setVariables(var+"="+val);
         }
         //calculate the expression
+        //herrrrrrrreeeeeeeeeee
         double calc = arithmeticInt->interpret(result)->calculate();
         // make a string from the double calculation
         Var *newVar = new Var(varName, calc, false, "", thisScope);
