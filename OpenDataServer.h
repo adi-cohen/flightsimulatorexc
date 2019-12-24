@@ -12,9 +12,8 @@
 using namespace std;
 class OpenDataServer: public Command {
 public:
-
     int execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope);
-
+    static string doubleToString(double calc);
 };
 //static func
 void readFromSimulator(SymbolTable *symTable, int simulatorClient);

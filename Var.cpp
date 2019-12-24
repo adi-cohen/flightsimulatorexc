@@ -27,7 +27,6 @@ void Var::updateVal(string newVal, SymbolTable *symTable) {
         sim1.append("\r\n");
         string val = sim1;
         //writing back to client
-        //todo add the next line when the server working
         //add the value we need to update in the sim to the queue
         //we will update it in the connect command
         symTable->QueueSetValToSim.push(val);
@@ -45,6 +44,7 @@ void Var::setValue(double d) {
 }
 
 Var::Var(string name1, double val, bool update, string sim1, int scope) {
+
     this->value = val;
     this->sim = sim1;
     this->varName = name1;
