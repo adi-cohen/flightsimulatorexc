@@ -40,7 +40,7 @@ public:
     bool isVariable(string s);
     Var *getVariable(string s);
     void updateVariable(string s, double d);
-    queue<const char *> QueueSetValToSim;
+    queue<string> QueueSetValToSim;
     map<string, double> simPathToValFromSimMap; // the same map as indexFromXmlToValMap we just opposite the order
     map<int, string> indexFromXmlToValMap;  // int: 1 - 36 , string: the simulator strings
     void printXML();
