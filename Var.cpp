@@ -5,43 +5,10 @@
 #include "Var.h"
 #include "string"
 #include "map"
-#include <sys/socket.h>
-#include <cstring>
 #include <iostream>
 
 
 using namespace std;
-
-void Var::updateVal(string newVal, SymbolTable *symTable) {
-    symTable->mutex.lock();
-    double doubleVal = stod(newVal);
-    int socketfd;
-    // lock by mutex
-    this->value = doubleVal;
-    if (varUpdateSim) {
-        // we need to update the var in the simulator to the new value
-        string sim1 = "set ";
-        sim1.append(this->sim);
-        sim1.append(" ");
-        sim1.append(newVal);
-        sim1.append("\r\n");
-        string val = sim1;
-        //writing back to client
-        //add the value we need to update in the sim to the queue
-        //we will update it in the connect command
-        symTable->QueueSetValToSim.push(val);
-        symTable->mutex.unlock();
-    }
-}
-// getter
-string Var::getName() {
-    return varName;
-}
-
-// set the value of the variable to a new one
-void Var::setValue(double d) {
-    value = d;
-}
 
 Var::Var(string name1, double val, bool update, string sim1, int scope) {
 
@@ -98,57 +65,6 @@ SymbolTable::SymbolTable(map<string, Var *> ptrVarMap1, map<string, Var *> ptrSi
     }
 }
 
-// check if a string is a name of a variable in the table
-bool SymbolTable::isVariable(string s){
-    if(varMap.find(s) != varMap.end()) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-// update the value of a variable that is in the table
-void SymbolTable::updateVariable(string s, double d) {
-    if(isVariable(s)) {
-        varMap[s]->setValue(d);
-    } else {
-        // no such variable error
-        return;
-    }
-}
-
-// get a pointer to a variable that is in the table
-Var* SymbolTable::getVariable(string s) {
-    if(isVariable(s)) {
-        return *&(varMap[s]); // not sure about the syntax
-    } else {
-        return nullptr;
-    }
-}
-
-// add a variable to the table by copy
-void SymbolTable::addVariable(Var *v) {
-    varMap[v->getName()] = v;
-}
-
-// new - update variable in the simMap
-void SymbolTable::updateVariableInSimMap(string s, double d) {
-    if(isVariableInSimMap(s)) {
-        simMap[s]->setValue(d);
-    } else {
-        // no such variable error
-        return;
-    }
-}
-// new - check if it's a variable in the simMap
-bool SymbolTable::isVariableInSimMap(string s) {
-    if(simMap.find(s) != simMap.end()) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 
 // a test function for printing
 void SymbolTable::printXML() {
@@ -158,28 +74,4 @@ void SymbolTable::printXML() {
     }
     cout << endl;
 }
-// get a value from the map only if the strings is correct
-double SymbolTable::getValue(string& s) {
-    if(simPathToValFromSimMap.find(s) != simPathToValFromSimMap.end()) { // make sure the strings is in
-        return simPathToValFromSimMap[s]; // return the value of this string
-    } else{
-        //throw value not in simulator error
-        return 0;
-    }
-}
-// set a new value for a string in the server
-void SymbolTable::setValue(double d, string& s) {
-    simPathToValFromSimMap[s] = d;
-}
-// get a strings from the number of position in the xml
-string SymbolTable::getPathByIndex(int i) {
-    return indexFromXmlToValMap[i];
-}
-// check if a string is in out list of strings/
-bool SymbolTable::isInList(string& s) {
-    if(simPathToValFromSimMap.find(s) == simPathToValFromSimMap.end()) {
-        return false;
-    } else {
-        return true;
-    }
-}
+

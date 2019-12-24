@@ -29,11 +29,6 @@ public:
     //todo not sure we need the constructor because of the update function
     Var(string name, double val, bool update, string sim1, int scope);
 
-    void updateVal(string newVal, SymbolTable *symTable);
-
-    string getName();
-
-    void setValue(double d);
 };
 
 class SymbolTable {
@@ -45,30 +40,11 @@ public:
 
     SymbolTable(map<string, Var *> ptrVarMap, map<string, Var *> ptrSimMap);
 
-    void addVariable(Var *v);
-
-    bool isVariable(string s);
-
-    Var *getVariable(string s);
-
-    void updateVariable(string s, double d);
-
     queue<string> QueueSetValToSim;
     map<string, double> simPathToValFromSimMap; // the same map as indexFromXmlToValMap we just opposite the order
     map<int, string> indexFromXmlToValMap;  // int: 1 - 36 , string: the simulator strings
     void printXML();
 
-    double getValue(string &s);
-
-    void setValue(double d, string &s);
-
-    string getPathByIndex(int i);
-
-    bool isInList(string &s);
-
-    bool isVariableInSimMap(string s);
-
-    void updateVariableInSimMap(string s, double d);
 };
 
 #endif //FLIGHTSIMULATOR_VAR_H
