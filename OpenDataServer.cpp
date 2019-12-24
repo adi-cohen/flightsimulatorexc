@@ -100,25 +100,25 @@ void readFromSimulator(SymbolTable *symTable, int client_socket) {
                 // get the right strings for the positions
                 pathInSim = symTable->indexFromXmlToValMap[i];
                 // update the value in the dataReaderServer's map!
+                symTable->mutex.lock();
                 symTable->simPathToValFromSimMap[pathInSim] = doubleVal;
+                symTable->mutex.unlock();
                 i++;
             }
             bufferStream.clear();
         }
-        //symTable->printXML();
+        symTable->printXML();
         // after we received 36 values from the simulator, we would like to update the SimMap
-        for(int j = 0; j < 36; j++) {
+        for (int j = 1; j <= 36; j++) {
             // for each index we lock & unlock
-            symTable->mutex.lock();
+              symTable->mutex.lock();
             string stringToCompare = symTable->indexFromXmlToValMap[j];
             // comparing each value(of all the 36 strings) in the simMap between the value in simPathToVal
-            if(symTable->simMap[stringToCompare]->value != symTable->getValue(stringToCompare)) {
-                      // update the value in the simMap ACCORDING the XML data
-                      symTable->updateVariableInSimMap(stringToCompare,
-                              symTable->getValue(stringToCompare));
-                      // after update the simMap we unlock
-                      symTable->mutex.unlock();
-            }
+            //        if(symTable->simMap[stringToCompare]->value != symTable->getValue(stringToCompare)) {
+            // update the value in the simMap ACCORDING the XML data
+            symTable->updateVariableInSimMap(stringToCompare,
+                                             symTable->getValue(stringToCompare));
+
             // if the value of the current string is equal we unlock anyway
             symTable->mutex.unlock();
         }

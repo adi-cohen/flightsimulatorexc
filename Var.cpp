@@ -13,9 +13,10 @@
 using namespace std;
 
 void Var::updateVal(string newVal, SymbolTable *symTable) {
-    
+    symTable->mutex.lock();
     double doubleVal = stod(newVal);
     int socketfd;
+    // lock by mutex
     this->value = doubleVal;
     if (varUpdateSim) {
         // we need to update the var in the simulator to the new value
@@ -23,12 +24,14 @@ void Var::updateVal(string newVal, SymbolTable *symTable) {
         sim1.append(this->sim);
         sim1.append(" ");
         sim1.append(newVal);
+        sim1.append("\r\n");
         const char* val = sim1.c_str();
         //writing back to client
         //todo add the next line when the server working
         //add the value we need to update in the sim to the queue
         //we will update it in the connect command
         symTable->QueueSetValToSim.push(val);
+        symTable->mutex.unlock();
     }
 }
 // getter

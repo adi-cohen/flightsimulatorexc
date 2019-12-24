@@ -67,6 +67,8 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
                 Parser *whileParser = new Parser(whileVector,  symTable, 0, scope + 1);
                 whileParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
+                //todo delete
+                this_thread::sleep_for(std::chrono::seconds(2));
             }
             break;
         case 2:
@@ -75,6 +77,8 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
                 Parser *whileParser = new Parser(whileVector,  symTable, 0, scope + 1);
                 whileParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
+                //todo delete
+                this_thread::sleep_for(std::chrono::seconds(2));
             }
             break;
         case 3:
@@ -83,6 +87,8 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
                 Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
                 whileParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
+                //todo delete
+                this_thread::sleep_for(std::chrono::seconds(2));
             }
             break;
         case 4:
@@ -91,6 +97,8 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
                 Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
                 whileParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
+                //todo delete
+                this_thread::sleep_for(std::chrono::seconds(2));
             }
             break;
         case 5:
@@ -99,6 +107,8 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
                 Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
                 whileParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
+                //todo delete
+                this_thread::sleep_for(std::chrono::seconds(2));
             }
             break;
         case 6:
@@ -107,6 +117,8 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
                 Parser *whileParser = new Parser(whileVector,   symTable, 0, scope + 1);
                 whileParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
+                //todo delete
+                this_thread::sleep_for(std::chrono::seconds(2));
             }
             break;
     }
