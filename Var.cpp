@@ -25,7 +25,7 @@ void Var::updateVal(string newVal, SymbolTable *symTable) {
         sim1.append(" ");
         sim1.append(newVal);
         sim1.append("\r\n");
-        const char* val = sim1.c_str();
+        string val = sim1;
         //writing back to client
         //todo add the next line when the server working
         //add the value we need to update in the sim to the queue
