@@ -78,11 +78,13 @@ vector<std::string> ConnectClientCommand::split(const std::string &text, char se
 
 void writeToSimulator(SymbolTable *symTable, int client_socket) {
     while (true) {
+        symTable->mutex.lock();
         if (!symTable->QueueSetValToSim.empty()) {
             const char *val = symTable->QueueSetValToSim.front();
             send(client_socket, val, strlen(val), 0);
             //std::cout << "new val sent to sim" << std::endl;
             symTable->QueueSetValToSim.pop();
         }
+        symTable->mutex.unlock();
     }
 }

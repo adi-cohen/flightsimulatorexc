@@ -28,6 +28,8 @@ vector<string> lexer::runLexer() {
                     if ((x == '(') || x == ')') {
                         stringVector.push_back(splitWord);
                         splitWord = "";
+                    } else if (x == '"') {
+                        continue;
                     } else {
                         splitWord = splitWord + x;
                     }

@@ -38,7 +38,8 @@ int printCommand::execute(vector<string> stringVector,SymbolTable *symTable, int
 
         double calc = arithmeticInt->interpret(result)->calculate();
         string stringOfDoubleCalculation = doubleToString(calc);
-        v1->updateVal(stringOfDoubleCalculation,symTable);
+        //todo why its here @yaron
+        //v1->updateVal(stringOfDoubleCalculation,symTable);
         cout << calc << endl; // print value of the variable v1
 
     // means it's not a variable - should print the input without the ""
