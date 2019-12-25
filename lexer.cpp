@@ -25,8 +25,12 @@ vector<string> lexer::runLexer() {
                 string splitWord = "";
                 for (auto x :word) {
                     if ((x == '(') || x == ')') {
-                        stringVector.push_back(splitWord);
-                        splitWord = "";
+                        if (splitWord != "") {
+                            stringVector.push_back(splitWord);
+                            splitWord = "";
+                        }
+                        //stringVector.push_back(splitWord);
+                        //splitWord = "";
                     } else if (x == '"') {
                         continue;
                     } else {

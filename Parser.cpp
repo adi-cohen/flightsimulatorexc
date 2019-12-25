@@ -53,6 +53,7 @@ void Parser::RunParser() {
 //            }
         } else { //   dealing with update var val;
             index = (new SetCommand())->execute(stringVector, symbolTable, index, this->scope);
+            cout << currentString << endl;
         }
     }
 }

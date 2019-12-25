@@ -63,11 +63,21 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
     switch (sign) { ;
         case 1:
             while (calcLeft < calcRight) {
+                /* for debug
+                Interpreter *arithmetic = new Interpreter();
+                Interpreter *arithmetic2 = new Interpreter();
+                updateVarMap(symTable, whileVector[0], whileVector[1], arithmetic, arithmetic2);
+                double calc1 = arithmetic->interpret(whileVector[0])->calculate();
+                double calc2 = arithmetic2->interpret(whileVector[1])->calculate();
+                cout << calc1;
+                cout << calc2;*/
                 // call parser
                 Parser *whileParser = new Parser(whileVector,  symTable, 0, scope + 1);
                 whileParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
                 //todo delete
+                calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
+                calcRight = arithmeticRight->interpret(expRight)->calculate();
                 this_thread::sleep_for(std::chrono::seconds(2));
 
             }
@@ -79,6 +89,8 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
                 whileParser->RunParser();
                 updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
                 //todo delete
+                calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
+                calcRight = arithmeticRight->interpret(expRight)->calculate();
                 this_thread::sleep_for(std::chrono::seconds(2));
             }
             break;
