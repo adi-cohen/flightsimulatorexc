@@ -35,9 +35,9 @@ int main(int argc, char *argv[]) {
     int mainScope = 0;
     SymbolTable* mainSymbolTable = new SymbolTable(varMap,simMap);
     Parser* mainParser = new Parser(stringVectorFromFile,  mainSymbolTable, 0, mainScope);
-    //mainParser->RunParser();
+    mainParser->RunParser();
 
-    // for debug
+    /* for debug
     Interpreter* i8 = new Interpreter();
     Interpreter* i9 = new Interpreter();
     Interpreter* i10 = new Interpreter();
@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
             delete i8;
         }
         std::cout << e << std::endl;
-    }
+    }*/
     return 0;
 }
 
