@@ -122,7 +122,6 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
             }
             break;
     }
-
     return indexCloseSulSul + 2;
 }
 

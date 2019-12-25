@@ -134,11 +134,11 @@ void SymbolTable::addVariable(Var *v) {
 // new - update variable in the simMap
 void SymbolTable::updateVariableInSimMap(string s, double d) {
     if(isVariableInSimMap(s)) {
-        simMap[s]->setValue(d);
+        //simMap[s]->setValue(d);
+        simMap[s]->value = d; // todo - the value isn't updated in the simMap
     } else {
-        // no such variable error
         return;
-    }
+   }
 }
 // new - check if it's a variable in the simMap
 bool SymbolTable::isVariableInSimMap(string s) {
@@ -162,7 +162,7 @@ void SymbolTable::printXML() {
 double SymbolTable::getValue(string& s) {
     if(simPathToValFromSimMap.find(s) != simPathToValFromSimMap.end()) { // make sure the strings is in
         return simPathToValFromSimMap[s]; // return the value of this string
-    } else{
+    } else {
         //throw value not in simulator error
         return 0;
     }

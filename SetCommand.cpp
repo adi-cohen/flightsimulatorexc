@@ -6,10 +6,8 @@
 #include <mutex>
 #include "SetCommand.h"
 #include "Interpreter.h"
-std::mutex mutex1;
+
 int SetCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
-    // lock by mutex
-    //symTable->mutex.lock();
     string varName = stringVector[index];
     if (symTable->varMap.find(varName) != symTable->varMap.end()) {
         Var* v1 = (symTable->varMap)[varName];
@@ -33,11 +31,8 @@ int SetCommand::execute(vector<string> stringVector, SymbolTable *symTable, int 
         double calc = arithmeticInt->interpret(result)->calculate();
         // make a string from the double calculation
         string stringOfDoubleCalculation = doubleToString(calc);
-        v1->updateVal(stringOfDoubleCalculation,symTable);
-        // unlock the mutex after updating
-        //symTable->mutex.unlock();
+        v1->updateVal(stringOfDoubleCalculation,symTable);;
         return endLineIndex + 1;
-        //symTable->mutex.unlock();
     }
     else {
         throw "not valid command";

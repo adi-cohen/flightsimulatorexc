@@ -24,7 +24,7 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable,
             endLineIndex++;
         }
         string result = "";
-        for(int i=index ; i<endLineIndex-index ; i++){
+        for(int i = index ; i < endLineIndex-index ; i++){
             result.append(stringVector[i]);
         }
         Interpreter* arithmeticInt = new Interpreter();

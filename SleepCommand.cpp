@@ -16,7 +16,7 @@
 int SleepCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
     index = index + 1;
     //if(stringVector.size() != 1) {
-   //     //error in number of parameters
+    //     //error in number of parameters
     //    return -1;
     //}
     // save the number that was inputed
