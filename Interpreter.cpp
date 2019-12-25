@@ -6,7 +6,6 @@
 #include "map"
 #include <list>
 
-
 using namespace std;
 
 bool Interpreter::isInt(char c) {
@@ -274,7 +273,7 @@ bool Interpreter::checkIfValidNumber(string number) {
     int point = 0;
     //if not starting and ending with int
     if (((!isInt(number[0])) && (number[0] != '-')) || (!isInt(number[number.length() - 1]))) {
-        throw "invalid input number";
+        throw "invalid input number - the problem is here - problem number 1";
     }
     //check all letters are number or point
     string stringMinusFirstChar = number.substr(1, number.length() - 1);
@@ -283,7 +282,7 @@ bool Interpreter::checkIfValidNumber(string number) {
             point=point + 1;
         }
         if ((!isInt(c)) && (c != '.')) {
-            throw "invalid input number";
+            throw "invalid input number - problem number 2";
         }
     }
     //check there is only one point

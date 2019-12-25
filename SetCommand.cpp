@@ -29,10 +29,12 @@ int SetCommand::execute(vector<string> stringVector, SymbolTable *symTable, int 
             string val = doubleToString(x.second->value);
             arithmeticInt->setVariables(var+"="+result);
         }
-        //calculate the expression
+        // calculate the expression
         double calc = arithmeticInt->interpret(result)->calculate();
         // make a string from the double calculation
         string stringOfDoubleCalculation = doubleToString(calc);
+        // for debug
+        cout << calc << endl;
         //update value
         symTable->mutex.lock();
         v1->value=calc;

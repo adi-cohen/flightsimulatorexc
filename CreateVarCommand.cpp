@@ -36,8 +36,9 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable,
             arithmeticInt->setVariables(var+"="+val);
         }
         //calculate the expression
-        //herrrrrrrreeeeeeeeeee
         double calc = arithmeticInt->interpret(result)->calculate();
+        // for debug
+        cout << calc << endl;
         // make a string from the double calculation
         Var *newVar = new Var(varName, calc, false, "", thisScope);
         symTable->mutex.lock();
@@ -54,10 +55,8 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable,
         symTable->mutex.lock();
         symTable->varMap.insert({varName, newVar});
         symTable->mutex.unlock();
-
         index = index + 2;
         return index;
-
     } else if (op == "<-") {
         Var *newVar = new Var(varName, 0, false, simVal, thisScope);
         //the simulator need to update the app

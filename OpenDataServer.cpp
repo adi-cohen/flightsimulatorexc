@@ -14,8 +14,7 @@
 #include "OpenDataServer.h"
 #include "DataReaderServer.h"
 
-#define PORT 5401
-//std::mutex mutex_lock;
+#define PORT 5400
 
 // open a data server and then call a thread to run it.
 int OpenDataServer::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {

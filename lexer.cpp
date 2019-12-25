@@ -15,7 +15,6 @@ vector<string> lexer::runLexer() {
         throw "can not find file";
     }
     string word;
-
     std::string line;
     while (std::getline(file, line)) {
         istringstream iss(line);
@@ -26,8 +25,12 @@ vector<string> lexer::runLexer() {
                 string splitWord = "";
                 for (auto x :word) {
                     if ((x == '(') || x == ')') {
-                        stringVector.push_back(splitWord);
-                        splitWord = "";
+                        if (splitWord != "") {
+                            stringVector.push_back(splitWord);
+                            splitWord = "";
+                        }
+                        //stringVector.push_back(splitWord);
+                        //splitWord = "";
                     } else if (x == '"') {
                         continue;
                     } else {
@@ -48,7 +51,6 @@ vector<string> lexer::runLexer() {
                             //if the operator is not the first char we will insert all the prev string to the vector
                             stringVector.push_back(splitword2);
                             splitword2 = "";
-
                         }
                         string stringX(1, x);
                         //we will also insert the operator to the vector
