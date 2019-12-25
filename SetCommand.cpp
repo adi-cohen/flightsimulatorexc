@@ -6,8 +6,10 @@
 #include <mutex>
 #include "SetCommand.h"
 #include "Interpreter.h"
-
+std::mutex mutex1;
 int SetCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
+    // lock by mutex
+    //symTable->mutex.lock();
     string varName = stringVector[index];
     if (symTable->varMap.find(varName) != symTable->varMap.end()) {
         Var* v1 = (symTable->varMap)[varName];
@@ -31,8 +33,29 @@ int SetCommand::execute(vector<string> stringVector, SymbolTable *symTable, int 
         double calc = arithmeticInt->interpret(result)->calculate();
         // make a string from the double calculation
         string stringOfDoubleCalculation = doubleToString(calc);
-        v1->updateVal(stringOfDoubleCalculation,symTable);;
+        //update value
+        symTable->mutex.lock();
+        v1->value=calc;
+        if (v1->varUpdateSim) {
+            // we need to update the var in the simulator to the new value
+            string sim1 = "set ";
+            sim1.append(v1->sim);
+            sim1.append(" ");
+            sim1.append(stringOfDoubleCalculation);
+            sim1.append("\r\n");
+            string val = sim1;
+            //writing back to client
+            //add the value we need to update in the sim to the queue
+            //we will update it in the connect command
+            symTable->QueueSetValToSim.push(val);
+            symTable->mutex.unlock();
+        }
+        symTable->mutex.unlock();
+        //v1->updateVal(stringOfDoubleCalculation,symTable);
+        // unlock the mutex after updating
+        //symTable->mutex.unlock();
         return endLineIndex + 1;
+        //symTable->mutex.unlock();
     }
     else {
         throw "not valid command";

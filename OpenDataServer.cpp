@@ -76,7 +76,7 @@ int OpenDataServer::execute(vector<string> stringVector, SymbolTable *symTable, 
 
 
 void readFromSimulator(SymbolTable *symTable, int client_socket) {
-    cout << "hi" << endl;
+    //cout << "hi" << endl;
     //reading from client
     char buffer[1024] = {0};
     // keep running while we have a connection.
@@ -89,12 +89,13 @@ void readFromSimulator(SymbolTable *symTable, int client_socket) {
         }
         int n;
         double doubleVal;
-        string doubleInString, pathInSim;
+        string stringLine ,doubleInString, pathInSim;
         istringstream bufferStream(buffer);
-        while (getline(bufferStream, doubleInString)) {
-            istringstream doubleInStram(doubleInString);
+      //  cout<<"here buffer"<<buffer<<endl;
+        while (getline(bufferStream, stringLine)) {
+            istringstream steamLine(stringLine);
             int i = 1;
-            while (getline(doubleInStram, doubleInString, ',')) {
+            while (getline(steamLine, doubleInString, ',')) {
                 // save out a number
                 doubleVal = strtod(doubleInString.c_str(), nullptr);
                 // get the right strings for the positions
@@ -107,18 +108,40 @@ void readFromSimulator(SymbolTable *symTable, int client_socket) {
             }
             bufferStream.clear();
         }
-        symTable->printXML();
+        //symTable->printXML();
         // after we received 36 values from the simulator, we would like to update the SimMap
         for (int j = 1; j <= 36; j++) {
             // for each index we lock & unlock
-            symTable->mutex.lock();
-            string stringToCompare = symTable->indexFromXmlToValMap[j];
+            //symTable->mutex.lock();
+            //if the path exist in simMap we need to update his value;
+            string currentPath = symTable->indexFromXmlToValMap[j];
+            //if the path exist in simMap we need to update his value;
+            if (symTable->simMap.find(currentPath) != symTable->simMap.end()) {
+                double newVal = symTable->simPathToValFromSimMap.find(currentPath)->second;
+                string stringDouble = OpenDataServer::doubleToString(newVal);
+                symTable->mutex.lock();
+                symTable->simMap[currentPath]->value = newVal;
+                symTable->mutex.unlock();
+               // symTable->simMap[currentPath]->updateVal(stringDouble, symTable);
+            }
+
+
+            // comparing each value(of all the 36 strings) in the simMap between the value in simPathToVal
+            //        if(symTable->simMap[currentPath]->value != symTable->getValue(currentPath)) {
             // update the value in the simMap ACCORDING the XML data
-            symTable->updateVariableInSimMap(stringToCompare,
-                                             symTable->getValue(stringToCompare));
+            //  symTable->updateVariableInSimMap(currentPath,
+            //                                 symTable->getValue(currentPath));
+
             // if the value of the current string is equal we unlock anyway
-            symTable->mutex.unlock();
+            //symTable->mutex.unlock();
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+        //std::this_thread::sleep_for(std::chrono::milliseconds(3000));
     }
+}
+
+string OpenDataServer::doubleToString(double calc) {
+    ostringstream stringStream;
+    stringStream << calc;
+    string stringOfDoubleCalculation = stringStream.str();
+    return stringOfDoubleCalculation;
 }

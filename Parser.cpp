@@ -41,7 +41,7 @@ void Parser::RunParser() {
         //Check if its a command that exists in commandMap
         if (commandMap.find(currentString) != commandMap.end()) {
             //todo pass a pointer of the map to update them
-            //cout << currentString << endl;
+            cout << currentString << endl;
             try {
                 index = commandMap[currentString]->execute(stringVector, symbolTable, index, scope);
             }

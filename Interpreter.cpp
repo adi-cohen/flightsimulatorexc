@@ -5,6 +5,7 @@
 #include "stack"
 #include "map"
 #include <list>
+#include <iostream>
 
 
 using namespace std;
@@ -274,6 +275,7 @@ bool Interpreter::checkIfValidNumber(string number) {
     int point = 0;
     //if not starting and ending with int
     if (((!isInt(number[0])) && (number[0] != '-')) || (!isInt(number[number.length() - 1]))) {
+        //std::cout << "the problem is here" << endl;
         throw "invalid input number";
     }
     //check all letters are number or point

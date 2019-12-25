@@ -23,7 +23,7 @@ int SleepCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
     int milis = stoi(stringVector[index]);
     // sleep command
     //todo fix the next line - its return error
-//    std::this_thread::sleep_for(std::chrono::milliseconds(milis));
+    std::this_thread::sleep_for(std::chrono::milliseconds(milis));
     index = index + 2;
     return index;
 }
