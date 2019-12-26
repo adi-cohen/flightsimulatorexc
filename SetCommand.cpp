@@ -8,8 +8,7 @@
 #include "Interpreter.h"
 std::mutex mutex1;
 int SetCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
-    // lock by mutex
-    //symTable->mutex.lock();
+
     string varName = stringVector[index];
     if (symTable->varMap.find(varName) != symTable->varMap.end()) {
         Var* v1 = (symTable->varMap)[varName];
@@ -27,7 +26,7 @@ int SetCommand::execute(vector<string> stringVector, SymbolTable *symTable, int 
         {
             string var = x.first;
             string val = doubleToString(x.second->value);
-            arithmeticInt->setVariables(var+"="+result);
+            arithmeticInt->setVariables(var+"="+val);
         }
         // calculate the expression
         double calc = arithmeticInt->interpret(result)->calculate();

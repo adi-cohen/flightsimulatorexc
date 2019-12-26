@@ -15,7 +15,7 @@
 #include <thread>
 
 int SleepCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
-    index = index + 1;
+    index = index + 2;
     // put in varName the string Sleep without the
     string varName = stringVector[index];
     //int indexFirst = index;
@@ -29,7 +29,7 @@ int SleepCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
         }
         // the string result will holds the expression we would like to print
         string result = "";
-        for(int i = startIndex ; i < endLineIndex ; i++) {
+        for(int i = startIndex ; i < endLineIndex-1 ; i++) {
             result.append(stringVector[i]);
         }
 
@@ -57,7 +57,7 @@ int SleepCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
         // sleep command
         //todo fix the next line - its return error
         std::this_thread::sleep_for(std::chrono::milliseconds(milis));
-        index = index + 2;
+        index = index + 3;
         return index;
     }
 

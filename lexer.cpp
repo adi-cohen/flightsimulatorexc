@@ -15,20 +15,24 @@ vector<string> lexer::runLexer() {
         throw "can not find file";
     }
     string word;
-    std::string line;
-    while (std::getline(file, line)) {
+    string line;
+    while (getline(file, line)) {
         istringstream iss(line);
         while (iss >> word) {
+
             //if the word contains ( or ) we need to split it
             if ((word.find("(") < word.size())
                 | (word.find(")") < word.size())) {
                 string splitWord = "";
                 for (auto x :word) {
                     if ((x == '(') || x == ')') {
+                        string temp(1, x);
+
                         if (splitWord != "") {
                             stringVector.push_back(splitWord);
                             splitWord = "";
                         }
+                        stringVector.push_back(temp);
                         //stringVector.push_back(splitWord);
                         //splitWord = "";
                     } else if (x == '"') {
@@ -78,6 +82,7 @@ vector<string> lexer::runLexer() {
             }
         }
         stringVector.push_back("endLine");
+        //restart the current line command;
     }
     file.close();
     return stringVector;

@@ -46,7 +46,7 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable,
         symTable->mutex.unlock();
         return endLineIndex + 1;
     }
-    index = index + 2;
+    index = index + 3;
     string simVal = stringVector.at(index);
     if (op == "->") {
         Var *newVar = new Var(varName, 0, true, simVal, thisScope);
@@ -55,7 +55,7 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable,
         symTable->mutex.lock();
         symTable->varMap.insert({varName, newVar});
         symTable->mutex.unlock();
-        index = index + 2;
+        index = index + 3;
         return index;
     } else if (op == "<-") {
         Var *newVar = new Var(varName, 0, false, simVal, thisScope);
@@ -64,7 +64,7 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable,
         symTable->simMap.insert({simVal, newVar});
         symTable->varMap.insert({varName, newVar});
         symTable->mutex.unlock();
-        index = index + 2;
+        index = index + 3;
         return index;
     }
 
