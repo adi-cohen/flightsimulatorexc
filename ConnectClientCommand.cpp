@@ -21,7 +21,7 @@ using namespace std;
 int ConnectClientCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
 
     // should work
-    string portAndIp = stringVector.at(index + 1);
+    string portAndIp = stringVector.at(index + 2);
     vector<string> param = split(portAndIp, ',');
     string portNum = param.at(1);
     string ipFirst = param.at(0);
@@ -62,7 +62,7 @@ int ConnectClientCommand::execute(vector<string> stringVector, SymbolTable *symT
     std::thread clientThread(writeToSimulator, symTable, client_socket); //
     std::this_thread::sleep_for(std::chrono::seconds(1));
     clientThread.detach();
-    return index + 3;
+    return index + 5;
 }
 
 vector<std::string> ConnectClientCommand::split(const std::string &text, char sep) {

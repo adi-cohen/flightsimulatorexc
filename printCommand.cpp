@@ -9,10 +9,10 @@
 //
 int printCommand::execute(vector<string> stringVector,SymbolTable *symTable, int index, int scope) {
     // put in varName the string "Print" without the "..."
-    string varName = stringVector[index + 1];
+    string varName = stringVector[index + 2];
     //int indexFirst = index;
-    int startIndex = index + 1;
-    int endLineIndex = index + 1;
+    int startIndex = index + 2;
+    int endLineIndex = index + 2;
     // verify that it's a correct variable in the varMap
     if (symTable->varMap.find(varName) != symTable->varMap.end()) {
         // get the variable
@@ -23,7 +23,7 @@ int printCommand::execute(vector<string> stringVector,SymbolTable *symTable, int
         }
         // the string result will holds the expression we would like to print
         string result = "";
-        for(int i = startIndex ; i < endLineIndex ; i++) {
+        for(int i = startIndex ; i < endLineIndex-1 ; i++) {
             result.append(stringVector[i]);
         }
 
@@ -38,8 +38,6 @@ int printCommand::execute(vector<string> stringVector,SymbolTable *symTable, int
 
         double calc = arithmeticInt->interpret(result)->calculate();
         string stringOfDoubleCalculation = doubleToString(calc);
-        //todo why its here @yaron
-        //v1->updateVal(stringOfDoubleCalculation,symTable);
         cout << calc << endl; // print value of the variable v1
 
     // means it's not a variable - should print the input without the ""
@@ -48,7 +46,7 @@ int printCommand::execute(vector<string> stringVector,SymbolTable *symTable, int
         while(stringVector[endLineIndex] != "endLine") {
             endLineIndex++;
         }
-       for(int i = startIndex ; i < endLineIndex; i++) {
+       for(int i = startIndex ; i < endLineIndex-1; i++) {
            cout << stringVector[i] << " ";
        }
        cout << " " << endl;

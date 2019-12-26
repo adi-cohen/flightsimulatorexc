@@ -14,14 +14,12 @@
 #include "OpenDataServer.h"
 #include "DataReaderServer.h"
 
-#define PORT 5400
+//#define PORT 5400
 
 // open a data server and then call a thread to run it.
 int OpenDataServer::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
 
-    //int simulatorClient, portnum;
-    //struct sockaddr_in serv_addr, cli_addr;
-
+  int PortNum = stoi(stringVector.at(index+2));
     //create socket
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd == -1) {
@@ -34,7 +32,7 @@ int OpenDataServer::execute(vector<string> stringVector, SymbolTable *symTable, 
     sockaddr_in address;
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY; //give me any IP allocated for my machine
-    address.sin_port = htons(PORT);
+    address.sin_port = htons(PortNum);
     //we need to convert our number
     // to a number that the network understands.
 
@@ -70,12 +68,11 @@ int OpenDataServer::execute(vector<string> stringVector, SymbolTable *symTable, 
 //    while (true){
 //        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 //    }
-    return index + 3;
+    return index + 5;
 }
 
 
 void readFromSimulator(SymbolTable *symTable, int client_socket) {
-    //cout << "hi" << endl;
     //reading from client
     char buffer[1024] = {0};
     // keep running while we have a connection.
@@ -90,7 +87,6 @@ void readFromSimulator(SymbolTable *symTable, int client_socket) {
         double doubleVal;
         string stringLine ,doubleInString, pathInSim;
         istringstream bufferStream(buffer);
-      //  cout<<"here buffer"<<buffer<<endl;
         while (getline(bufferStream, stringLine)) {
             istringstream steamLine(stringLine);
             int i = 1;
@@ -111,7 +107,6 @@ void readFromSimulator(SymbolTable *symTable, int client_socket) {
         // after we received 36 values from the simulator, we would like to update the SimMap
         for (int j = 1; j <= 36; j++) {
             // for each index we lock & unlock
-            //symTable->mutex.lock();
             //if the path exist in simMap we need to update his value;
             string currentPath = symTable->indexFromXmlToValMap[j];
             //if the path exist in simMap we need to update his value;
@@ -121,18 +116,8 @@ void readFromSimulator(SymbolTable *symTable, int client_socket) {
                 symTable->mutex.lock();
                 symTable->simMap[currentPath]->value = newVal;
                 symTable->mutex.unlock();
-               // symTable->simMap[currentPath]->updateVal(stringDouble, symTable);
             }
 
-
-            // comparing each value(of all the 36 strings) in the simMap between the value in simPathToVal
-            //        if(symTable->simMap[currentPath]->value != symTable->getValue(currentPath)) {
-            // update the value in the simMap ACCORDING the XML data
-            //  symTable->updateVariableInSimMap(currentPath,
-            //                                 symTable->getValue(currentPath));
-
-            // if the value of the current string is equal we unlock anyway
-            //symTable->mutex.unlock();
         }
         //std::this_thread::sleep_for(std::chrono::milliseconds(3000));
     }
