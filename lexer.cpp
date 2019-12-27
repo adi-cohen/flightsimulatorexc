@@ -103,20 +103,14 @@ bool lexer::isOp(char c) {
         }
     }
     return false;
-};
+}
 
 bool lexer::isContainOp(string s) {
-    char ch = 'X';
     string arrOp[] = {"<", ">", "=", "/", "*", "+", "-", "{", "}"};
     for (int i = 0; i < 9; i++) {
         if (s.find(arrOp[i]) < s.size()) {
-            // char* array[1] ;
-            //convert the string to char
-            //for(auto c:arrOp[i]){
-            //     ch = c;
-            //}
             return true;
         }
     }
     return false;
-};
+}

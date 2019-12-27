@@ -126,7 +126,7 @@ void Interpreter::createStack(string string1) {
                 }
             }
         }
-        if (listOfStrings.size()==1 && isAritmathic(currentElement)){
+        if (listOfStrings.size() == 1 && isAritmathic(currentElement)) {
             throw "invalid input";
         }
         prevElement = listOfStrings.front();
@@ -280,24 +280,24 @@ bool Interpreter::checkIfValidNumber(string number) {
     string stringMinusFirstChar = number.substr(1, number.length() - 1);
     for (char c:stringMinusFirstChar) {
         if (c == '.') {
-            point=point + 1;
+            point = point + 1;
         }
-        //to do - check the e value
-       if ((!isInt(c)) && (c != '.')) {
-           cout<< " invalid here "<< number<<endl;
-           throw "invalid input number - problem number 2";
-       }
-    }
-    //check there is only one point
-    if (point > 1) {
-        throw "invalid input";
-    }
-    return true;
+        //remove this checking - the simulator return value like this 7.6e-05
+        //if ((!isInt(c)) && (c != '.')) {
+        // cout<< " invalid here "<< number<<endl;
+        //      throw "invalid input number - problem number 2";
+        //  }
+}
+//check there is only one point
+if (point > 1) {
+throw "invalid input";
+}
+return true;
 }
 
 bool Interpreter::checkIfValidName(string name) {
 
-    if ((!isLetter(name[0])) && (name[0]!= '_') ){
+    if ((!isLetter(name[0])) && (name[0] != '_')) {
         throw "invalid input";
     }
 

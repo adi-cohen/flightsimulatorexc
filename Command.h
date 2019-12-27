@@ -11,13 +11,17 @@
 #include "DataReaderServer.h"
 
 using namespace std;
-extern int socketfd;
+extern bool closeClient_socket;
+extern bool closeSocketftOpenDataServer;
+
 /**
  * command Interface
  */
 class Command {
 public:
-    virtual int execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope)= 0;
+    virtual int execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) = 0;
+
+    virtual  ~Command() = default;
 };
 
 

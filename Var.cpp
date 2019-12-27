@@ -10,13 +10,13 @@
 
 using namespace std;
 
-Var::Var(string name1, double val, bool update, string sim1, int scope) {
+Var::Var(string name1, double val, bool update, string sim1, int scope1) {
 
     this->value = val;
     this->sim = sim1;
     this->varName = name1;
     this->varUpdateSim = update;
-    this->scope = scope;
+    this->scope = scope1;
 }
 
 // Symbol Table implementations:

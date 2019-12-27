@@ -11,13 +11,13 @@ int ifCommand::execute(vector<string> stringVector, SymbolTable *symTable, int i
     int indexOpenSulSul;
     int indexCloseSulSul;
     int ifIndex = index;
-    string isOper = "";
+    string operatorString = "";
 
     // run over the first line of the if until the {            example: if (rpm < 2) {
     while(stringVector.at(index) != "{") {
         if(isOperator(stringVector.at(index))) {
             indexFindOperator = index;
-            isOper = stringVector.at(indexFindOperator);
+            operatorString = stringVector.at(indexFindOperator);
         }
         index++;
     }
@@ -47,7 +47,7 @@ int ifCommand::execute(vector<string> stringVector, SymbolTable *symTable, int i
     // first we calculate each expression
     double calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
     double calcRight = arithmeticRight->interpret(expRight)->calculate();
-    int sign = isOperatorFlag(isOper);
+    int sign = isOperatorFlag(operatorString);
 
     // create a vector of strings for the scope of the if
     vector<string> ifVector;
@@ -66,7 +66,7 @@ int ifCommand::execute(vector<string> stringVector, SymbolTable *symTable, int i
                 // call parser
                 Parser* ifParser = new Parser(ifVector, symTable, index, scope + 1);
                 ifParser->RunParser();
-                updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
+                updateVarMap(symTable, arithmeticLeft, arithmeticRight);
             }
             break;
         case 2:
@@ -74,7 +74,7 @@ int ifCommand::execute(vector<string> stringVector, SymbolTable *symTable, int i
                 // call parser
                 Parser* ifParser = new Parser(ifVector,  symTable, index, scope + 1);
                 ifParser->RunParser();
-                updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
+                updateVarMap(symTable, arithmeticLeft, arithmeticRight);
             }
             break;
         case 3:
@@ -82,7 +82,7 @@ int ifCommand::execute(vector<string> stringVector, SymbolTable *symTable, int i
                 // call parser
                 Parser *ifParser = new Parser(ifVector,  symTable, index, scope + 1);
                 ifParser->RunParser();
-                updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
+                updateVarMap(symTable, arithmeticLeft, arithmeticRight);
             }
             break;
         case 4:
@@ -90,7 +90,7 @@ int ifCommand::execute(vector<string> stringVector, SymbolTable *symTable, int i
                 // call parser
                 Parser* ifParser = new Parser(ifVector,  symTable, index, scope + 1);
                 ifParser->RunParser();
-                updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
+                updateVarMap(symTable, arithmeticLeft, arithmeticRight);
             }
             break;
         case 5:
@@ -98,7 +98,7 @@ int ifCommand::execute(vector<string> stringVector, SymbolTable *symTable, int i
                 // call parser
                 Parser* ifParser = new Parser(ifVector,  symTable, index, scope + 1);
                 ifParser->RunParser();
-                updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
+                updateVarMap(symTable, arithmeticLeft, arithmeticRight);
             }
             break;
         case 6:
@@ -106,7 +106,7 @@ int ifCommand::execute(vector<string> stringVector, SymbolTable *symTable, int i
                 // call parser
                 Parser* ifParser = new Parser(ifVector,   symTable, index, scope + 1);
                 ifParser->RunParser();
-                updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
+                updateVarMap(symTable, arithmeticLeft, arithmeticRight);
             }
             break;
     }
@@ -114,18 +114,14 @@ int ifCommand::execute(vector<string> stringVector, SymbolTable *symTable, int i
     return indexCloseSulSul + 2;
 }
 
-void ifCommand::updateVarMap(const SymbolTable *symTable, const string &expLeft, const string &expRight,
-                                Interpreter *arithmeticLeft, Interpreter *arithmeticRight) {
+void ifCommand::updateVarMap(const SymbolTable *symTable, Interpreter *arithmeticLeft, Interpreter *arithmeticRight) {
     for (auto const &x : symTable->varMap) {
         string var = x.first;
         string val = doubleToString(x.second->value);
         arithmeticLeft->setVariables(var + "=" + val);
         arithmeticRight->setVariables(var + "=" + val);
     }
-    // inside the while loop
-    double calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
-    double calcRight = arithmeticRight->interpret(expRight)->calculate();
-}
+  }
 
 int ifCommand::isOperatorFlag(string s) {
     if (s.compare("<") == 0) { return 1; }
@@ -133,7 +129,9 @@ int ifCommand::isOperatorFlag(string s) {
     else if (s.compare("<=") == 0) { return 3; }
     else if (s.compare(">=") == 0) { return 4; }
     else if (s.compare("==") == 0) { return 5; }
-    else if(s.compare("!=") == 0 ){ return 6; }
+    else {//if(s.compare("!=") == 0 ){
+        return 6; }
+
 }
 
 bool ifCommand::isOperator(string s) {
@@ -143,6 +141,9 @@ bool ifCommand::isOperator(string s) {
     else if (s.compare(">=") == 0) { return true; }
     else if (s.compare("=") == 0) { return true; }
     else if(s.compare("!=") == 0 ){ return true;  }
+    else {
+        return false;
+    }
 }
 
 string ifCommand::doubleToString(double calc)  {
