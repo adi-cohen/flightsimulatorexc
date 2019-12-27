@@ -15,8 +15,6 @@ int printCommand::execute(vector<string> stringVector,SymbolTable *symTable, int
     int endLineIndex = index + 2;
     // verify that it's a correct variable in the varMap
     if (symTable->varMap.find(varName) != symTable->varMap.end()) {
-        // get the variable
-        Var* v1 = (symTable->varMap)[varName];
         // iterate over the string vector until the string endLine
         while(stringVector[endLineIndex] != "endLine") {
             endLineIndex++;

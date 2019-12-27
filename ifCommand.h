@@ -14,8 +14,6 @@ public:
     bool isOperator(string s);
     string doubleToString(double calc);
     int isOperatorFlag(string s);
-    void updateVarMap(const SymbolTable *symTable, const string &expLeft, const string &expRight,
-                      Interpreter *arithmeticLeft,
-                      Interpreter *arithmeticRight);
+    void updateVarMap(const SymbolTable *symTable, Interpreter *arithmeticLeft, Interpreter *arithmeticRight);
 };
         #endif //FLIGHTSIMULATOR_IFCOMMAND_H

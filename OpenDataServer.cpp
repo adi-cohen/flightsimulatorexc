@@ -14,7 +14,7 @@
 #include "OpenDataServer.h"
 #include "DataReaderServer.h"
 
-//#define PORT 5400
+bool closeSocketftOpenDataServer = false;
 
 // open a data server and then call a thread to run it.
 int OpenDataServer::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
@@ -83,7 +83,6 @@ void readFromSimulator(SymbolTable *symTable, int client_socket) {
             // error reading from socket
             throw " read zero or less from sim socket";
         }
-        int n;
         double doubleVal;
         string stringLine ,doubleInString, pathInSim;
         istringstream bufferStream(buffer);
@@ -119,7 +118,9 @@ void readFromSimulator(SymbolTable *symTable, int client_socket) {
             }
 
         }
-        //std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+        if (closeSocketftOpenDataServer == true){
+            close(client_socket);
+        }
     }
 }
 

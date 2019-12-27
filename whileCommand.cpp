@@ -63,22 +63,10 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
     switch (sign) { ;
         case 1:
             while (calcLeft < calcRight) {
-                // for debug
-               // Interpreter *arithmetic = new Interpreter();
-               // Interpreter *arithmetic2 = new Interpreter();
-               // updateVarMap(symTable, whileVector[0], whileVector[1], arithmetic, arithmetic2);
-                //double calc1 = arithmetic->interpret(whileVector[0])->calculate();
-                //double calc2 = arithmetic2->interpret(whileVector[1])->calculate();
-               // cout << calc1;
-                //cout << calc2;
-                //end debug
-
-
                 // call parser
-                Parser *whileParser = new Parser(whileVector,  symTable, 0, scope + 1);
+                Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
                 whileParser->RunParser();
-                updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
-                //todo delete
+                updateVarMap(symTable, arithmeticLeft, arithmeticRight);
                 calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
                 calcRight = arithmeticRight->interpret(expRight)->calculate();
                 this_thread::sleep_for(std::chrono::seconds(2));
@@ -88,10 +76,9 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
         case 2:
             while (calcLeft > calcRight) {
                 // call parser
-                Parser *whileParser = new Parser(whileVector,  symTable, 0, scope + 1);
+                Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
                 whileParser->RunParser();
-                updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
-                //todo delete
+                updateVarMap(symTable, arithmeticLeft, arithmeticRight);
                 calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
                 calcRight = arithmeticRight->interpret(expRight)->calculate();
                 this_thread::sleep_for(std::chrono::seconds(2));
@@ -102,7 +89,7 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
                 // call parser
                 Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
                 whileParser->RunParser();
-                updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
+                updateVarMap(symTable, arithmeticLeft, arithmeticRight);
                 //todo delete
                 calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
                 calcRight = arithmeticRight->interpret(expRight)->calculate();
@@ -115,8 +102,7 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
                 // call parser
                 Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
                 whileParser->RunParser();
-                updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
-                //todo delete
+                updateVarMap(symTable, arithmeticLeft, arithmeticRight);
                 calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
                 calcRight = arithmeticRight->interpret(expRight)->calculate();
                 this_thread::sleep_for(std::chrono::seconds(2));
@@ -128,22 +114,20 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
                 // call parser
                 Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
                 whileParser->RunParser();
-                updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
+                updateVarMap(symTable, arithmeticLeft, arithmeticRight);
                 calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
                 calcRight = arithmeticRight->interpret(expRight)->calculate();
-                //todo delete
                 this_thread::sleep_for(std::chrono::seconds(2));
             }
             break;
         case 6:
             while (calcLeft != calcRight) {
                 // call parser
-                Parser *whileParser = new Parser(whileVector,   symTable, 0, scope + 1);
+                Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
                 whileParser->RunParser();
-                updateVarMap(symTable, expLeft, expRight, arithmeticLeft, arithmeticRight);
+                updateVarMap(symTable, arithmeticLeft, arithmeticRight);
                 calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
                 calcRight = arithmeticRight->interpret(expRight)->calculate();
-                //todo delete
                 this_thread::sleep_for(std::chrono::seconds(2));
             }
             break;
@@ -151,8 +135,8 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
     return indexCloseSulSul + 2;
 }
 
-void whileCommand::updateVarMap(const SymbolTable *symTable, const string &expLeft, const string &expRight,
-                                Interpreter *arithmeticLeft, Interpreter *arithmeticRight) {
+void
+whileCommand::updateVarMap(const SymbolTable *symTable, Interpreter *arithmeticLeft, Interpreter *arithmeticRight) {
     for (auto const &x : symTable->varMap) {
         string var = x.first;
         string val = doubleToString(x.second->value);
@@ -176,10 +160,9 @@ bool whileCommand::isOperator(string s) {
     else if (s.compare(">") == 0) { return true; }
     else if (s.compare("<=") == 0) { return true; }
     else if (s.compare(">=") == 0) { return true; }
-        //else if (s.compare("=>") == 0) { return true; }
-        //else if (s.compare("=<") == 0) { return true; }
     else if (s.compare("=") == 0) { return true; }
     else if (s.compare("!=") == 0) { return true; }
+    else { return false; }
 }
 
 string whileCommand::doubleToString(double calc) {

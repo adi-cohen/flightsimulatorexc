@@ -57,7 +57,7 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable,
         symTable->mutex.unlock();
         index = index + 3;
         return index;
-    } else if (op == "<-") {
+    } else {//if (op == "<-") {
         Var *newVar = new Var(varName, 0, false, simVal, thisScope);
         //the simulator need to update the app
         symTable->mutex.unlock();

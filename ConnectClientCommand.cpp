@@ -17,6 +17,7 @@
 
 #define PORT 5402
 using namespace std;
+bool closeClient_socket = false;
 
 int ConnectClientCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
 
@@ -32,14 +33,10 @@ int ConnectClientCommand::execute(vector<string> stringVector, SymbolTable *symT
         }
     }
 
-    //create socket
-    //string portNum = "5402";
-    //string ip = "127.0.0.1";
-    //create socket
     client_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (client_socket == -1) {
         //error
-        throw "Could not create a socket" ;
+        throw "Could not create a socket";
     }
     //We need to create a sockaddr obj to hold address of server
     address.sin_family = AF_INET;//IP4
@@ -47,20 +44,18 @@ int ConnectClientCommand::execute(vector<string> stringVector, SymbolTable *symT
     address.sin_port = htons(stoi(portNum));
     //we need to convert our number (both port & localhost)
     // to a number that the network understands
-
-
     // Requesting a connection with the server on local host with port
     std::cout << "try to connect to simulator" << std::endl;
-    //we need todo it with loop?? until connecting
+
     int is_connect = connect(client_socket, (struct sockaddr *) &address, sizeof(address));
     if (is_connect == -1) {
-        throw "connected failed" ;
+        this_thread::sleep_for(std::chrono::milliseconds(1000));
+        throw "connected failed";
     }
     std::cout << "connected succeeded" << std::endl;
 
     //writing back to client
-    std::thread clientThread(writeToSimulator, symTable, client_socket); //
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    std::thread clientThread(writeToSimulator, symTable, client_socket);
     clientThread.detach();
     return index + 5;
 }
@@ -81,11 +76,16 @@ void writeToSimulator(SymbolTable *symTable, int client_socket) {
         symTable->mutex.lock();
         if (!symTable->QueueSetValToSim.empty()) {
             string val = symTable->QueueSetValToSim.front();
-            const char* valChar = val.c_str();
+            const char *valChar = val.c_str();
             symTable->QueueSetValToSim.pop();
             send(client_socket, valChar, strlen(valChar), 0);
             //std::cout << "new val sent to sim" << std::endl;
         }
         symTable->mutex.unlock();
+        if (closeClient_socket == true) {
+            close(client_socket);
+        }
     }
+
+
 }
