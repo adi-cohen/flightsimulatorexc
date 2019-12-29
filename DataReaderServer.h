@@ -26,12 +26,6 @@ public:
 public:
     DataReaderServer();
     void printXML();
-    double getValue(string& s);
-    void setValue(double d, string& s);
-    string getPathByIndex(int i);
-    bool isInList(string& s);
 };
-// The static method
-void updateVals(int simulatorClient, int timesPerSecond, DataReaderServer *reader, SymbolTable* table);
 
 #endif //FLIGHTSIMULATOR_DATAREADERSERVER_H

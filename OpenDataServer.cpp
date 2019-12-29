@@ -62,12 +62,6 @@ int OpenDataServer::execute(vector<string> stringVector, SymbolTable *symTable, 
 
     thread serverThread(readFromSimulator, symTable, client_socket);
     serverThread.detach();
-    //std::this_thread::sleep_for(std::chrono::seconds(20));
-    //todo remove
-    cout << "the programs go on open" << endl;
-//    while (true){
-//        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-//    }
     return index + 5;
 }
 

@@ -33,7 +33,7 @@ int SetCommand::execute(vector<string> stringVector, SymbolTable *symTable, int 
         // make a string from the double calculation
         string stringOfDoubleCalculation = doubleToString(calc);
         // for debug
-        cout << calc << endl;
+        //cout << calc << endl;
         //update value
         symTable->mutex.lock();
         v1->value=calc;

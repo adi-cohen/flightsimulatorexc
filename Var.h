@@ -36,6 +36,7 @@ public:
     map<string, Var *> varMap;
     map<string, Var *> simMap;
     std::mutex mutex;
+    map<string, vector<string>> functionMap;
 
     SymbolTable(map<string, Var *> ptrVarMap, map<string, Var *> ptrSimMap);
 
