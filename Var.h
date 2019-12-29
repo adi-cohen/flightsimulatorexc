@@ -22,11 +22,8 @@ public:
     bool varUpdateSim;
     string sim;
     int scope;
-
     string varName;
     double value;
-
-    //todo not sure we need the constructor because of the update function
     Var(string name, double val, bool update, string sim1, int scope1);
 
 };

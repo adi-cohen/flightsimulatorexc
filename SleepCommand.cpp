@@ -55,7 +55,6 @@ int SleepCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
         // save the number that was inputed
         int milis = stoi(stringVector[index]);
         // sleep command
-        //todo fix the next line - its return error
         std::this_thread::sleep_for(std::chrono::milliseconds(milis));
         index = index + 3;
         return index;

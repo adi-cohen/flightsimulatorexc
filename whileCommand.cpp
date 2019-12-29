@@ -90,7 +90,6 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
                 Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
                 whileParser->RunParser();
                 updateVarMap(symTable, arithmeticLeft, arithmeticRight);
-                //todo delete
                 calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
                 calcRight = arithmeticRight->interpret(expRight)->calculate();
                 this_thread::sleep_for(std::chrono::seconds(2));
