@@ -12,9 +12,9 @@
 
 
 
-int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable, int index, int scope) {
+int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable, int index) {
     index = index + 1;
-    int thisScope = scope;
+    //int thisScope = scope;
     string varName = stringVector.at(index);
     index = index + 1;
     string op = stringVector.at(index);
@@ -40,7 +40,7 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable,
         // for debug
         cout << calc << endl;
         // make a string from the double calculation
-        Var *newVar = new Var(varName, calc, false, "", thisScope);
+        Var *newVar = new Var(varName, calc, false, "");
         symTable->mutex.lock();
         symTable->varMap.insert({varName, newVar});
         symTable->mutex.unlock();
@@ -49,7 +49,7 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable,
     index = index + 3;
     string simVal = stringVector.at(index);
     if (op == "->") {
-        Var *newVar = new Var(varName, 0, true, simVal, thisScope);
+        Var *newVar = new Var(varName, 0, true, simVal);
         //the app need to update the simulator
         //*(symTable->simMap).insert({varName,newVar});
         symTable->mutex.lock();
@@ -58,7 +58,7 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable,
         index = index + 3;
         return index;
     } else {//if (op == "<-") {
-        Var *newVar = new Var(varName, 0, false, simVal, thisScope);
+        Var *newVar = new Var(varName, 0, false, simVal);
         //the simulator need to update the app
         symTable->mutex.unlock();
         symTable->simMap.insert({simVal, newVar});

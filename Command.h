@@ -19,8 +19,7 @@ extern bool closeSocketftOpenDataServer;
  */
 class Command {
 public:
-    virtual int execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) = 0;
-
+    virtual int execute(vector<string> stringVector, SymbolTable *symTable, int index) = 0;
     virtual  ~Command() = default;
 };
 
