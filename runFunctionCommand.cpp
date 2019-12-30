@@ -16,15 +16,16 @@ int runFunctionCommand::execute(vector<string> stringVector, SymbolTable *symTab
         varIndex += 1;
     }
     string functionVarName = functionVector.at(varIndex + 1);
+    //replace the var name to the var value
     replace(functionVector.begin(), functionVector.end(), functionVarName, FunctionVarValue);
     int openingIndex = 0;
     int closingIndex = 0;
     int numOfStartParenthesis = 1;
     int numOfEndParenthesis = 0;
+    //dealing with internal scope
     while (functionVector.at(openingIndex) != "{") {
         openingIndex += 1;
     }
-
     closingIndex = openingIndex + 1;
     while (numOfStartParenthesis != numOfEndParenthesis) {
         if (functionVector.at(closingIndex) == "{") {
@@ -35,10 +36,12 @@ int runFunctionCommand::execute(vector<string> stringVector, SymbolTable *symTab
         }
         closingIndex += 1;;
     }
+    //create new vector that we will send to the parser command
     vector<string> vectorForParser;
     for (int i = openingIndex+2; i <= closingIndex-2; i++) {
         vectorForParser.push_back(functionVector.at(i));
     }
+    //run the parser on the function vector
     Parser *functionParser = new Parser(vectorForParser, symTable, 0, scope + 1);
     functionParser->RunParser();
     return index + 5;
