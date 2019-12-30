@@ -19,10 +19,10 @@ class Parser {
     vector<string> stringVector;
     DataReaderServer *dataReaderServer;
     int index;
-    int scope;
+    //int scope;
 
 public:
-    Parser(vector<string> stringVector1, SymbolTable* symbolTable, int index1, int scope1);
+    Parser(vector<string> stringVector1, SymbolTable* symbolTable, int index1);
     void RunParser();
 };
 #endif //FLIGHTSIMULATOR_PARSER_H

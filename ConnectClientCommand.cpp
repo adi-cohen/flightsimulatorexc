@@ -19,7 +19,7 @@
 using namespace std;
 bool closeClient_socket = false;
 
-int ConnectClientCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
+int ConnectClientCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index) {
 
     // should work
     string portAndIp = stringVector.at(index + 2);

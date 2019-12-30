@@ -11,7 +11,7 @@ using namespace std;
 
 class runFunctionCommand : public Command {
 public:
-    int execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope);
+    int execute(vector<string> stringVector, SymbolTable *symTable, int index);
 
 };
 

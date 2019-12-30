@@ -21,10 +21,12 @@ class Var {
 public:
     bool varUpdateSim;
     string sim;
-    int scope;
+    //int scope;
+
     string varName;
     double value;
-    Var(string name, double val, bool update, string sim1, int scope1);
+
+    Var(string name, double val, bool update, string sim1);
 
 };
 

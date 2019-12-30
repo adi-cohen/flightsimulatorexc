@@ -10,8 +10,7 @@
 using namespace std;
 class SleepCommand: public Command {
 public:
-    int execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope);
-
+    int execute(vector<string> stringVector, SymbolTable *symTable, int index);
     string doubleToString(double value);
 };
 

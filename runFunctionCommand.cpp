@@ -7,7 +7,7 @@
 #include "string"
 #include "Parser.h"
 
-int runFunctionCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
+int runFunctionCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index) {
     string functionName = stringVector.at(index);
     string FunctionVarValue = stringVector.at(index + 2);
     vector<string> functionVector = symTable->functionMap[functionName];
@@ -42,7 +42,7 @@ int runFunctionCommand::execute(vector<string> stringVector, SymbolTable *symTab
         vectorForParser.push_back(functionVector.at(i));
     }
     //run the parser on the function vector
-    Parser *functionParser = new Parser(vectorForParser, symTable, 0, scope + 1);
+    Parser *functionParser = new Parser(vectorForParser, symTable, 0);
     functionParser->RunParser();
     return index + 5;
 }

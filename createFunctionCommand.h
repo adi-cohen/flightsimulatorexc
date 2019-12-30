@@ -12,7 +12,7 @@ using namespace std;
 
 class createFunctionCommand: public Command {
 public:
-    int execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope);
+    int execute(vector<string> stringVector, SymbolTable *symTable, int index);
 };
 
 #endif //FLIGHTSIMULATOR_CREATEFUNCTIONCOMMAND_H

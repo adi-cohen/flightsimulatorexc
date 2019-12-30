@@ -16,6 +16,7 @@ void parser(vector<string> vector);
 int main(int argc, char *argv[]) {
     vector<string> stringVectorFromFile;
     string fileName = argv[1];
+    (void)argc;
     //insert the data from the file to the char vector
     try {
         lexer *l = new lexer(fileName);
@@ -28,9 +29,9 @@ int main(int argc, char *argv[]) {
     map<string, Var *> simMap; //from sim to var.
     map<string, Command *> commandMap;
 
-    int mainScope = 0;
+    //int mainScope = 0;
     SymbolTable *mainSymbolTable = new SymbolTable(varMap, simMap);
-    Parser *mainParser = new Parser(stringVectorFromFile, mainSymbolTable, 0, mainScope);
+    Parser *mainParser = new Parser(stringVectorFromFile, mainSymbolTable, 0);
     mainParser->RunParser();
     closeClient_socket = true;
     closeSocketftOpenDataServer= true;

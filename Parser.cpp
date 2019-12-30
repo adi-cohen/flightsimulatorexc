@@ -37,29 +37,28 @@ void Parser::RunParser() {
         //Check if its a command that exists in commandMap
         if (commandMap.find(currentString) != commandMap.end()) {
             try {
-                currentIndex = commandMap[currentString]->execute(stringVector, symbolTable, currentIndex, scope);
+                currentIndex = commandMap[currentString]->execute(stringVector, symbolTable, currentIndex);
             }
             catch (const char *e) {
                 cout << e << endl;
             }
         } //   dealing with update var val;
         else if (symbolTable->varMap.find(currentString) != symbolTable->varMap.end()) {
-            currentIndex = (new SetCommand())->execute(stringVector, symbolTable, currentIndex, this->scope);
+            currentIndex = (new SetCommand())->execute(stringVector, symbolTable, currentIndex);
 
         } else if (symbolTable->functionMap.find(currentString) != symbolTable->functionMap.end()) {
-            currentIndex = (new runFunctionCommand())->execute(stringVector,symbolTable,currentIndex,this->scope);
+            currentIndex = (new runFunctionCommand())->execute(stringVector,symbolTable,currentIndex);
         }
         else {
-            currentIndex = (new createFunctionCommand())->execute(stringVector,symbolTable,currentIndex,this->scope);
+            currentIndex = (new createFunctionCommand())->execute(stringVector,symbolTable,currentIndex);
         }
     }
 }
 
 Parser::Parser(vector<string> stringVector1,
-               SymbolTable *symbolTable1, int index1, int scope1) {
+               SymbolTable *symbolTable1, int index1) {
     this->symbolTable = symbolTable1;
     this->stringVector = stringVector1;
     this->index = index1;
-    this->scope = scope1;
 }
 

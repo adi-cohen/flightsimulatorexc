@@ -4,7 +4,7 @@
 
 #include "createFunctionCommand.h"
 
-int createFunctionCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
+int createFunctionCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index) {
     string functionName = stringVector.at(index);
     int numOfEndParenthesis =0;
     index = index+1;

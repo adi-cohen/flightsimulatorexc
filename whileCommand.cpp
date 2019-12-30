@@ -8,7 +8,7 @@
 //
 // Created by yaron on 15/12/2019.
 //
-int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
+int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index) {
     int indexFindOperator;
     int indexSulSul;
     int indexCloseSulSul;
@@ -64,7 +64,7 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
         case 1:
             while (calcLeft < calcRight) {
                 // call parser
-                Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
+                Parser *whileParser = new Parser(whileVector, symTable, 0);
                 whileParser->RunParser();
                 updateVarMap(symTable, arithmeticLeft, arithmeticRight);
                 calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
@@ -76,7 +76,7 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
         case 2:
             while (calcLeft > calcRight) {
                 // call parser
-                Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
+                Parser *whileParser = new Parser(whileVector, symTable, 0);
                 whileParser->RunParser();
                 updateVarMap(symTable, arithmeticLeft, arithmeticRight);
                 calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
@@ -87,7 +87,7 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
         case 3:
             while (calcLeft <= calcRight) {
                 // call parser
-                Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
+                Parser *whileParser = new Parser(whileVector, symTable, 0);
                 whileParser->RunParser();
                 updateVarMap(symTable, arithmeticLeft, arithmeticRight);
                 calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
@@ -99,7 +99,7 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
         case 4:
             while (calcLeft >= calcRight) {
                 // call parser
-                Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
+                Parser *whileParser = new Parser(whileVector, symTable, 0);
                 whileParser->RunParser();
                 updateVarMap(symTable, arithmeticLeft, arithmeticRight);
                 calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
@@ -111,7 +111,7 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
         case 5:
             while (calcLeft == calcRight) {
                 // call parser
-                Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
+                Parser *whileParser = new Parser(whileVector, symTable, 0);
                 whileParser->RunParser();
                 updateVarMap(symTable, arithmeticLeft, arithmeticRight);
                 calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
@@ -122,7 +122,7 @@ int whileCommand::execute(vector<string> stringVector, SymbolTable *symTable, in
         case 6:
             while (calcLeft != calcRight) {
                 // call parser
-                Parser *whileParser = new Parser(whileVector, symTable, 0, scope + 1);
+                Parser *whileParser = new Parser(whileVector, symTable, 0);
                 whileParser->RunParser();
                 updateVarMap(symTable, arithmeticLeft, arithmeticRight);
                 calcLeft = arithmeticLeft->interpret(expLeft)->calculate();
@@ -152,6 +152,9 @@ int whileCommand::isOperatorFlag(string s) {
     else if (s.compare(">=") == 0) { return 4; }
     else if (s.compare("==") == 0) { return 5; }
     else if (s.compare("!=") == 0) { return 6; }
+    else {
+        throw "Error in isOperatorFlag Func in WhileCommnand";
+    }
 }
 
 bool whileCommand::isOperator(string s) {

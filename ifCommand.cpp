@@ -6,7 +6,7 @@
 //
 // Created by yaron on 18/12/2019.
 //
-int ifCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
+int ifCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index) {
     int indexFindOperator;
     int indexOpenSulSul;
     int indexCloseSulSul;
@@ -64,7 +64,7 @@ int ifCommand::execute(vector<string> stringVector, SymbolTable *symTable, int i
         case 1:
             while (calcLeft < calcRight) {
                 // call parser
-                Parser* ifParser = new Parser(ifVector, symTable, index, scope + 1);
+                Parser* ifParser = new Parser(ifVector, symTable, index);
                 ifParser->RunParser();
                 updateVarMap(symTable, arithmeticLeft, arithmeticRight);
             }
@@ -72,7 +72,7 @@ int ifCommand::execute(vector<string> stringVector, SymbolTable *symTable, int i
         case 2:
             while (calcLeft > calcRight) {
                 // call parser
-                Parser* ifParser = new Parser(ifVector,  symTable, index, scope + 1);
+                Parser* ifParser = new Parser(ifVector,  symTable, index);
                 ifParser->RunParser();
                 updateVarMap(symTable, arithmeticLeft, arithmeticRight);
             }
@@ -80,7 +80,7 @@ int ifCommand::execute(vector<string> stringVector, SymbolTable *symTable, int i
         case 3:
             while (calcLeft <= calcRight) {
                 // call parser
-                Parser *ifParser = new Parser(ifVector,  symTable, index, scope + 1);
+                Parser *ifParser = new Parser(ifVector,  symTable, index);
                 ifParser->RunParser();
                 updateVarMap(symTable, arithmeticLeft, arithmeticRight);
             }
@@ -88,7 +88,7 @@ int ifCommand::execute(vector<string> stringVector, SymbolTable *symTable, int i
         case 4:
             while (calcLeft >= calcRight) {
                 // call parser
-                Parser* ifParser = new Parser(ifVector,  symTable, index, scope + 1);
+                Parser* ifParser = new Parser(ifVector,  symTable, index);
                 ifParser->RunParser();
                 updateVarMap(symTable, arithmeticLeft, arithmeticRight);
             }
@@ -96,7 +96,7 @@ int ifCommand::execute(vector<string> stringVector, SymbolTable *symTable, int i
         case 5:
             while (calcLeft == calcRight) {
                 // call parser
-                Parser* ifParser = new Parser(ifVector,  symTable, index, scope + 1);
+                Parser* ifParser = new Parser(ifVector,  symTable, index);
                 ifParser->RunParser();
                 updateVarMap(symTable, arithmeticLeft, arithmeticRight);
             }
@@ -104,7 +104,7 @@ int ifCommand::execute(vector<string> stringVector, SymbolTable *symTable, int i
         case 6:
             while (calcLeft != calcRight) {
                 // call parser
-                Parser* ifParser = new Parser(ifVector,   symTable, index, scope + 1);
+                Parser* ifParser = new Parser(ifVector,   symTable, index);
                 ifParser->RunParser();
                 updateVarMap(symTable, arithmeticLeft, arithmeticRight);
             }

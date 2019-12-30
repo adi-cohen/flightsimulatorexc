@@ -6,15 +6,10 @@
 #include <vector>
 #include "SleepCommand.h"
 #include "Interpreter.h"
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <netdb.h>
-#include <string.h>
+
 #include <thread>
 
-int SleepCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
+int SleepCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index) {
     index = index + 2;
     // put in varName the string Sleep without the
     string varName = stringVector[index];
