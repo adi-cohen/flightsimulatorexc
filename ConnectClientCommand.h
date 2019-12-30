@@ -16,7 +16,7 @@ class ConnectClientCommand: public Command {
 public:
     sockaddr_in address;
     int client_socket;
-    int execute(vector<string> stringVector,SymbolTable* symTable, int index, int scope);
+    int execute(vector<string> stringVector,SymbolTable* symTable, int index);
     vector<std::string> split(const string &text, char sep);
 };
 void writeToSimulator(SymbolTable *symTable, int simulatorClient);

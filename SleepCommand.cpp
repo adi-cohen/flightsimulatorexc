@@ -14,7 +14,7 @@
 #include <string.h>
 #include <thread>
 
-int SleepCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
+int SleepCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index) {
     index = index + 2;
     // put in varName the string Sleep without the
     string varName = stringVector[index];

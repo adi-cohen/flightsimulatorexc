@@ -7,7 +7,7 @@
 #include "SetCommand.h"
 #include "Interpreter.h"
 std::mutex mutex1;
-int SetCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index, int scope) {
+int SetCommand::execute(vector<string> stringVector, SymbolTable *symTable, int index) {
 
     string varName = stringVector[index];
     if (symTable->varMap.find(varName) != symTable->varMap.end()) {

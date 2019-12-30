@@ -33,23 +33,22 @@ void Parser::RunParser() {
         //Check if its a command that exists in commandMap
         if (commandMap.find(currentString) != commandMap.end()) {
             try {
-                currentIndex = commandMap[currentString]->execute(stringVector, symbolTable, currentIndex, scope);
+                currentIndex = commandMap[currentString]->execute(stringVector, symbolTable, currentIndex);
             }
             catch (const char *e) {
                 cout << e << endl;
             }
         } else { //   dealing with update var val;
-            currentIndex = (new SetCommand())->execute(stringVector, symbolTable, currentIndex, this->scope);
+            currentIndex = (new SetCommand())->execute(stringVector, symbolTable, currentIndex);
             cout << currentString << endl;
         }
     }
 }
 
 Parser::Parser(vector<string> stringVector1,
-               SymbolTable *symbolTable1, int index1, int scope1) {
+               SymbolTable *symbolTable1, int index1) {
     this->symbolTable = symbolTable1;
     this->stringVector = stringVector1;
     this->index = index1;
-    this->scope = scope1;
 }
 
