@@ -79,29 +79,4 @@ void DataReaderServer::printXML() {
     }
     cout << endl;
 }
-// get a value from the map only if the strings is correct
-double DataReaderServer::getValue(string& s) {
-    if(simPathToValFromSimMap.find(s) != simPathToValFromSimMap.end()) { // make sure the strings is in
-        return simPathToValFromSimMap[s];
-    } else{
-        //throw value not in simulator error
-        return 0;
-    }
-}
-// set a new value for a string in the server
-void DataReaderServer::setValue(double d, string& s) {
-    simPathToValFromSimMap[s] = d;
-}
-// get a strings from the number of position in the xml
-string DataReaderServer::getPathByIndex(int i) {
-    return indexFromXmlToValMap[i];
-}
-// check if a string is in out list of strings/
-bool DataReaderServer::isInList(string& s) {
-    if(simPathToValFromSimMap.find(s) == simPathToValFromSimMap.end()) {
-        return false;
-    } else {
-        return true;
-    }
-}
 

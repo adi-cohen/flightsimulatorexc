@@ -11,8 +11,9 @@
 #include "SetCommand.h"
 #include "printCommand.h"
 #include "whileCommand.h"
-
-
+#include "ifCommand.h"
+#include "runFunctionCommand.h"
+#include "createFunctionCommand.h"
 
 void Parser::RunParser() {
 
@@ -24,6 +25,9 @@ void Parser::RunParser() {
     commandMap["Print"] = (new printCommand());
     commandMap["Sleep"] = (new SleepCommand());
     commandMap["while"] = (new whileCommand());
+    commandMap["if"] = (new ifCommand());
+    commandMap["If"] = (new ifCommand());
+
 
     unsigned int currentIndex = this->index;
     //commandOfSimulatorMap.put()
@@ -38,9 +42,15 @@ void Parser::RunParser() {
             catch (const char *e) {
                 cout << e << endl;
             }
-        } else { //   dealing with update var val;
+        } //   dealing with update var val;
+        else if (symbolTable->varMap.find(currentString) != symbolTable->varMap.end()) {
             currentIndex = (new SetCommand())->execute(stringVector, symbolTable, currentIndex);
-            cout << currentString << endl;
+
+        } else if (symbolTable->functionMap.find(currentString) != symbolTable->functionMap.end()) {
+            currentIndex = (new runFunctionCommand())->execute(stringVector,symbolTable,currentIndex);
+        }
+        else {
+            currentIndex = (new createFunctionCommand())->execute(stringVector,symbolTable,currentIndex);
         }
     }
 }

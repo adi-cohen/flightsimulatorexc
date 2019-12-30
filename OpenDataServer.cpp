@@ -7,12 +7,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <netinet/in.h>
-#include <stdio.h>
-#include <string.h>
 #include <thread>
-#include <mutex>
 #include "OpenDataServer.h"
-#include "DataReaderServer.h"
 
 bool closeSocketftOpenDataServer = false;
 
@@ -62,12 +58,6 @@ int OpenDataServer::execute(vector<string> stringVector, SymbolTable *symTable, 
 
     thread serverThread(readFromSimulator, symTable, client_socket);
     serverThread.detach();
-    //std::this_thread::sleep_for(std::chrono::seconds(20));
-    //todo remove
-    cout << "the programs go on open" << endl;
-//    while (true){
-//        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-//    }
     return index + 5;
 }
 

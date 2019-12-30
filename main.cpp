@@ -16,6 +16,7 @@ void parser(vector<string> vector);
 int main(int argc, char *argv[]) {
     vector<string> stringVectorFromFile;
     string fileName = argv[1];
+    (void)argc;
     //insert the data from the file to the char vector
     try {
         lexer *l = new lexer(fileName);

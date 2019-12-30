@@ -19,7 +19,7 @@ class Parser {
     vector<string> stringVector;
     DataReaderServer *dataReaderServer;
     int index;
-    int scope;
+    //int scope;
 
 public:
     Parser(vector<string> stringVector1, SymbolTable* symbolTable, int index1);
