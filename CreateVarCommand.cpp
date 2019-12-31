@@ -48,6 +48,7 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable,
     }
     index = index + 3;
     string simVal = stringVector.at(index);
+    simVal.erase(0,1);
     if (op == "->") {
         Var *newVar = new Var(varName, 0, true, simVal);
         //the app need to update the simulator
