@@ -23,19 +23,19 @@ int OpenDataServer::execute(vector<string> stringVector, SymbolTable *symTable, 
     // if the var is not a string
     if (!boolString) {
 // iterate over the string vector until the string endLine
-        while(stringVector[endLineIndex] != "endLine") {
+        while (stringVector[endLineIndex] != "endLine") {
             endLineIndex++;
         }
         // the string result will holds the expression we would like to print
         string result = "";
-        for(int i = startIndex ; i < endLineIndex-1 ; i++) {
+        for (int i = startIndex; i < endLineIndex - 1; i++) {
             result.append(stringVector[i]);
         }
 
-        Interpreter* arithmeticInt = new Interpreter();
+        Interpreter *arithmeticInt = new Interpreter();
         // the following loop inserts the simPathToValFromSimMap from the varMap of our symTable
         // inside the varaibles of the interpreter
-        for (auto const& x : symTable->varMap) {
+        for (auto const &x : symTable->varMap) {
             string var = x.first;
             string val = doubleToString(x.second->value);
             arithmeticInt->setVariables(var + "=" + val);
@@ -45,12 +45,12 @@ int OpenDataServer::execute(vector<string> stringVector, SymbolTable *symTable, 
         string stringOfDoubleCalculation = doubleToString(calc);
         PortNum = stoi(stringOfDoubleCalculation);
     }
-    //if its a string
+        //if its a string
     else {
         // save the number that was inputed
         string str = stringVector[index];
         str.erase(0, 1);
-        str.erase(str.size()-1,1);
+        str.erase(str.size() - 1, 1);
         PortNum = stoi(str);
     }
     //create socket
@@ -100,56 +100,53 @@ int OpenDataServer::execute(vector<string> stringVector, SymbolTable *symTable, 
 
 
 void readFromSimulator(SymbolTable *symTable, int client_socket) {
-    //reading from client
-    char buffer[1024] = {0};
-    // keep running while we have a connection.
-    // read simPathToValFromSimMap into the buffer
-    while (true) {
-        int valread = read(client_socket, buffer, 1024);
-        if (valread == -1) {
-            // error reading from socket
-            throw " read zero or less from sim socket";
+    vector<double> simulatorValues(36);
+    vector<double>::iterator it = simulatorValues.begin();
+    string firstBuffer = "";
+    bool run = true;
+    while (run) {
+        //reading from client
+        char buffer[1024] = {0};
+        read(client_socket, buffer, 1024);
+        string secondBuffer = buffer;
+        firstBuffer = firstBuffer + secondBuffer;
+        string firstPart = firstBuffer.substr(0, firstBuffer.find("\n")); //all tha values from start to \n
+        int startSecondPart = firstBuffer.find("\n") + 1;
+        string secondPart = firstBuffer.substr(
+                startSecondPart, firstBuffer.length()); //all the values from \n to end
+        //split the values by ","
+        stringstream ss(firstPart);
+        string valStr;
+        while (getline(ss, valStr, ',')) {
+            double doubleVal = stod(valStr);
+            *it = doubleVal;
+            it++;
         }
-        double doubleVal;
-        string stringLine ,doubleInString, pathInSim;
-        istringstream bufferStream(buffer);
-        while (getline(bufferStream, stringLine)) {
-            istringstream steamLine(stringLine);
-            int i = 1;
-            while (getline(steamLine, doubleInString, ',')) {
-                // save out a number
-                doubleVal = strtod(doubleInString.c_str(), nullptr);
-                // get the right strings for the positions
-                pathInSim = symTable->indexFromXmlToValMap[i];
-                // update the value in the dataReaderServer's map!
-                symTable->mutex.lock();
-                symTable->simPathToValFromSimMap[pathInSim] = doubleVal;
-                symTable->mutex.unlock();
-                i++;
+        //insert the left values to the next iteration
+        firstBuffer = secondBuffer;
+        //if we got 36 values we will update the symTable
+        if (it == simulatorValues.end()) {
+            for (int j = 1; j <= 36; j++) {
+                // for each index we lock & unlock
+                //if the path exist in simMap we need to update his value;
+                string currentPath = symTable->indexFromXmlToValMap[j];
+                //if the path exist in simMap we need to update his value;
+                if (symTable->simMap.find(currentPath) != symTable->simMap.end()) {
+                    double newVal = simulatorValues.at(j - 1);
+                    string stringDouble = OpenDataServer::doubleToString(newVal);
+                    symTable->mutex.lock();
+                    symTable->simMap[currentPath]->value = newVal;
+                    symTable->mutex.unlock();
+                }
             }
-            bufferStream.clear();
+            it = simulatorValues.begin();
         }
-        //symTable->printXML();
-        // after we received 36 values from the simulator, we would like to update the SimMap
-        for (int j = 1; j <= 36; j++) {
-            // for each index we lock & unlock
-            //if the path exist in simMap we need to update his value;
-            string currentPath = symTable->indexFromXmlToValMap[j];
-            //if the path exist in simMap we need to update his value;
-            if (symTable->simMap.find(currentPath) != symTable->simMap.end()) {
-                double newVal = symTable->simPathToValFromSimMap.find(currentPath)->second;
-                string stringDouble = OpenDataServer::doubleToString(newVal);
-                symTable->mutex.lock();
-                symTable->simMap[currentPath]->value = newVal;
-                symTable->mutex.unlock();
-            }
-
-        }
-        if (closeSocketftOpenDataServer == true){
+        if (closeSocketftOpenDataServer) {
             close(client_socket);
         }
     }
 }
+
 
 string OpenDataServer::doubleToString(double calc) {
     ostringstream stringStream;
@@ -158,7 +155,7 @@ string OpenDataServer::doubleToString(double calc) {
     return stringOfDoubleCalculation;
 }
 
-bool OpenDataServer::isString(string val){
-    string key ="\"";
+bool OpenDataServer::isString(string val) {
+    string key = "\"";
     return val.compare(0, key.length(), key) == 0;
 }
