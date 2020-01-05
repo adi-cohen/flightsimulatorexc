@@ -38,9 +38,11 @@ int SetCommand::execute(vector<string> stringVector, SymbolTable *symTable, int 
         symTable->mutex.lock();
         v1->value=calc;
         if (v1->varUpdateSim) {
+            string simPath = v1->sim;
+           // simPath.erase(0,1);
             // we need to update the var in the simulator to the new value
             string sim1 = "set ";
-            sim1.append(v1->sim);
+            sim1.append(simPath);
             sim1.append(" ");
             sim1.append(stringOfDoubleCalculation);
             sim1.append("\r\n");

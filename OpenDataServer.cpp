@@ -9,13 +9,50 @@
 #include <netinet/in.h>
 #include <thread>
 #include "OpenDataServer.h"
+#include "Interpreter.h"
 
 bool closeSocketftOpenDataServer = false;
 
 // open a data server and then call a thread to run it.
 int OpenDataServer::execute(vector<string> stringVector, SymbolTable *symTable, int index) {
+    int PortNum;
+    string varName = stringVector[index + 2];
+    int startIndex = index + 2;
+    int endLineIndex = index + 2;
+    bool boolString = isString(varName);
+    // if the var is not a string
+    if (!boolString) {
+// iterate over the string vector until the string endLine
+        while(stringVector[endLineIndex] != "endLine") {
+            endLineIndex++;
+        }
+        // the string result will holds the expression we would like to print
+        string result = "";
+        for(int i = startIndex ; i < endLineIndex-1 ; i++) {
+            result.append(stringVector[i]);
+        }
 
-  int PortNum = stoi(stringVector.at(index+2));
+        Interpreter* arithmeticInt = new Interpreter();
+        // the following loop inserts the simPathToValFromSimMap from the varMap of our symTable
+        // inside the varaibles of the interpreter
+        for (auto const& x : symTable->varMap) {
+            string var = x.first;
+            string val = doubleToString(x.second->value);
+            arithmeticInt->setVariables(var + "=" + val);
+        }
+
+        double calc = arithmeticInt->interpret(result)->calculate();
+        string stringOfDoubleCalculation = doubleToString(calc);
+        PortNum = stoi(stringOfDoubleCalculation);
+    }
+    //if its a string
+    else {
+        // save the number that was inputed
+        string str = stringVector[index];
+        str.erase(0, 1);
+        str.erase(str.size()-1,1);
+        PortNum = stoi(str);
+    }
     //create socket
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd == -1) {
@@ -119,4 +156,9 @@ string OpenDataServer::doubleToString(double calc) {
     stringStream << calc;
     string stringOfDoubleCalculation = stringStream.str();
     return stringOfDoubleCalculation;
+}
+
+bool OpenDataServer::isString(string val){
+    string key ="\"";
+    return val.compare(0, key.length(), key) == 0;
 }
