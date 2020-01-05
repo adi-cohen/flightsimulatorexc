@@ -11,5 +11,7 @@ class printCommand : public Command  {
 public:
     int execute(vector<string> stringVector, SymbolTable *symTable, int index);
     string doubleToString(double calc);
+
+    bool isString(string val);
 };
 #endif //FLIGHTSIMULATOR_PRINTCOMMAND_H

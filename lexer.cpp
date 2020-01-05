@@ -32,85 +32,86 @@ vector<string> lexer::runLexer() {
                             stringVector.push_back(splitWord);
                             splitWord = "";
                         }
-                        stringVector.push_back(temp);
+                        stringVector.push_back(temp);}
                         //stringVector.push_back(splitWord);
                         //splitWord = "";
-                    } else if (x == '"') {
-                        continue;
-                    } else {
-                        splitWord = splitWord + x;
-                    }
-                }
-                if (splitWord != "") {
-                    stringVector.push_back(splitWord);
-                }
-                splitWord = "";
-                //if the word contains operators without spaces between them
-            } else if (isContainOp(word)) {
-                string splitword2 = "";
-                char prevChar = '.';
-                for (auto x:word) {
-                    if (isOp(x)) {
-                        if (splitword2 != "") {
-                            //if the operator is not the first char we will insert all the prev string to the vector
-                            stringVector.push_back(splitword2);
-                            splitword2 = "";
+//                    } else if (x == '"') {
+//                        continue;
+//                    }
+                        else {
+                            splitWord = splitWord + x;
                         }
-                        string stringX(1, x);
-                        //we will also insert the operator to the vector
-                        //if the prev is also op;
-                        if (isOp(prevChar)) {
-                            //if the prev char is also op we need to combine them
-                            int ind = stringVector.size();
-                            string newOP = stringVector.at(ind - 1);
-                            stringVector.back() = newOP.append(stringX);
+                    }
+                    if (splitWord != "") {
+                        stringVector.push_back(splitWord);
+                    }
+                    splitWord = "";
+                    //if the word contains operators without spaces between them
+                } else if (isContainOp(word)) {
+                    string splitword2 = "";
+                    char prevChar = '.';
+                    for (auto x:word) {
+                        if (isOp(x)) {
+                            if (splitword2 != "") {
+                                //if the operator is not the first char we will insert all the prev string to the vector
+                                stringVector.push_back(splitword2);
+                                splitword2 = "";
+                            }
+                            string stringX(1, x);
+                            //we will also insert the operator to the vector
+                            //if the prev is also op;
+                            if (isOp(prevChar)) {
+                                //if the prev char is also op we need to combine them
+                                int ind = stringVector.size();
+                                string newOP = stringVector.at(ind - 1);
+                                stringVector.back() = newOP.append(stringX);
+                            } else {
+                                //if the prev char is not op we insert the current op
+                                stringVector.push_back(stringX);
+                            }
                         } else {
-                            //if the prev char is not op we insert the current op
-                            stringVector.push_back(stringX);
+                            splitword2 = splitword2 + x;
                         }
-                    } else {
-                        splitword2 = splitword2 + x;
+                        prevChar = x;
                     }
-                    prevChar = x;
+                    if (splitword2 != "") {
+                        stringVector.push_back(splitword2);
+                    }
+                    //for regular words
+                } else {
+                    stringVector.push_back(word);
                 }
-                if (splitword2 != "") {
-                    stringVector.push_back(splitword2);
-                }
-                //for regular words
-            } else {
-                stringVector.push_back(word);
+            }
+            stringVector.push_back("endLine");
+            //restart the current line command;
+        }
+        file.close();
+        return stringVector;
+    }
+
+
+    lexer::lexer(string
+    fileName1) {
+        this->fileName = fileName1;
+    }
+
+    bool lexer::isOp(char c) {
+        char arrOp[] = {'<', '>', '=', '/', '*', '+', '-', '{', '}'};
+        int arraySize = sizeof(arrOp) / sizeof(char);
+        for (int i = 0; i < arraySize; i++) {
+            if (arrOp[i] == c) {
+                return true;
             }
         }
-        stringVector.push_back("endLine");
-        //restart the current line command;
+        return false;
     }
-    file.close();
-    return stringVector;
-}
 
-
-lexer::lexer(string
-             fileName1) {
-    this->fileName = fileName1;
-}
-
-bool lexer::isOp(char c) {
-    char arrOp[] = {'<', '>', '=', '/', '*', '+', '-', '{', '}'};
-    int arraySize = sizeof(arrOp) / sizeof(char);
-    for (int i = 0; i < arraySize; i++) {
-        if (arrOp[i] == c) {
-            return true;
+    bool lexer::isContainOp(string s) {
+        string arrOp[] = {"<", ">", "=", "/", "*", "+", "-", "{", "}"};
+        for (int i = 0; i < 9; i++) {
+            if (s.find(arrOp[i]) < s.size()) {
+                return true;
+            }
         }
+        return false;
     }
-    return false;
-}
-
-bool lexer::isContainOp(string s) {
-    string arrOp[] = {"<", ">", "=", "/", "*", "+", "-", "{", "}"};
-    for (int i = 0; i < 9; i++) {
-        if (s.find(arrOp[i]) < s.size()) {
-            return true;
-        }
-    }
-    return false;
-}

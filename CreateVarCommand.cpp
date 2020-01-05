@@ -5,8 +5,6 @@
 #include <string>
 #include <vector>
 #include "CreateVarCommand.h"
-#include <sstream>
-#include "map"
 #include "Var.h"
 #include "Interpreter.h"
 
@@ -37,8 +35,6 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable,
         }
         //calculate the expression
         double calc = arithmeticInt->interpret(result)->calculate();
-        // for debug
-        cout << calc << endl;
         // make a string from the double calculation
         Var *newVar = new Var(varName, calc, false, "");
         symTable->mutex.lock();
@@ -48,7 +44,9 @@ int CreateVarCommand::execute(vector<string> stringVector,SymbolTable *symTable,
     }
     index = index + 3;
     string simVal = stringVector.at(index);
-    simVal.erase(0,1);
+    simVal.erase(0,2);
+    simVal.erase(simVal.size()-1,1);
+
     if (op == "->") {
         Var *newVar = new Var(varName, 0, true, simVal);
         //the app need to update the simulator
